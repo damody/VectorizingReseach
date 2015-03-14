@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{965269DD-463E-99B6-E002-C49187ABC513}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "VectorizingAnimation",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
