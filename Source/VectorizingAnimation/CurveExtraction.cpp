@@ -15,7 +15,7 @@ UCurveExtraction* UCurveExtraction::NewCurveExtraction()
 
 bool UCurveExtraction::Set_ueMat(UueMat* umat)
 {
-	m_CurvePic = umat->Pic.clone();
+	m_CurvePic = umat->pic.clone();
 	switch (m_CurvePic.type())
 	{
 	case CV_8UC3:
@@ -35,8 +35,53 @@ bool UCurveExtraction::Set_ueMat(UueMat* umat)
 	return true;
 }
 
-UueMat* UCurveExtraction::CalSecDer(int32 maskSize, double linkEndBound, double linkStartBound)
+UueMat* UCurveExtraction::CalSecDer(int32 maskSize, float linkEndBound, float linkStartBound)
 {
 	UueMat* ures = NewObject<UueMat>();
+	if (m_CurvePic.cols == 0 || m_CurvePic.rows == 0)
+	{
+		return nullptr;
+	}
+	ures->Copy(m_CmCurveEx.CalSecDer(maskSize, linkEndBound, linkStartBound));
+	m_CmCurveEx.Link();
+	const std::vector<CEdge>& edges = m_CmCurveEx.GetEdges();
+	for (size_t i = 0; i < edges.size(); i++)
+	{
+		Curves.Push(UueLine::GetLine(edges[i].GetLine(0.5f, 0.5f)));
+	}
+	return ures;
+}
+
+UueMat* UCurveExtraction::CalSecDer2(int32 maskSize, float linkEndBound, float linkStartBound)
+{
+	UueMat* ures = NewObject<UueMat>();
+	if (m_CurvePic.cols == 0 || m_CurvePic.rows == 0)
+	{
+		return nullptr;
+	}
+	ures->Copy(m_CmCurveEx.CalSecDer2(maskSize, linkEndBound, linkStartBound));
+	m_CmCurveEx.Link();
+	const std::vector<CEdge>& edges = m_CmCurveEx.GetEdges();
+	for (size_t i = 0; i < edges.size(); i++)
+	{
+		Curves.Push(UueLine::GetLine(edges[i].GetLine(0.5f, 0.5f)));
+	}
+	return ures;
+}
+
+UueMat* UCurveExtraction::CalFirDer(int32 maskSize, float linkEndBound, float linkStartBound)
+{
+	UueMat* ures = NewObject<UueMat>();
+	if (m_CurvePic.cols == 0 || m_CurvePic.rows == 0)
+	{
+		return nullptr;
+	}
+	ures->Copy(m_CmCurveEx.CalFirDer(maskSize, linkEndBound, linkStartBound));
+	m_CmCurveEx.Link();
+	const std::vector<CEdge>& edges = m_CmCurveEx.GetEdges();
+	for (size_t i = 0; i < edges.size(); i++)
+	{
+		Curves.Push(UueLine::GetLine(edges[i].GetLine(0.5f, 0.5f)));
+	}
 	return ures;
 }

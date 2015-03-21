@@ -23,7 +23,13 @@ public:
 	bool Set_ueMat(UueMat* umat);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	UueMat* CalSecDer(int32 maskSize, double linkEndBound, double linkStartBound);
+	UueMat* CalSecDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
+	UueMat* CalSecDer2(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
+	UueMat* CalFirDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CurveExtraction")
 	TArray<UueLine*>	Curves;

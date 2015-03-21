@@ -34,12 +34,12 @@ void UVAFunction::Nop()
 {
 }
 
-FVector2D UVAFunction::getMoveVectorBySIFT(UueMat* prevgray, UueMat* gray)
+FVector2D UVAFunction::GetMoveVectorBySURF(UueMat* prevgray, UueMat* gray)
 {
 	prevgray->ConvertMat(EueMatEnum::UC_Gray);
 	gray->ConvertMat(EueMatEnum::UC_Gray);
-	cv::Mat a = prevgray->Pic;
-	cv::Mat b = gray->Pic;
+	cv::Mat a = prevgray->pic;
+	cv::Mat b = gray->pic;
 	int minHessian = 400;
 	cv::SurfFeatureDetector detector(minHessian);
 	std::vector<cv::KeyPoint> keypoints_1, keypoints_2;

@@ -155,14 +155,13 @@ UueMat* AVideoReader::Read()
 					m_pFrameRGB->linesize);
 				res = _GetFrame(m_pFrameRGB, m_pCodecCtx->width, m_pCodecCtx->height);
 				av_free_packet(&m_packet);
-				umat->SetCvMat(res);
+				umat->Copy(res);
 				m_current++;
 				return umat;
 			}
 		}
 		av_free_packet(&m_packet);
 	}
-	umat->SetCvMat(cv::Mat());
 	CurrentFrame();
     return umat;
 }
@@ -209,17 +208,17 @@ cv::Mat AVideoReader::_GetFrame(AVFrame *pFrame, int width, int height)
 AVideoReader::~AVideoReader()
 {
 	Close();
+	avcodec_close(m_pCodecCtx);
 }
 
 void AVideoReader::Close()
 {
 	if (m_HasRead)
 	{
+		avformat_close_input(&m_pFormatCtx);
 		av_free(m_buffer);
 		av_free(m_pFrameRGB);
 		av_free(m_pFrame);
-		avcodec_close(m_pCodecCtx);
-		avformat_close_input(&m_pFormatCtx);
 	}
 }
 

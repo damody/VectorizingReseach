@@ -27,14 +27,26 @@ class VECTORIZINGANIMATION_API UueMat : public UObject
 	GENERATED_BODY()
 public:
 	
+	UueMat(){}
+
+	UueMat(cv::Mat mat) : pic(mat){}
+
 	operator cv::Mat()
 	{
-		return Pic;
+		return pic;
 	}
 	
-	cv::Mat Pic;
+	cv::Mat pic;
+	
+	void Copy(cv::Mat input);
+	// fir c++ function
+	static float ColorDistance(cv::Mat& a, cv::Mat& b);
+	static void ImgFillBlack(cv::Mat& a, cv::Mat& b);
 
-	void SetCvMat(cv::Mat input);
+	// Blueprint function
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UueMat* Clone();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	UueMat* UpdateCvMatToTexture();
@@ -50,6 +62,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	void ConvertMat(EueMatEnum state);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	static TArray<UueMat*> MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Video, 
+			TArray<FVector2D>& m_Moves, UueMat* background, UueMat* foreground);
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mat")
 	UTexture2D* Texture;

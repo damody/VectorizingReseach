@@ -16,20 +16,20 @@ class VECTORIZINGANIMATION_API UImageProcess : public UBlueprintFunctionLibrary
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UueMat*	WhiteBalance(UueMat* umat);
+	static UueMat*	WhiteBalance(UueMat* umat);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UueMat*	ImgSharpen(UueMat* umat);
+	static UueMat*	ImgSharpen(UueMat* umat);
 	
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UueMat*	PowerEnhance(UueMat* umat, double power);
+	static UueMat*	PowerEnhance(UueMat* umat, double power);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UueMat*	NormalizeUC(UueMat* umat, double vmin, double vmax);
+	static UueMat*	NormalizeUC(UueMat* umat, double vmin, double vmax);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UueMat*	NormalizeFC(UueMat* umat, double vmin, double vmax);
+	static UueMat*	NormalizeFC(UueMat* umat, double vmin, double vmax);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UueMat*	BilateralFilter(UueMat* umat, int32 maskSize);
+	static UueMat*	BilateralFilter(UueMat* umat, int32 maskSize);
 };

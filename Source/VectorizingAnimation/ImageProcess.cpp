@@ -12,7 +12,7 @@
 UueMat* UImageProcess::WhiteBalance(UueMat* umat)
 {
 	UueMat* ures = NewObject<UueMat>();
-	cv::Mat input, oriImg = umat->Pic;
+	cv::Mat input, oriImg = umat->pic;
 	cvtColor(oriImg, input, CV_BGR2YCrCb);
 	// 先用直方圖得到門檻
 	cv::Mat res = oriImg.clone();
@@ -97,19 +97,19 @@ UueMat* UImageProcess::WhiteBalance(UueMat* umat)
 			cid1[2] = Red;
 		}
 	}
-	ures->SetCvMat(res);
+	ures->pic = res;
 	return ures;
 }
 
 UueMat* UImageProcess::ImgSharpen(UueMat* umat)
 {
 	UueMat* ures = NewObject<UueMat>();
-	cv::Mat oriImg = umat->Pic;
+	cv::Mat oriImg = umat->pic;
 	cv::Mat image = oriImg.clone(), res;
 	cv::GaussianBlur(image, res, cv::Size(0, 0), 3);
-	double p = 0.6;
+	float p = 0.6;
 	cv::addWeighted(image, 1 + p, res, -p, 0, res);
-	ures->SetCvMat(res);
+	ures->pic = res;
 	return ures;
 }
 
@@ -117,7 +117,7 @@ UueMat* UImageProcess::PowerEnhance(UueMat* umat, double power)
 {
 	UueMat* ures = NewObject<UueMat>();
 	umat->ConvertMat(EueMatEnum::FC_BGR);
-	cv::Mat oriImg = umat->Pic;
+	cv::Mat oriImg = umat->pic;
 	cv::Mat res = oriImg.clone();
 	for (int j = 0; j < res.cols; ++j)
 	{
@@ -129,7 +129,7 @@ UueMat* UImageProcess::PowerEnhance(UueMat* umat, double power)
 			intensity[2] = -pow((1 - intensity[2]), 3);
 		}
 	}
-	ures->SetCvMat(res);
+	ures->pic = res;
 	return ures;
 }
 
@@ -137,7 +137,7 @@ UueMat* UImageProcess::NormalizeUC(UueMat* umat, double vmin, double vmax)
 {
 	UueMat* ures = NewObject<UueMat>();
 	EueMatEnum eum = umat->GetMatState();
-	cv::Mat ori = umat->Pic.clone();
+	cv::Mat ori = umat->pic.clone();
 	switch (eum)
 	{
 	case EueMatEnum::Error:
@@ -159,7 +159,7 @@ UueMat* UImageProcess::NormalizeUC(UueMat* umat, double vmin, double vmax)
 	default:
 		break;
 	}
-	ures->SetCvMat(ori);
+	ures->pic = ori;
 	return ures;
 }
 
@@ -167,7 +167,7 @@ UueMat* UImageProcess::NormalizeFC(UueMat* umat, double vmin, double vmax)
 {
 	UueMat* ures = NewObject<UueMat>();
 	EueMatEnum eum = umat->GetMatState();
-	cv::Mat ori = umat->Pic.clone();
+	cv::Mat ori = umat->pic.clone();
 	switch (eum)
 	{
 	case EueMatEnum::Error:
@@ -189,7 +189,7 @@ UueMat* UImageProcess::NormalizeFC(UueMat* umat, double vmin, double vmax)
 	default:
 		break;
 	}
-	ures->SetCvMat(ori);
+	ures->pic = ori;
 	return ures;
 }
 
@@ -197,11 +197,11 @@ UueMat* UImageProcess::BilateralFilter(UueMat* umat, int32 maskSize)
 {
 	UueMat* ures = NewObject<UueMat>();
 	umat->ConvertMat(EueMatEnum::UC_BGR);
-	cv::Mat ori = umat->Pic.clone();
+	cv::Mat ori = umat->pic.clone();
 	for (int i = 1; i < 7; i++)
 	{
 		bilateralFilter(ori.clone(), ori, i, i * 2, i * 0.5);
 	}
-	ures->SetCvMat(ori);
+	ures->pic = ori;
 	return ures;
 }
