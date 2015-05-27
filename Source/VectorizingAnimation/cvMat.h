@@ -6,11 +6,11 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "GeneralDef.h"
-#include "ueMat.generated.h"
+#include "cvMat.generated.h"
 
 
 UENUM(BlueprintType)
-enum class EueMatEnum : uint8
+enum class EcvMatEnum : uint8
 {
 	Error,
 	UC_Gray,
@@ -23,14 +23,14 @@ enum class EueMatEnum : uint8
  */
 
 UCLASS(BlueprintType)
-class VECTORIZINGANIMATION_API UueMat : public UObject
+class VECTORIZINGANIMATION_API UcvMat : public UObject
 {
 	GENERATED_BODY()
 public:
 	
-	UueMat(){}
+	UcvMat(){}
 
-	UueMat(cv::Mat mat) : pic(mat){}
+	UcvMat(cv::Mat mat) : pic(mat){}
 
 	operator cv::Mat()
 	{
@@ -47,10 +47,10 @@ public:
 	// Blueprint function
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
-	UueMat* Clone();
+	UcvMat* Clone();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
-	UueMat* UpdateCvMatToTexture();
+	UcvMat* UpdateCvMatToTexture();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	void UpdateTextureToCvMat();
@@ -59,14 +59,14 @@ public:
 	UMaterialInterface* MakeMaterial();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
-	EueMatEnum GetMatState();
+	EcvMatEnum GetMatState();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
-	void ConvertMat(EueMatEnum state);
+	void ConvertMat(EcvMatEnum state);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
-	static TArray<UueMat*> MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Video, 
-			TArray<FVector2D>& m_Moves, UueMat* background, UueMat* foreground);
+	static TArray<UcvMat*> MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Video, 
+			TArray<FVector2D>& m_Moves, UcvMat* background, UcvMat* foreground);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	float GetBilinearLight(float x, float y) const;

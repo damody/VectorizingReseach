@@ -2,7 +2,7 @@
 
 #include "VectorizingAnimation.h"
 #include "VAFunction.h"
-#include "ueMat.h"
+#include "cvMat.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
@@ -34,10 +34,10 @@ void UVAFunction::Nop()
 {
 }
 
-FVector2D UVAFunction::GetMoveVectorBySURF(UueMat* prevgray, UueMat* gray)
+FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 {
-	prevgray->ConvertMat(EueMatEnum::UC_Gray);
-	gray->ConvertMat(EueMatEnum::UC_Gray);
+	prevgray->ConvertMat(EcvMatEnum::UC_Gray);
+	gray->ConvertMat(EcvMatEnum::UC_Gray);
 	cv::Mat a = prevgray->pic;
 	cv::Mat b = gray->pic;
 	int minHessian = 400;

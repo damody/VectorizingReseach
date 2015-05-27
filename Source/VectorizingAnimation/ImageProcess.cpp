@@ -2,16 +2,16 @@
 
 #include "VectorizingAnimation.h"
 #include "ImageProcess.h"
-#include "ueMat.h"
+#include "cvMat.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/nonfree/features2d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-UueMat* UImageProcess::WhiteBalance(UueMat* umat)
+UcvMat* UImageProcess::WhiteBalance(UcvMat* umat)
 {
-	UueMat* ures = NewObject<UueMat>();
+	UcvMat* ures = NewObject<UcvMat>();
 	cv::Mat input, oriImg = umat->pic;
 	cvtColor(oriImg, input, CV_BGR2YCrCb);
 	// 先用直方圖得到門檻
@@ -101,9 +101,9 @@ UueMat* UImageProcess::WhiteBalance(UueMat* umat)
 	return ures;
 }
 
-UueMat* UImageProcess::ImgSharpen(UueMat* umat)
+UcvMat* UImageProcess::ImgSharpen(UcvMat* umat)
 {
-	UueMat* ures = NewObject<UueMat>();
+	UcvMat* ures = NewObject<UcvMat>();
 	cv::Mat oriImg = umat->pic;
 	cv::Mat image = oriImg.clone(), res;
 	cv::GaussianBlur(image, res, cv::Size(0, 0), 3);
@@ -113,10 +113,10 @@ UueMat* UImageProcess::ImgSharpen(UueMat* umat)
 	return ures;
 }
 
-UueMat* UImageProcess::PowerEnhance(UueMat* umat, float power)
+UcvMat* UImageProcess::PowerEnhance(UcvMat* umat, float power)
 {
-	UueMat* ures = NewObject<UueMat>();
-	umat->ConvertMat(EueMatEnum::FC_BGR);
+	UcvMat* ures = NewObject<UcvMat>();
+	umat->ConvertMat(EcvMatEnum::FC_BGR);
 	cv::Mat oriImg = umat->pic;
 	cv::Mat res = oriImg.clone();
 	for (int j = 0; j < res.cols; ++j)
@@ -133,26 +133,26 @@ UueMat* UImageProcess::PowerEnhance(UueMat* umat, float power)
 	return ures;
 }
 
-UueMat* UImageProcess::NormalizeUC(UueMat* umat, float vmin, float vmax)
+UcvMat* UImageProcess::NormalizeUC(UcvMat* umat, float vmin, float vmax)
 {
-	UueMat* ures = NewObject<UueMat>();
-	EueMatEnum eum = umat->GetMatState();
+	UcvMat* ures = NewObject<UcvMat>();
+	EcvMatEnum eum = umat->GetMatState();
 	cv::Mat ori = umat->pic.clone();
 	switch (eum)
 	{
-	case EueMatEnum::Error:
+	case EcvMatEnum::Error:
 		break;
-	case EueMatEnum::UC_Gray:
+	case EcvMatEnum::UC_Gray:
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
-	case EueMatEnum::UC_BGR:
+	case EcvMatEnum::UC_BGR:
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
-	case EueMatEnum::FC_Gray:
+	case EcvMatEnum::FC_Gray:
 		ori.clone().convertTo(ori, CV_8UC1, 1.0 / 255);
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
-	case EueMatEnum::FC_BGR:
+	case EcvMatEnum::FC_BGR:
 		ori.clone().convertTo(ori, CV_8UC1, 1.0 / 255);
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
@@ -163,27 +163,27 @@ UueMat* UImageProcess::NormalizeUC(UueMat* umat, float vmin, float vmax)
 	return ures;
 }
 
-UueMat* UImageProcess::NormalizeFC(UueMat* umat, float vmin, float vmax)
+UcvMat* UImageProcess::NormalizeFC(UcvMat* umat, float vmin, float vmax)
 {
-	UueMat* ures = NewObject<UueMat>();
-	EueMatEnum eum = umat->GetMatState();
+	UcvMat* ures = NewObject<UcvMat>();
+	EcvMatEnum eum = umat->GetMatState();
 	cv::Mat ori = umat->pic.clone();
 	switch (eum)
 	{
-	case EueMatEnum::Error:
+	case EcvMatEnum::Error:
 		break;
-	case EueMatEnum::UC_Gray:
+	case EcvMatEnum::UC_Gray:
 		ori.clone().convertTo(ori, CV_32FC1, 255);
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
-	case EueMatEnum::UC_BGR:
+	case EcvMatEnum::UC_BGR:
 		ori.clone().convertTo(ori, CV_32FC1, 255);
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
-	case EueMatEnum::FC_Gray:
+	case EcvMatEnum::FC_Gray:
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
-	case EueMatEnum::FC_BGR:
+	case EcvMatEnum::FC_BGR:
 		normalize(ori, ori, vmin, vmax, cv::NORM_MINMAX);
 		break;
 	default:
@@ -193,10 +193,10 @@ UueMat* UImageProcess::NormalizeFC(UueMat* umat, float vmin, float vmax)
 	return ures;
 }
 
-UueMat* UImageProcess::BilateralFilter(UueMat* umat, int32 maskSize)
+UcvMat* UImageProcess::BilateralFilter(UcvMat* umat, int32 maskSize)
 {
-	UueMat* ures = NewObject<UueMat>();
-	umat->ConvertMat(EueMatEnum::UC_BGR);
+	UcvMat* ures = NewObject<UcvMat>();
+	umat->ConvertMat(EcvMatEnum::UC_BGR);
 	cv::Mat ori = umat->pic.clone();
 	for (int i = 1; i < 7; i++)
 	{

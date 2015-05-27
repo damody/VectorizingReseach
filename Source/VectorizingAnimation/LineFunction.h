@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "LineV3.h"
 #include "LineEnd.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "ueMat.h"
+#include "cvMat.h"
 #include "LineFunction.generated.h"
+
 
 
 /**
@@ -18,7 +19,7 @@ class VECTORIZINGANIMATION_API ULineFunction : public UBlueprintFunctionLibrary
 public:
 
     UFUNCTION(BlueprintCallable, Category = "Line")
-    static TArray<ULineEnd*> GetLineEnds(const TArray<UueLine*>& data);
+    static TArray<ULineEnd*> GetLineEnds(const TArray<ULineV2*>& data);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
     static TArray<ULineEnd*> LinkLineEnds180(TArray<ULineEnd*> les, float distance, float angle);
@@ -30,10 +31,10 @@ public:
     static bool CheckLinkEnd_Similarity(const ULineEnd* lhs, const ULineEnd* rhs, ELinkMethod c, float angle);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
-    static TArray<UueLine*> ConnectLineEnds3(const TArray<ULineEnd*>& les, TArray<UueLine*> pos);
+    static TArray<ULineV2*> ConnectLineEnds3(const TArray<ULineEnd*>& les, TArray<ULineV2*> pos);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
-    static TArray<UueLine*> ConnectNearestLines(const TArray<ULineEnd*>& les, TArray<UueLine*> pos, float d2, float angle);
+    static TArray<ULineV2*> ConnectNearestLines(const TArray<ULineEnd*>& les, TArray<ULineV2*> pos, float d2, float angle);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
     static FVector2D GetRotation(const FVector2D& src, float angle, const FVector2D& middle = FVector2D::ZeroVector);
@@ -48,16 +49,16 @@ public:
     static TArray<FVector2D>   SmoothingEach3(const TArray<FVector2D>& data, float centroidRadio = 1.0f, int32 repeat = 1);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5 (ueLine)"), Category = "Line")
-    static UueLine *    SmoothingEach5_ueLine(const UueLine* ul, float centroidRadio = 1.0f, int32 repeat = 1);
+    static ULineV2 *    SmoothingEach5_ueLine(const ULineV2* ul, float centroidRadio = 1.0f, int32 repeat = 1);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach3 (ueLine)"), Category = "Line")
-    static UueLine *    SmoothingEach3_ueLine(const UueLine* ul, float centroidRadio = 1.0f, int32 repeat = 1);
+    static ULineV2 *    SmoothingEach3_ueLine(const ULineV2* ul, float centroidRadio = 1.0f, int32 repeat = 1);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5 (ueLine array)"), Category = "Line")
-    static TArray<UueLine*>   SmoothingEach5_Array(const TArray<UueLine*>& data, float centroidRadio = 1.0, int32 repeat = 1);
+    static TArray<ULineV2*>   SmoothingEach5_Array(const TArray<ULineV2*>& data, float centroidRadio = 1.0, int32 repeat = 1);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach3 (ueLine array)"), Category = "Line")
-    static TArray<UueLine*>   SmoothingEach3_Array(const TArray<UueLine*>& data, float centroidRadio = 1.0, int32 repeat = 1);
+    static TArray<ULineV2*>   SmoothingEach3_Array(const TArray<ULineV2*>& data, float centroidRadio = 1.0, int32 repeat = 1);
 
 	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5Skip0 (Vector2D array)"), Category = "Line")
 	static TArray<FVector2D>   SmoothingEach5Skip0(const TArray<FVector2D>& data, double centroidRadio = 1.0, int32 repeat = 1);
@@ -66,10 +67,10 @@ public:
     static TArray<FVector2D> GetNormalsLen2(TArray<FVector2D> data);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetNormalsLen2 (ueLine)"), Category = "Line")
-    static UueLine * GetNormalsLen2_ueLine(const UueLine* ul);
+    static ULineV2 * GetNormalsLen2_ueLine(const ULineV2* ul);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetNormalsLen2 (ueLine array)"), Category = "Line")
-    static TArray<UueLine*> GetNormalsLen2_Array(TArray<UueLine*> data);
+    static TArray<ULineV2*> GetNormalsLen2_Array(TArray<ULineV2*> data);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
     static TArray<float> ConvertToAngle(const TArray<float>& data, float zero = 290);
@@ -78,13 +79,13 @@ public:
     static TArray<float> ConvertToSquareWave(const TArray<float>& data, int32 error, float val = 100, float zero = 290);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
-    static TArray<UueLine*> BuildDecorativeCurve(const TArray<UueLine*>& line, UueMat* umat, float blackRadio);
+    static TArray<ULineV2*> BuildDecorativeCurve(const TArray<ULineV2*>& line, UcvMat* umat, float blackRadio);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
     static TArray<float> ConvertToLineWidth(const TArray<float>& data, float lineWidth, float zero = 290);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
-    static void ClearLineWidthByPercent(TArray<UueLine*>& widths, float angle);
+    static void ClearLineWidthByPercent(TArray<ULineV2*>& widths, float angle);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
     static float  GetLineWidthPercent(const TArray<FVector2D>& data);
@@ -93,11 +94,13 @@ public:
     static TArray<FVector2D> FixWidthLine(const TArray<FVector2D>& aLine, int32 range);
 
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "FixWidthLine (ueLine)"), Category = "Line")
-    static UueLine * FixWidthLine_ueLine(const UueLine* uline, int32 range);
-
-
+    static ULineV2 * FixWidthLine_ueLine(const ULineV2* uline, int32 range);
+	
     UFUNCTION(BlueprintCallable, meta = (FriendlyName = "FixWidthLine (ueLine Array)"), Category = "Line")
-    static TArray<UueLine*> FixWidthLine_Array(const TArray<UueLine*>& data, int32 range);
+    static TArray<ULineV2*> FixWidthLine_Array(const TArray<ULineV2*>& data, int32 range);
+
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLinesColor (ueLine Array)"), Category = "Line")
+	static ULineV3* GetLinesColor(UcvMat* img, const ULineV2* lines);
 
     FORCEINLINE static bool CheckAngle(float a1, float a2, float limitA)
     {

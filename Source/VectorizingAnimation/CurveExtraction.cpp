@@ -2,7 +2,7 @@
 
 #include "VectorizingAnimation.h"
 #include "CurveExtraction.h"
-#include "ueMat.h"
+#include "cvMat.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -13,7 +13,7 @@ UCurveExtraction* UCurveExtraction::NewCurveExtraction()
 	return NewObject<UCurveExtraction>();
 }
 
-bool UCurveExtraction::SetPicture(UueMat* umat)
+bool UCurveExtraction::SetPicture(UcvMat* umat)
 {
 	m_CurvePic = umat->pic.clone();
 	switch (m_CurvePic.type())
@@ -35,9 +35,9 @@ bool UCurveExtraction::SetPicture(UueMat* umat)
 	return true;
 }
 
-TArray<UueLine*> UCurveExtraction::CalSecDer(int32 maskSize, float linkEndBound, float linkStartBound)
+TArray<ULineV2*> UCurveExtraction::CalSecDer(int32 maskSize, float linkEndBound, float linkStartBound)
 {
-	UueMat* ures = NewObject<UueMat>();
+	UcvMat* ures = NewObject<UcvMat>();
 	if (m_CurvePic.cols == 0 || m_CurvePic.rows == 0)
 	{
 		return Curves;
@@ -47,15 +47,15 @@ TArray<UueLine*> UCurveExtraction::CalSecDer(int32 maskSize, float linkEndBound,
 	const std::vector<CEdge>& edges = m_CmCurveEx.GetEdges();
 	for (size_t i = 0; i < edges.size(); i++)
 	{
-		Curves.Push(UueLine::GetLine_Array(edges[i].GetLine(0.5f, 0.5f)));
+		Curves.Push(ULineV2::GetLine_Array(edges[i].GetLine(0.5f, 0.5f)));
 	}
 	m_CurveLink = ures;
 	return Curves;
 }
 
-TArray<UueLine*> UCurveExtraction::CalSecDer2(int32 maskSize, float linkEndBound, float linkStartBound)
+TArray<ULineV2*> UCurveExtraction::CalSecDer2(int32 maskSize, float linkEndBound, float linkStartBound)
 {
-	UueMat* ures = NewObject<UueMat>();
+	UcvMat* ures = NewObject<UcvMat>();
 	if (m_CurvePic.cols == 0 || m_CurvePic.rows == 0)
 	{
 		return Curves;
@@ -65,15 +65,15 @@ TArray<UueLine*> UCurveExtraction::CalSecDer2(int32 maskSize, float linkEndBound
 	const std::vector<CEdge>& edges = m_CmCurveEx.GetEdges();
 	for (size_t i = 0; i < edges.size(); i++)
 	{
-		Curves.Push(UueLine::GetLine_Array(edges[i].GetLine(0.5f, 0.5f)));
+		Curves.Push(ULineV2::GetLine_Array(edges[i].GetLine(0.5f, 0.5f)));
 	}
 	m_CurveLink = ures;
 	return Curves;
 }
 
-TArray<UueLine*> UCurveExtraction::CalFirDer(int32 maskSize, float linkEndBound, float linkStartBound)
+TArray<ULineV2*> UCurveExtraction::CalFirDer(int32 maskSize, float linkEndBound, float linkStartBound)
 {
-	UueMat* ures = NewObject<UueMat>();
+	UcvMat* ures = NewObject<UcvMat>();
 	if (m_CurvePic.cols == 0 || m_CurvePic.rows == 0)
 	{
 		return Curves;
@@ -83,7 +83,7 @@ TArray<UueLine*> UCurveExtraction::CalFirDer(int32 maskSize, float linkEndBound,
 	const std::vector<CEdge>& edges = m_CmCurveEx.GetEdges();
 	for (size_t i = 0; i < edges.size(); i++)
 	{
-		Curves.Push(UueLine::GetLine_Array(edges[i].GetLine(0.5f, 0.5f)));
+		Curves.Push(ULineV2::GetLine_Array(edges[i].GetLine(0.5f, 0.5f)));
 	}
 	m_CurveLink = ures;
 	return Curves;

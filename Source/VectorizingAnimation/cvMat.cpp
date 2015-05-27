@@ -3,17 +3,17 @@
 #include "VectorizingAnimation.h"
 #include <opencv2/imgproc/imgproc.hpp>
 #include "GeneralDef.h"
-#include "ueMat.h"
+#include "cvMat.h"
 #include "RHI.h"
 #include "Engine/Texture2D.h"
 
 
-void UueMat::Copy(cv::Mat input)
+void UcvMat::Copy(cv::Mat input)
 {
     pic = input.clone();
 }
 
-UueMat* UueMat::UpdateCvMatToTexture()
+UcvMat* UcvMat::UpdateCvMatToTexture()
 {
     if(pic.cols == 0)
     {
@@ -70,7 +70,7 @@ UueMat* UueMat::UpdateCvMatToTexture()
     return this;
 }
 
-void UueMat::UpdateTextureToCvMat()
+void UcvMat::UpdateTextureToCvMat()
 {
     Texture->CompressionSettings = TC_EditorIcon;
     Texture->UpdateResourceW();
@@ -93,7 +93,7 @@ void UueMat::UpdateTextureToCvMat()
     Texture->PlatformData->Mips[0].BulkData.Unlock();
 }
 
-UMaterialInterface* UueMat::MakeMaterial()
+UMaterialInterface* UcvMat::MakeMaterial()
 {
     UMaterialInstanceDynamic* RV_MatInst = UMaterialInstanceDynamic::Create(MasterMaterialRef, this);
     RV_MatInst->SetTextureParameterValue(FName("T2DParam"), Texture);
@@ -101,27 +101,27 @@ UMaterialInterface* UueMat::MakeMaterial()
 }
 
 
-EueMatEnum UueMat::GetMatState()
+EcvMatEnum UcvMat::GetMatState()
 {
     switch(pic.type())
     {
     case CV_8UC3:
-        return EueMatEnum::UC_BGR;
+        return EcvMatEnum::UC_BGR;
     case CV_8UC1:
-        return EueMatEnum::UC_Gray;
+        return EcvMatEnum::UC_Gray;
     case CV_32FC3:
-        return EueMatEnum::FC_BGR;
+        return EcvMatEnum::FC_BGR;
     case CV_32FC1:
-        return EueMatEnum::FC_Gray;
+        return EcvMatEnum::FC_Gray;
     }
-    return EueMatEnum::Error;
+    return EcvMatEnum::Error;
 }
 
-void UueMat::ConvertMat(EueMatEnum state)
+void UcvMat::ConvertMat(EcvMatEnum state)
 {
     switch(state)
     {
-    case EueMatEnum::UC_BGR:
+    case EcvMatEnum::UC_BGR:
     {
         switch(pic.type())
         {
@@ -140,7 +140,7 @@ void UueMat::ConvertMat(EueMatEnum state)
         }
         return;
     }
-    case EueMatEnum::UC_Gray:
+    case EcvMatEnum::UC_Gray:
     {
         switch(pic.type())
         {
@@ -159,7 +159,7 @@ void UueMat::ConvertMat(EueMatEnum state)
         }
         return;
     }
-    case EueMatEnum::FC_BGR:
+    case EcvMatEnum::FC_BGR:
     {
         switch(pic.type())
         {
@@ -178,7 +178,7 @@ void UueMat::ConvertMat(EueMatEnum state)
         }
         return;
     }
-    case EueMatEnum::FC_Gray:
+    case EcvMatEnum::FC_Gray:
     {
         switch(pic.type())
         {
@@ -201,16 +201,16 @@ void UueMat::ConvertMat(EueMatEnum state)
     }
 }
 
-UueMat* UueMat::Clone()
+UcvMat* UcvMat::Clone()
 {
-	UueMat* res = NewObject<UueMat>();
+	UcvMat* res = NewObject<UcvMat>();
 	res->pic = this->pic.clone();
 	return res;
 }
 
-TArray<UueMat*> UueMat::MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Video, TArray<FVector2D>& m_Moves, UueMat* background, UueMat* foreground)
+TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Video, TArray<FVector2D>& m_Moves, UcvMat* background, UcvMat* foreground)
 {
-	TArray<UueMat*> nullres;
+	TArray<UcvMat*> nullres;
 	if (m_Video.Num() != m_Moves.Num())
 	{
 		//printf("m_Video.size() %d  m_Moves.size() %d\n", m_Video.size(), m_Moves.size());
@@ -244,7 +244,7 @@ TArray<UueMat*> UueMat::MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Vide
 		const int32 finalH = oh + maxY - minY + 1;
  		//printf("finalW %d finalH %d\n", finalW, finalH);
  		cv::Mat bgimg, bgcount;
- 		TArray<UueMat*> timgs;
+ 		TArray<UcvMat*> timgs;
  		bgimg.create(finalH, finalW, CV_32FC3);
  		bgcount.create(finalH, finalW, CV_32FC1);
  		bgimg = cv::Scalar(0);
@@ -308,7 +308,7 @@ TArray<UueMat*> UueMat::MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Vide
 					}
 				}
 			}
-			timgs.Add(NewObject<UueMat>(new UueMat(timg)));
+			timgs.Add(NewObject<UcvMat>(new UcvMat(timg)));
  		}
 		cv::Mat meanimg;
 		meanimg = timgs[0]->pic.clone();
@@ -381,7 +381,7 @@ TArray<UueMat*> UueMat::MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Vide
 	return nullres;
 }
 
-float UueMat::ColorDistance(cv::Mat& a, cv::Mat& b)
+float UcvMat::ColorDistance(cv::Mat& a, cv::Mat& b)
 {
 	if (a.cols == b.cols && a.rows == b.rows)
 	{
@@ -409,7 +409,7 @@ float UueMat::ColorDistance(cv::Mat& a, cv::Mat& b)
 	return 0;
 }
 
-void UueMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
+void UcvMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
 {
 	if (a.cols == b.cols && a.rows == b.rows)
 	{
@@ -429,7 +429,7 @@ void UueMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
 	}
 }
 
-float UueMat::GetBilinearLight(float x, float y) const
+float UcvMat::GetBilinearLight(float x, float y) const
 {
 	if (y < 0)
 	{
@@ -471,13 +471,13 @@ float UueMat::GetBilinearLight(float x, float y) const
 	return ans;
 }
 
-float UueMat::GetLight(int32 x, int32 y) const
+float UcvMat::GetLight(int32 x, int32 y) const
 {
 	const cv::Vec3b& v = pic.at<cv::Vec3b>(y, x);
 	return 0.299 * v[2] + 0.587 * v[1] + 0.114 * v[0];
 }
 
-floats UueMat::GetLineLight(float x1, float y1, float x2, float y2, int32 div)
+floats UcvMat::GetLineLight(float x1, float y1, float x2, float y2, int32 div)
 {
 	floats ans;
 	double step = 1.0 / (div - 1);

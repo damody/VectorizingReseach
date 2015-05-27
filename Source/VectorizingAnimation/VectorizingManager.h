@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "ueMat.h"
+#include "cvMat.h"
 #include "VectorizingManager.generated.h"
 
 UCLASS()
@@ -25,5 +25,5 @@ public:
 	TArray<FVector2D> Moves;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mat")
-	TArray<UueMat*> Videos;
+	TArray<UcvMat*> Videos;
 };

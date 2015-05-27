@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Object.h"
-#include "ueLine.h"
+#include "LineV2.h"
 #include "FrameInfo.generated.h"
 
 
@@ -16,6 +16,6 @@ class VECTORIZINGANIMATION_API UFrameInfo : public UObject
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Line")
-	TArray<UueLine*>	BlackLine;
+	TArray<ULineV2*>	BlackLine;
 	
 };

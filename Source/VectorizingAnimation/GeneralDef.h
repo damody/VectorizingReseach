@@ -6,6 +6,6 @@ typedef TArray<uint8> uchars;
 
 typedef TArray<FVector2D> FVector2Ds;
 
-class UueLine;
-typedef TArray<UueLine*> ULines;
+class ULineV2;
+typedef TArray<ULineV2*> ULines;
 

@@ -36,7 +36,7 @@ public:
 	bool Load(FString path);
 
 	UFUNCTION(BlueprintCallable, Category = "Video")
-	UueMat* Read();
+	UcvMat* Read();
 
 	UFUNCTION(BlueprintCallable, Category = "Video")
 	bool isReadOk();

@@ -3,7 +3,7 @@
 #include "VectorizingAnimation.h"
 #include "VisualizeFunction.h"
 
-void UVisualizeFunction::DrawLines(TArray<UueLine*> lines)
+void UVisualizeFunction::DrawLines(TArray<ULineV2*> lines)
 {
 
 }

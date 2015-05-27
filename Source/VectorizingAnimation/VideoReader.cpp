@@ -5,7 +5,7 @@
 #include <string>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "ueMat.h"
+#include "cvMat.h"
 // for GEngine
 #include "Engine.h"
 // for convert path
@@ -128,9 +128,9 @@ bool AVideoReader::Load(FString path)
 	return true;
 }
 
-UueMat* AVideoReader::Read()
+UcvMat* AVideoReader::Read()
 {
-    UueMat* umat = NewObject<UueMat>();
+    UcvMat* umat = NewObject<UcvMat>();
 	cv::Mat res;
 	while (av_read_frame(m_pFormatCtx, &m_packet) >= 0)
 	{

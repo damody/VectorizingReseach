@@ -20,5 +20,5 @@ public:
 	static void Nop();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV")
-	static FVector2D GetMoveVectorBySURF(UueMat* prevgray, UueMat* gray);
+	static FVector2D GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray);
 };

@@ -2,7 +2,7 @@
 
 #include "VectorizingAnimation.h"
 #include "LineFunction.h"
-#include "ueLine.h"
+#include "LineV2.h"
 #include "LineEnd.h"
 #include <cmath>
 #include <vector>
@@ -210,10 +210,10 @@ bool ULineFunction::CheckLinkEnd_Similarity(const ULineEnd* plhs, const ULineEnd
     return false;
 }
 
-TArray<UueLine*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, TArray<UueLine*> pos)
+TArray<ULineV2*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, TArray<ULineV2*> pos)
 {
     std::vector<bool> marked(pos.Num(), false);
-    TArray<UueLine*> newpos;
+    TArray<ULineV2*> newpos;
     for(auto it1 = les.CreateConstIterator(); it1; ++it1)
     {
         const ULineEnd& le1 = *(*it1);
@@ -224,7 +224,7 @@ TArray<UueLine*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, T
             {
                 continue;
             }
-            UueLine* uaddline = NewObject<UueLine>();
+            ULineV2* uaddline = NewObject<ULineV2>();
             TArray<FVector2D>& addline = uaddline->pts;
             addline.Append(pos[nowid]->pts);
             marked[nowid] = true;
@@ -233,7 +233,7 @@ TArray<UueLine*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, T
             {
                 marked[nowid] = true;
                 int32 next = nowid;
-                const UueLine* loopline = pos[nowid];
+                const ULineV2* loopline = pos[nowid];
                 float dis1 = FVector2D::Distance(loopline->pts[0], addline.Last());
                 float dis2 = FVector2D::Distance(loopline->pts.Last(), addline.Last());
                 if(dis1 < dis2)
@@ -274,7 +274,7 @@ TArray<UueLine*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, T
             {
                 continue;
             }
-            UueLine* uaddline = NewObject<UueLine>();
+            ULineV2* uaddline = NewObject<ULineV2>();
             TArray<FVector2D>& addline = uaddline->pts;
             addline.Append(pos[nowid]->pts);
             marked[nowid] = true;
@@ -283,7 +283,7 @@ TArray<UueLine*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, T
             {
                 marked[nowid] = true;
                 int32 next = nowid;
-                const UueLine* loopline = pos[nowid];
+                const ULineV2* loopline = pos[nowid];
                 float dis1 = FVector2D::Distance(loopline->pts[0], addline.Last());
                 float dis2 = FVector2D::Distance(loopline->pts.Last(), addline.Last());
                 if(dis1 < dis2)
@@ -328,7 +328,7 @@ TArray<UueLine*> ULineFunction::ConnectLineEnds3(const TArray<ULineEnd*>& les, T
     return newpos;
 }
 
-TArray<UueLine*> ULineFunction::ConnectNearestLines(const TArray<ULineEnd*>& les, TArray<UueLine*> pos, float d2, float angle)
+TArray<ULineV2*> ULineFunction::ConnectNearestLines(const TArray<ULineEnd*>& les, TArray<ULineV2*> pos, float d2, float angle)
 {
     d2 *= d2;
     for(int32 i = 0; i < les.Num(); ++i)
@@ -554,7 +554,7 @@ FVector2D ULineFunction::GetRotation(const FVector2D& src, float angle, const FV
     return FVector2D(tmpsrc.X, tmpsrc.Y);
 }
 
-TArray<ULineEnd*> ULineFunction::GetLineEnds(const TArray<UueLine*>& cvp)
+TArray<ULineEnd*> ULineFunction::GetLineEnds(const TArray<ULineV2*>& cvp)
 {
     TArray<ULineEnd*> ans;
     for(int32 i = 0; i < cvp.Num(); ++i)
@@ -643,20 +643,20 @@ TArray<FVector2D> ULineFunction::SmoothingEach5(const TArray<FVector2D>& cvp, fl
     return cps;
 }
 
-UueLine* ULineFunction::SmoothingEach5_ueLine(const UueLine* ul, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
+ULineV2* ULineFunction::SmoothingEach5_ueLine(const ULineV2* ul, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
 {
-    UueLine* res = NewObject<UueLine>();
+    ULineV2* res = NewObject<ULineV2>();
     res->pts = SmoothingEach5(ul->pts);
     return res;
 }
 
-TArray<UueLine*> ULineFunction::SmoothingEach5_Array(const TArray<UueLine*>& cvp, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
+TArray<ULineV2*> ULineFunction::SmoothingEach5_Array(const TArray<ULineV2*>& cvp, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
 {
-    TArray<UueLine*> ans;
+    TArray<ULineV2*> ans;
 	ans.SetNumZeroed(cvp.Num());
     for(int32 i = 0; i < cvp.Num(); ++i)
     {
-        const UueLine* aa = cvp[i];
+        const ULineV2* aa = cvp[i];
         ans[i] = SmoothingEach5_ueLine(aa, centroidRadio, repeat);
     }
     return ans;
@@ -716,20 +716,20 @@ TArray<FVector2D> ULineFunction::SmoothingEach3(const TArray<FVector2D>& cvp, fl
     return cps;
 }
 
-UueLine* ULineFunction::SmoothingEach3_ueLine(const UueLine* ul, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
+ULineV2* ULineFunction::SmoothingEach3_ueLine(const ULineV2* ul, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
 {
-    UueLine* res = NewObject<UueLine>();
+    ULineV2* res = NewObject<ULineV2>();
     res->pts = SmoothingEach3(ul->pts);
     return res;
 }
 
-TArray<UueLine*> ULineFunction::SmoothingEach3_Array(const TArray<UueLine*>& cvp, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
+TArray<ULineV2*> ULineFunction::SmoothingEach3_Array(const TArray<ULineV2*>& cvp, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
 {
-    TArray<UueLine*> ans;
+    TArray<ULineV2*> ans;
 	ans.SetNumZeroed(cvp.Num());
     for(int32 i = 0; i < cvp.Num(); ++i)
     {
-        const UueLine* aa = cvp[i];
+        const ULineV2* aa = cvp[i];
         ans[i] = SmoothingEach3_ueLine(aa, centroidRadio, repeat);
     }
     return ans;
@@ -758,21 +758,21 @@ TArray<FVector2D> ULineFunction::GetNormalsLen2(TArray<FVector2D> cvp)
     return normals;
 }
 
-TArray<UueLine*> ULineFunction::GetNormalsLen2_Array(TArray<UueLine*> cvp)
+TArray<ULineV2*> ULineFunction::GetNormalsLen2_Array(TArray<ULineV2*> cvp)
 {
-    TArray<UueLine*> ans;
+    TArray<ULineV2*> ans;
 	ans.SetNumZeroed(cvp.Num());
     for(int32 i = 0; i < cvp.Num(); ++i)
     {
-        const UueLine* aa = cvp[i];
+        const ULineV2* aa = cvp[i];
         ans[i] = GetNormalsLen2_ueLine(aa);
     }
     return ans;
 }
 
-UueLine* ULineFunction::GetNormalsLen2_ueLine(const UueLine* ul)
+ULineV2* ULineFunction::GetNormalsLen2_ueLine(const ULineV2* ul)
 {
-    UueLine* res = NewObject<UueLine>();
+    ULineV2* res = NewObject<ULineV2>();
     res->pts = GetNormalsLen2(ul->pts);
     return res;
 }
@@ -830,14 +830,14 @@ TArray<float> ULineFunction::ConvertToAngle(const TArray<float>& data, float zer
     return ans;
 }
 
-TArray<UueLine*> ULineFunction::BuildDecorativeCurve(const TArray<UueLine*>& blackLine, UueMat* umat, float blackRadio)
+TArray<ULineV2*> ULineFunction::BuildDecorativeCurve(const TArray<ULineV2*>& blackLine, UcvMat* umat, float blackRadio)
 {
 	ULines res;
 	ULines normals = GetNormalsLen2_Array(blackLine);
 	res.SetNumZeroed(blackLine.Num());
     for(int32 i = 0; i < blackLine.Num(); ++i)
     {
-        res[i] = NewObject<UueLine>();
+        res[i] = NewObject<ULineV2>();
     }
     for(int32 idx1 = 0; idx1 < blackLine.Num(); ++idx1)
     {
@@ -864,12 +864,12 @@ TArray<UueLine*> ULineFunction::BuildDecorativeCurve(const TArray<UueLine*>& bla
                 line1.Push(nowLine[idx2] - nowNormals[idx2] * width1[0] * blackRadio);
                 line1.Push(nowLine[idx2 + 1] - nowNormals[idx2 + 1] * width2[0] *
                            blackRadio);
-				line1 = UueLine::GetLine_FV2Array(line1, 0.5, 0.5);
+				line1 = ULineV2::GetLine_FV2Array(line1, 0.5, 0.5);
 				FVector2Ds line2;
                 line2.Push(nowLine[idx2] + nowNormals[idx2] * width1[1] * blackRadio);
                 line2.Push(nowLine[idx2 + 1] + nowNormals[idx2 + 1] * width2[1] *
                            blackRadio);
-				line2 = UueLine::GetLine_FV2Array(line2, 0.5, 0.5);
+				line2 = ULineV2::GetLine_FV2Array(line2, 0.5, 0.5);
                 // save line width
 				lineWidths.Push(FVector2D(width1[0] * blackRadio, width1[1] * blackRadio));
             }
@@ -931,7 +931,7 @@ TArray<float> ULineFunction::ConvertToLineWidth(const TArray<float>& data, float
     return floats();
 }
 
-void ULineFunction::ClearLineWidthByPercent(TArray<UueLine*>& widths, float angle)
+void ULineFunction::ClearLineWidthByPercent(TArray<ULineV2*>& widths, float angle)
 {
 	for (int32 i = 0; i < widths.Num(); ++i)
 	{
@@ -965,9 +965,9 @@ float ULineFunction::GetLineWidthPercent(const TArray<FVector2D>& cvp)
 	return n / cvp.Num();
 }
 
-UueLine* ULineFunction::FixWidthLine_ueLine(const UueLine* uline, int32 range)
+ULineV2* ULineFunction::FixWidthLine_ueLine(const ULineV2* uline, int32 range)
 {
-	UueLine* res = NewObject<UueLine>();
+	ULineV2* res = NewObject<ULineV2>();
 	res->pts = FixWidthLine(uline->pts, range);
 	return res;
 }
@@ -999,9 +999,9 @@ TArray<FVector2D> ULineFunction::FixWidthLine(const TArray<FVector2D>& cvp, int3
 	return cps;
 }
 
-TArray<UueLine*> ULineFunction::FixWidthLine_Array(const TArray<UueLine*>& cvp, int32 range)
+TArray<ULineV2*> ULineFunction::FixWidthLine_Array(const TArray<ULineV2*>& cvp, int32 range)
 {
-	TArray<UueLine*> res;
+	TArray<ULineV2*> res;
 	res.SetNumZeroed(cvp.Num());
 	for (int32 i = 0; i < cvp.Num(); ++i)
 	{
@@ -1065,5 +1065,12 @@ TArray<FVector2D> ULineFunction::SmoothingEach5Skip0(const TArray<FVector2D>& cv
 		}
 	}
 	return cps;
+}
+
+ULineV3* ULineFunction::GetLinesColor(UcvMat* img, const ULineV2* lines)
+{
+	ULineV3* res = NewObject<ULineV3>();
+
+	return res;
 }
 

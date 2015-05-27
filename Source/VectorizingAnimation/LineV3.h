@@ -4,14 +4,14 @@
 
 #include "Object.h"
 #include "LineDef.h"
-#include "ueLine.generated.h"
+#include "LineV3.generated.h"
 
 
 /**
  * 
  */
 UCLASS(BlueprintType)
-class VECTORIZINGANIMATION_API UueLine : public UObject
+class VECTORIZINGANIMATION_API ULineV3 : public UObject
 {
 	GENERATED_BODY()
 public:
@@ -19,19 +19,19 @@ public:
 	void Move(FVector2D vec);
 	
 	UFUNCTION(BlueprintCallable, Category = "Line")
-	UueLine* Clone();
+	ULineV3* Clone();
 
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to UueLine)"), Category = "Line")
-	static UueLine* GetLine_Array(TArray<FVector2D> line);
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to LineV3)"), Category = "Line")
+	static ULineV3* GetLine_Array(TArray<FVector2D> line);
 
 	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to FVector2D array)"), Category = "Line")
 	static TArray<FVector2D> GetLine_FV2Array(TArray<FVector2D> line, float mx = 0.0f, float my = 0.0f);
 
 
 	// bp can't call
-	static UueLine* GetLine(const CvLine& line, float mx = 0.0f, float my = 0.0f);
-	static TArray<UueLine*> GetLines(const CvLines& lines, float mx = 0.0f, float my = 0.0f);
+	static ULineV3* GetLine(const CvLine& line, float mx = 0.0f, float my = 0.0f);
+	static TArray<ULineV3*> GetLines(const CvLines& lines, float mx = 0.0f, float my = 0.0f);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Line")
 	TArray<FVector2D>	pts;
