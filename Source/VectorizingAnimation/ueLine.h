@@ -21,27 +21,28 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Line")
 	UueLine* Clone();
 
-	UFUNCTION(BlueprintCallable, Category = "Line")
-	UueLine*    SmoothingEach5(const UueLine* ul, float centroidRadio = 1.0f, int32 repeat = 1);
-	
-	UFUNCTION(BlueprintCallable, Category = "Line")
-	UueLine*    SmoothingEach3(const UueLine* ul, float centroidRadio = 1.0f, int32 repeat = 1);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5 (ueLine array)"), Category = "Line")
-	TArray<UueLine*>   SmoothingEach5_Array(const TArray<UueLine*>& cvp, float centroidRadio = 1.0, int32 repeat = 1);
-	
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach3 (ueLine array)"), Category = "Line")
-	TArray<UueLine*>   SmoothingEach3_Array(const TArray<UueLine*>& cvp, float centroidRadio = 1.0, int32 repeat = 1);
-	
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to UueLine)"), Category = "Line")
+	static UueLine* GetLine_Array(TArray<FVector2D> line);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array)"), Category = "Line")
-	static UueLine* GetLine(TArray<FVector2D> line);
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to FVector2D array)"), Category = "Line")
+	static TArray<FVector2D> GetLine_FV2Array(TArray<FVector2D> line, float mx = 0.0f, float my = 0.0f);
+
 
 	// bp can't call
 	static UueLine* GetLine(const CvLine& line, float mx = 0.0f, float my = 0.0f);
 	static TArray<UueLine*> GetLines(const CvLines& lines, float mx = 0.0f, float my = 0.0f);
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Line")
 	TArray<FVector2D>	pts;
-		
+	
+	operator TArray<FVector2D>()
+	{
+		return pts;
+	}
+
+	FVector2D& operator[](int32 i)
+	{
+		return pts[i];
+	}
 };

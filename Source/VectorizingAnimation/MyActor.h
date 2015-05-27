@@ -26,4 +26,34 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Mat")
 	void imshow();
 
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Tracking)
+	void IsActorInJunction(AActor* Actor, bool& Result);
+
+	/** point light component */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Switch Components")
+	class UPointLightComponent* PointLight1;
+
+	/** sphere component */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Switch Components")
+	class USphereComponent* Sphere1;
+
+	AMyActor(const FObjectInitializer& ObjectInitializer);
+
+	/** called when something enters the sphere component */
+	UFUNCTION(BlueprintNativeEvent, Category = "Switch Functions")
+	void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	/** called when something leaves the sphere component */
+	UFUNCTION(BlueprintNativeEvent, Category = "Switch Functions")
+	void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	/** Toggles the light component's visibility*/
+	UFUNCTION()
+	void ToggleLight();
+
+	/** the desired intensity for the light */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Switch Variables")
+	float DesiredIntensity;
+
 };

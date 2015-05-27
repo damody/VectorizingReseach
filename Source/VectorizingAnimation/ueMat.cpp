@@ -29,8 +29,8 @@ UueMat* UueMat::UpdateCvMatToTexture()
             }
         }
     }
-    const int SizeX = pic.cols;
-    const int SizeY = pic.rows;
+	const int32 SizeX = pic.cols;
+	const int32 SizeY = pic.rows;
     Texture = UTexture2D::CreateTransient(SizeX, SizeY, PF_B8G8R8A8);
 	//Texture->SRGB = 0;
     FColor* MipData = static_cast<FColor*>(Texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
@@ -427,4 +427,66 @@ void UueMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
 			}
 		}
 	}
+}
+
+float UueMat::GetBilinearLight(float x, float y) const
+{
+	if (y < 0)
+	{
+		return 0;
+	}
+	if (y + 1 >= pic.rows)
+	{
+		return 0;
+	}
+	if (x < 0)
+	{
+		return 0;
+	}
+	if (x + 1 >= pic.cols)
+	{
+		return 0;
+	}
+	FVector2D left_up, left_down;
+	FVector2D right_up, right_down;
+	left_up.X = floor(x);
+	left_up.Y = floor(y);
+	left_down.X = left_up.X;
+	left_down.Y = left_up.Y + 1;
+	right_up.X = left_up.X + 1;
+	right_up.Y = left_up.Y;
+	right_down.X = left_up.X + 1;
+	right_down.Y = left_up.Y + 1;
+	float v[4];
+	v[0] = GetLight(left_up.X, left_up.Y);
+	v[1] = GetLight(left_down.X, left_down.Y);
+	v[2] = GetLight(right_up.X, right_up.Y);
+	v[3] = GetLight(right_down.X, right_down.Y);
+	// bilinear interpolation
+	float up = v[0] * abs(x - right_down.X);
+	up += v[2] * abs(x - left_down.X);
+	float down = v[1] * abs(x - right_up.X);
+	down += v[3] * abs(x - left_up.X);
+	double ans = up * abs(y - left_down.Y) + down * abs(y - left_up.Y);
+	return ans;
+}
+
+float UueMat::GetLight(int32 x, int32 y) const
+{
+	const cv::Vec3b& v = pic.at<cv::Vec3b>(y, x);
+	return 0.299 * v[2] + 0.587 * v[1] + 0.114 * v[0];
+}
+
+floats UueMat::GetLineLight(float x1, float y1, float x2, float y2, int32 div)
+{
+	floats ans;
+	double step = 1.0 / (div - 1);
+	FVector2D ahead(x2 - x1, y2 - y1);
+	ahead *= step;
+	for (int32 i = 0; i < div; ++i)
+	{
+		ans.Push(GetBilinearLight(x1 + ahead.X * i, y1 + ahead.Y * i));
+	}
+	return ans;
+
 }

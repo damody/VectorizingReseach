@@ -22,13 +22,13 @@ public:
 	static UueMat*	ImgSharpen(UueMat* umat);
 	
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	static UueMat*	PowerEnhance(UueMat* umat, double power);
+	static UueMat*	PowerEnhance(UueMat* umat, float power);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	static UueMat*	NormalizeUC(UueMat* umat, double vmin, double vmax);
+	static UueMat*	NormalizeUC(UueMat* umat, float vmin, float vmax);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	static UueMat*	NormalizeFC(UueMat* umat, double vmin, double vmax);
+	static UueMat*	NormalizeFC(UueMat* umat, float vmin, float vmax);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
 	static UueMat*	BilateralFilter(UueMat* umat, int32 maskSize);

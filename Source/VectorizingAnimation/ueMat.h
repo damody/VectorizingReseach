@@ -5,6 +5,7 @@
 #include "Object.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "GeneralDef.h"
 #include "ueMat.generated.h"
 
 
@@ -66,6 +67,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	static TArray<UueMat*> MakeStaticBackGroundByMove(const TArray<UueMat*>& m_Video, 
 			TArray<FVector2D>& m_Moves, UueMat* background, UueMat* foreground);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	float GetBilinearLight(float x, float y) const;
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	float GetLight(int32 x, int32 y) const;
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	TArray<float> GetLineLight(float x1, float y1, float x2, float y2, int32 div);
 	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mat")

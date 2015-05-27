@@ -113,7 +113,7 @@ UueMat* UImageProcess::ImgSharpen(UueMat* umat)
 	return ures;
 }
 
-UueMat* UImageProcess::PowerEnhance(UueMat* umat, double power)
+UueMat* UImageProcess::PowerEnhance(UueMat* umat, float power)
 {
 	UueMat* ures = NewObject<UueMat>();
 	umat->ConvertMat(EueMatEnum::FC_BGR);
@@ -133,7 +133,7 @@ UueMat* UImageProcess::PowerEnhance(UueMat* umat, double power)
 	return ures;
 }
 
-UueMat* UImageProcess::NormalizeUC(UueMat* umat, double vmin, double vmax)
+UueMat* UImageProcess::NormalizeUC(UueMat* umat, float vmin, float vmax)
 {
 	UueMat* ures = NewObject<UueMat>();
 	EueMatEnum eum = umat->GetMatState();
@@ -163,7 +163,7 @@ UueMat* UImageProcess::NormalizeUC(UueMat* umat, double vmin, double vmax)
 	return ures;
 }
 
-UueMat* UImageProcess::NormalizeFC(UueMat* umat, double vmin, double vmax)
+UueMat* UImageProcess::NormalizeFC(UueMat* umat, float vmin, float vmax)
 {
 	UueMat* ures = NewObject<UueMat>();
 	EueMatEnum eum = umat->GetMatState();

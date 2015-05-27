@@ -20,20 +20,24 @@ public:
 	static UCurveExtraction* NewCurveExtraction();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	bool Set_ueMat(UueMat* umat);
+	bool SetPicture(UueMat* umat);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	UueMat* CalSecDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+	TArray<UueLine*> CalSecDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	UueMat* CalSecDer2(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+	TArray<UueLine*> CalSecDer2(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	UueMat* CalFirDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+	TArray<UueLine*> CalFirDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CurveExtraction")
 	TArray<UueLine*>	Curves;
 
 	CmCurveEx m_CmCurveEx;
+
 	cv::Mat	m_CurvePic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CurveExtraction")
+	UueMat* m_CurveLink;
 };
