@@ -69,10 +69,16 @@ public:
 			TArray<FVector2D>& m_Moves, UcvMat* background, UcvMat* foreground);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	FVector GetBilinearColor(float x, float y) const;
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	float GetBilinearLight(float x, float y) const;
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	float GetLight(int32 x, int32 y) const;
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	FVector GetColor(int32 x, int32 y) const;
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	TArray<float> GetLineLight(float x1, float y1, float x2, float y2, int32 div);

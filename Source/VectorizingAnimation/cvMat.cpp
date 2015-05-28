@@ -467,20 +467,20 @@ float UcvMat::GetBilinearLight(float x, float y) const
 	up += v[2] * abs(x - left_down.X);
 	float down = v[1] * abs(x - right_up.X);
 	down += v[3] * abs(x - left_up.X);
-	double ans = up * abs(y - left_down.Y) + down * abs(y - left_up.Y);
+	float ans = up * abs(y - left_down.Y) + down * abs(y - left_up.Y);
 	return ans;
 }
 
 float UcvMat::GetLight(int32 x, int32 y) const
 {
 	const cv::Vec3b& v = pic.at<cv::Vec3b>(y, x);
-	return 0.299 * v[2] + 0.587 * v[1] + 0.114 * v[0];
+	return 0.299f * v[2] + 0.587f * v[1] + 0.114f * v[0];
 }
 
 floats UcvMat::GetLineLight(float x1, float y1, float x2, float y2, int32 div)
 {
 	floats ans;
-	double step = 1.0 / (div - 1);
+	float step = 1.0f / (div - 1);
 	FVector2D ahead(x2 - x1, y2 - y1);
 	ahead *= step;
 	for (int32 i = 0; i < div; ++i)
@@ -489,4 +489,52 @@ floats UcvMat::GetLineLight(float x1, float y1, float x2, float y2, int32 div)
 	}
 	return ans;
 
+}
+
+FVector UcvMat::GetBilinearColor(float x, float y) const
+{
+	if (y < 0)
+	{
+		return FVector();
+	}
+	if (y + 1 >= pic.rows)
+	{
+		return FVector();
+	}
+	if (x < 0)
+	{
+		return FVector();
+	}
+	if (x + 1 >= pic.cols)
+	{
+		return FVector();
+	}
+	FVector2D left_up, left_down;
+	FVector2D right_up, right_down;
+	left_up.X = floor(x);
+	left_up.Y = floor(y);
+	left_down.X = left_up.X;
+	left_down.Y = left_up.Y + 1;
+	right_up.X = left_up.X + 1;
+	right_up.Y = left_up.Y;
+	right_down.X = left_up.X + 1;
+	right_down.Y = left_up.Y + 1;
+	FVector v[4];
+	v[0] = GetColor(left_up.X, left_up.Y);
+	v[1] = GetColor(left_down.X, left_down.Y);
+	v[2] = GetColor(right_up.X, right_up.Y);
+	v[3] = GetColor(right_down.X, right_down.Y);
+	// bilinear interpolation
+	FVector up = v[0] * abs(x - right_down.X);
+	up += v[2] * abs(x - left_down.X);
+	FVector down = v[1] * abs(x - right_up.X);
+	down += v[3] * abs(x - left_up.X);
+	FVector ans = up * abs(y - left_down.Y) + down * abs(y - left_up.Y);
+	return ans;
+}
+
+FVector UcvMat::GetColor(int32 x, int32 y) const
+{
+	const cv::Vec3b& v = pic.at<cv::Vec3b>(y, x);
+	return FVector(v[0], v[1], v[2]);
 }

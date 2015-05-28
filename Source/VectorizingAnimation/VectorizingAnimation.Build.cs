@@ -28,7 +28,7 @@ public class VectorizingAnimation : ModuleRules
         bUseRTTI = true;
         AddThirdPartyPrivateStaticDependencies(Target, "OpenMesh");
 
-        AddThirdPartyPrivateStaticDependencies(Target, "boost", "MPFR", "MPIR", "Eigen3", "OpenBLAS", "fftw", "CGAL");
+        AddThirdPartyPrivateStaticDependencies(Target, "Eigen3", "boost", "MPFR", "MPIR", "OpenBLAS", "fftw", "CGAL");
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

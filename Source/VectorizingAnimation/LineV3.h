@@ -16,32 +16,28 @@ class VECTORIZINGANIMATION_API ULineV3 : public UObject
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable, Category = "Line")
-	void Move(FVector2D vec);
+	void Move(FVector vec);
 	
 	UFUNCTION(BlueprintCallable, Category = "Line")
 	ULineV3* Clone();
 
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to LineV3)"), Category = "Line")
-	static ULineV3* GetLine_Array(TArray<FVector2D> line);
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector array to LineV3)"), Category = "Line")
+	static ULineV3* GetLine_Array(TArray<FVector> line);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to FVector2D array)"), Category = "Line")
-	static TArray<FVector2D> GetLine_FV2Array(TArray<FVector2D> line, float mx = 0.0f, float my = 0.0f);
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector array to FVector array)"), Category = "Line")
+	static TArray<FVector> GetLine_FV3Array(TArray<FVector> line, float mx = 0.0f, float my = 0.0f, float mz = 0.0f);
 
 
-	// bp can't call
-	static ULineV3* GetLine(const CvLine& line, float mx = 0.0f, float my = 0.0f);
-	static TArray<ULineV3*> GetLines(const CvLines& lines, float mx = 0.0f, float my = 0.0f);
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Line")
-	TArray<FVector2D>	pts;
+	TArray<FVector>	pts;
 	
-	operator TArray<FVector2D>()
+	operator TArray<FVector>()
 	{
 		return pts;
 	}
 
-	FVector2D& operator[](int32 i)
+	FVector& operator[](int32 i)
 	{
 		return pts[i];
 	}
