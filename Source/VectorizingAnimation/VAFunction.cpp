@@ -30,10 +30,6 @@ bool UVAFunction::OpenFile(FString& path)
 	}
 }
 
-void UVAFunction::Nop()
-{
-}
-
 FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 {
 	prevgray->ConvertMat(EcvMatEnum::UC_Gray);

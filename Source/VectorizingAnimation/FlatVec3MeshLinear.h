@@ -12,8 +12,14 @@ UCLASS()
 class VECTORIZINGANIMATION_API UFlatVec3MeshLinear : public UFlatVec3Model
 {
 	GENERATED_BODY()
+public:
+
+	virtual void BuildModel() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Line")
+	FVector GetColor(float x, float y);
+
 	
-	
-	
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Line")
+	FVector ColorAverage;
 };

@@ -8,12 +8,18 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class VECTORIZINGANIMATION_API UFlatVec3Median : public UFlatVec3Model
 {
 	GENERATED_BODY()
+public:
 	
-	
-	
+	virtual void BuildModel() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Line")
+	FVector GetColor();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Line")
+	FVector ColorMedian;
 	
 };

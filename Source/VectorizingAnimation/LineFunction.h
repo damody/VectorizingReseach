@@ -104,8 +104,11 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLinesColor (LineV2 Array)"), Category = "Line")
 	static TArray<ULineV3*> GetLinesColor_Array(UcvMat* img, const TArray<ULineV2*>& lines);
 
-	UFUNCTION(BlueprintCallable, Category = "Line")
-	static TArray<ULineWidth*> ConvertToConstraintLW(const TArray<ULineV2*>& lines, const TArray<ULineV2*>& lws);
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLineWidth (LineV2)"), Category = "Line")
+	static ULineWidth* GetLineWidth(const ULineV2* lines, const ULineV2* lws);
+
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLineWidth (LineV2 Array)"), Category = "Line")
+	static TArray<ULineWidth*> GetLineWidth_Array(const TArray<ULineV2*>& lines, const TArray<ULineV2*>& lws);
 
     FORCEINLINE static bool CheckAngle(float a1, float a2, float limitA)
     {

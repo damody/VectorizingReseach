@@ -2,7 +2,7 @@
 
 #include "VectorizingAnimation.h"
 #include "ProceduralTriangleActor.h"
-AProceduralTriangleActor::AProceduralTriangleActor(const class FPostConstructInitializeProperties& PCIP)
+AProceduralTriangleActor::AProceduralTriangleActor(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	mesh = PCIP.CreateDefaultSubobject<UProceduralMeshComponent>(this, TEXT("ProceduralTriangle"));

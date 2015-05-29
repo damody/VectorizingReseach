@@ -29,5 +29,4 @@ public:
 	void SetTrangles(TArray<FProceduralMeshTriangle> triangles);
 
 	void GenerateTriangle(TArray<FProceduralMeshTriangle>& OutTriangles);
-private:
 };

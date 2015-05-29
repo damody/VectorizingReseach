@@ -87,6 +87,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mat")
 	UTexture2D* Texture;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mat")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Mat")
 	UMaterialInterface* MasterMaterialRef;
 };

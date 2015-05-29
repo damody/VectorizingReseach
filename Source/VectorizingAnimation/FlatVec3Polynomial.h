@@ -8,11 +8,11 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class VECTORIZINGANIMATION_API UFlatVec3Polynomial : public UFlatVec3Model
 {
 	GENERATED_BODY()
-	
+public:
 	
 	
 	

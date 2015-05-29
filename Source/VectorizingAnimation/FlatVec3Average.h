@@ -8,12 +8,17 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class VECTORIZINGANIMATION_API UFlatVec3Average : public UFlatVec3Model
 {
 	GENERATED_BODY()
+public:
+
+	virtual void BuildModel() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Line")
+	FVector GetColor();
 	
-	
-	
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Line")
+	FVector ColorAverage;
 };
