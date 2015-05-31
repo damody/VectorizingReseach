@@ -114,10 +114,10 @@ EcvMatEnum UcvMat::GetMatState()
     case CV_32FC1:
         return EcvMatEnum::FC_Gray;
     }
-    return EcvMatEnum::Error;
+     return EcvMatEnum::Error;
 }
 
-void UcvMat::ConvertMat(EcvMatEnum state)
+UcvMat* UcvMat::ConvertMat(EcvMatEnum state)
 {
     switch(state)
     {
@@ -138,7 +138,7 @@ void UcvMat::ConvertMat(EcvMatEnum state)
             cvtColor(pic.clone(), pic, CV_GRAY2BGR);
             break;
         }
-        return;
+		break;
     }
     case EcvMatEnum::UC_Gray:
     {
@@ -157,7 +157,7 @@ void UcvMat::ConvertMat(EcvMatEnum state)
             pic.clone().convertTo(pic, CV_8UC1, 255);
             break;
         }
-        return;
+		break;
     }
     case EcvMatEnum::FC_BGR:
     {
@@ -176,7 +176,7 @@ void UcvMat::ConvertMat(EcvMatEnum state)
             cvtColor(pic.clone(), pic, CV_GRAY2BGR);
             break;
         }
-        return;
+		break;
     }
     case EcvMatEnum::FC_Gray:
     {
@@ -195,10 +195,10 @@ void UcvMat::ConvertMat(EcvMatEnum state)
         case CV_32FC1:
             break;
         }
-        return;
         break;
     }
     }
+	return this;
 }
 
 UcvMat* UcvMat::Clone()

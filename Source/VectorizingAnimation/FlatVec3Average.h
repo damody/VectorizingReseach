@@ -16,9 +16,9 @@ public:
 
 	virtual void BuildModel() override;
 
-	UFUNCTION(BlueprintCallable, Category = "Line")
+	UFUNCTION(BlueprintCallable, Category = "MathModel")
 	FVector GetColor();
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Line")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MathModel")
 	FVector ColorAverage;
 };

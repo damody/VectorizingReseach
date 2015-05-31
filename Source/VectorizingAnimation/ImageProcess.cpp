@@ -11,6 +11,7 @@
 
 UcvMat* UImageProcess::WhiteBalance(UcvMat* umat)
 {
+	umat->ConvertMat(EcvMatEnum::UC_BGR);
 	UcvMat* ures = NewObject<UcvMat>();
 	cv::Mat input, oriImg = umat->pic;
 	cvtColor(oriImg, input, CV_BGR2YCrCb);
@@ -103,6 +104,7 @@ UcvMat* UImageProcess::WhiteBalance(UcvMat* umat)
 
 UcvMat* UImageProcess::ImgSharpen(UcvMat* umat)
 {
+	umat->ConvertMat(EcvMatEnum::UC_BGR);
 	UcvMat* ures = NewObject<UcvMat>();
 	cv::Mat oriImg = umat->pic;
 	cv::Mat image = oriImg.clone(), res;
@@ -117,18 +119,18 @@ UcvMat* UImageProcess::PowerEnhance(UcvMat* umat, float power)
 {
 	UcvMat* ures = NewObject<UcvMat>();
 	umat->ConvertMat(EcvMatEnum::FC_BGR);
-	cv::Mat oriImg = umat->pic;
-	cv::Mat res = oriImg.clone();
+	cv::Mat res = umat->pic.clone();
 	for (int j = 0; j < res.cols; ++j)
 	{
 		for (int i = 0; i < res.rows; ++i)
 		{
 			cv::Vec3f& intensity = res.at<cv::Vec3f>(i, j);
-			intensity[0] = -pow((1 - intensity[0]), 3);
-			intensity[1] = -pow((1 - intensity[1]), 3);
-			intensity[2] = -pow((1 - intensity[2]), 3);
+			intensity[0] = -pow((1 - intensity[0]), power);
+			intensity[1] = -pow((1 - intensity[1]), power);
+			intensity[2] = -pow((1 - intensity[2]), power);
 		}
 	}
+	normalize(res, res, 0, 1, cv::NORM_MINMAX);
 	ures->pic = res;
 	return ures;
 }
@@ -195,13 +197,151 @@ UcvMat* UImageProcess::NormalizeFC(UcvMat* umat, float vmin, float vmax)
 
 UcvMat* UImageProcess::BilateralFilter(UcvMat* umat, int32 maskSize)
 {
-	UcvMat* ures = NewObject<UcvMat>();
 	umat->ConvertMat(EcvMatEnum::UC_BGR);
+	UcvMat* ures = NewObject<UcvMat>();
 	cv::Mat ori = umat->pic.clone();
 	for (int i = 1; i < 7; i++)
 	{
 		bilateralFilter(ori.clone(), ori, i, i * 2, i * 0.5);
 	}
 	ures->pic = ori;
+	return ures;
+}
+
+static void S6FloodFill(cv::Mat& image, cv::Mat& mask01, int& cc, int x, int y)
+{
+	if (image.at<cv::Vec3b>(y, x) == cv::Vec3b(255, 255, 255)
+		|| mask01.at<uchar>(y + 1, x + 1) > 0)
+	{
+		return;
+	}
+	int b = cc % 256;
+	int g = (cc / 256) % 256;
+	int r = cc / 256 / 256;
+	cv::Point seed(x, y);
+	cv::Rect ccomp;
+	cv::Scalar newVal(b, g, r);
+	int area;
+	int lo = 0;
+	int up = 0;
+	threshold(mask01, mask01, 1, 128, CV_THRESH_BINARY);
+	int flags = 4 + (255 << 8) + CV_FLOODFILL_FIXED_RANGE;
+	area = floodFill(image, mask01, seed, newVal, &ccomp, cv::Scalar(lo, lo, lo),
+		cv::Scalar(up, up, up), flags);
+	cc++;
+}
+
+TArray<UFlatVec3MeshLinear*> UImageProcess::BuildColorModelV8(UcvMat* image, UcvMat* oimg, UcvMat* mask2)
+{
+	image->UpdateTextureToCvMat();
+	TArray<UFlatVec3MeshLinear*> ccms;
+	cv::Mat mask;
+	//cv::resize(oimg.clone(), oimg, oimg.size() * 2, 0, 0, cv::INTER_CUBIC);
+	mask.create(image->pic.rows + 2, image->pic.cols + 2, CV_8UC1);
+	mask = cv::Scalar::all(0);
+	int cc = 1;
+	for (int i = 0; i < image->pic.rows; i++)
+	{
+		for (int j = 0; j < image->pic.cols - 1; j++)
+		{
+			int lastcc = cc;
+			S6FloodFill(image->pic, mask, cc, j, i);
+			if (lastcc != cc)
+			{
+				UFlatVec3MeshLinear* ccm = NewObject<UFlatVec3MeshLinear>();
+				for (int ii = 0; ii < image->pic.rows; ii++)
+				{
+					for (int jj = 0; jj < image->pic.cols; jj++)
+					{
+						if (mask.at<uchar>(ii + 1, jj + 1) > 130 && mask2->pic.at<uchar>(ii, jj) == 0)
+						{
+							ccm->AddPoint(jj, ii, Vec3bToVector(oimg->pic.at<cv::Vec3b>(ii, jj)));
+						}
+					}
+				}
+				ccms.Add(ccm);
+			}
+		}
+	}
+	return ccms;
+}
+
+UcvMat* UImageProcess::DrawWhileLine(UcvMat* umat, const TArray<ULineV2*> draw)
+{
+	UcvMat* ures = NewObject<UcvMat>();
+	umat->ConvertMat(EcvMatEnum::UC_BGR);
+	cv::Mat ori = umat->pic.clone();
+	for (int i = 0; i < draw.Num(); ++i)
+	{
+		ULineV2& nowl = *draw[i];
+		for (int j = 0; j < nowl.Num() - 1; ++j)
+		{
+			cv::Point p1(nowl[j].X, nowl[j].Y);
+			cv::Point p2(nowl[j + 1].X, nowl[j + 1].Y);
+			cv::line(ori, p1, p2, cv::Scalar(255, 255, 255));
+		}
+	}
+	ures->pic = ori;
+	return ures;
+}
+
+struct WeightData
+{
+	WeightData(FVector2D p, int w) : pos(p), weight(w)    {}
+	FVector2D pos;
+	int  weight;
+	bool operator<(const WeightData& wd)
+	{
+		return weight < wd.weight;
+	}
+};
+typedef std::vector<WeightData> Weights;
+
+UcvMat* UImageProcess::FixSpaceLineX(UcvMat* umat, UcvMat* oriImg, float initdis)
+{
+	UcvMat* ures = NewObject<UcvMat>();
+	umat->ConvertMat(EcvMatEnum::UC_BGR);
+	cv::Mat res = umat->pic.clone();
+
+	Weights wm_init_cross;
+	wm_init_cross.push_back(WeightData(FVector2D(0, -1), 1));
+	wm_init_cross.push_back(WeightData(FVector2D(0, +1), 1));
+	wm_init_cross.push_back(WeightData(FVector2D(-1, 0), 1));
+	wm_init_cross.push_back(WeightData(FVector2D(+1, 0), 1));
+	for (int a = 0; a < res.rows; ++a)
+	{
+		for (int b = 0; b < res.cols; ++b)
+		{
+			cv::Vec3b& cid1 = res.at<cv::Vec3b>(a, b);
+			if (cid1[0] == 255 && cid1[1] == 255 && cid1[2] == 255)
+			{
+				cv::Vec3b rescolor(255, 255, 255);
+				cv::Vec3b oricolor = oriImg->pic.at<cv::Vec3b>(a, b);
+				double dis = initdis;
+				FVector oriv(oricolor[0], oricolor[1], oricolor[1]);
+				Weights wm = wm_init_cross;
+				for (int i = 1; i < wm.size(); i += 2)
+				{
+					int y = a + wm[i].pos.Y;
+					int x = b + wm[i].pos.X;
+					if (y >= 0 && x >= 0 && y < umat->pic.rows && x < umat->pic.cols)
+					{
+						cv::Vec3b nn = umat->pic.at<cv::Vec3b>(y, x);
+						if (!(nn[0] == 255 && nn[1] == 255 && nn[2] == 255))
+						{
+							cv::Vec3b oricolor2 = oriImg->pic.at<cv::Vec3b>(a + wm[i].pos.Y, b + wm[i].pos.X);
+							FVector oriv2(oricolor2[0], oricolor2[1], oricolor2[1]);
+							if (FVector::DistSquared(oriv2, oriv) < dis)
+							{
+								dis = FVector::DistSquared(oriv2, oriv);
+								cid1 = nn;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	ures->pic = res;
 	return ures;
 }

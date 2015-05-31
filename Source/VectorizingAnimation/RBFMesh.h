@@ -20,7 +20,7 @@ public:
 	~RBFMesh(void);
 	void ReadFromSeedpoint(UTriangulationCgal_SeedPoint* data, TArray<FVector> colors);
 	FVector GetColor(float x, float y);
-	FVector GetColor(float x1, float y1, float x2, float y2);
+	FVector GetColor2Point(float x1, float y1, float x2, float y2);
 	void lightblurC2();
 	void blurC2();
 

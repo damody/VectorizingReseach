@@ -17,16 +17,16 @@ class VECTORIZINGANIMATION_API UCurveExtraction : public UObject
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	static UCurveExtraction* NewCurveExtraction();
+	static UCurveExtraction* CreateCurveExtractionInstance();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
 	bool SetPicture(UcvMat* umat);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	TArray<ULineV2*> CalSecDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+	TArray<ULineV2*> CalSecDer(int32 maskSize = 5, float linkEndBound = 1.f, float linkStartBound = 0.05f);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
-	TArray<ULineV2*> CalSecDer2(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);
+	TArray<ULineV2*> CalSecDer2(int32 maskSize = 5, float linkEndBound = 1.f, float linkStartBound = 0.05f);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|CurveExtraction")
 	TArray<ULineV2*> CalFirDer(int32 maskSize, float linkEndBound = 1.f, float linkStartBound = 0.05f);

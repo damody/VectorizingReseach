@@ -8,29 +8,14 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 
-UCurveExtraction* UCurveExtraction::NewCurveExtraction()
+UCurveExtraction* UCurveExtraction::CreateCurveExtractionInstance()
 {
 	return NewObject<UCurveExtraction>();
 }
 
 bool UCurveExtraction::SetPicture(UcvMat* umat)
 {
-	m_CurvePic = umat->pic.clone();
-	switch (m_CurvePic.type())
-	{
-	case CV_8UC3:
-		cvtColor(m_CurvePic, m_CurvePic, CV_BGR2GRAY);
-		break;
-	case CV_8UC1:
-		break;
-	case CV_32FC3:
-		cvtColor(m_CurvePic, m_CurvePic, CV_BGR2GRAY);
-		m_CurvePic.clone().convertTo(m_CurvePic, CV_8UC1, 255);
-		break;
-	case CV_32FC1:
-		m_CurvePic.clone().convertTo(m_CurvePic, CV_8UC1, 255);
-		break;
-	}
+	m_CurvePic = umat->Clone()->ConvertMat(EcvMatEnum::FC_Gray)->pic.clone();
 	m_CmCurveEx = CmCurveEx(m_CurvePic);
 	return true;
 }

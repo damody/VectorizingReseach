@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include "GameFramework/Actor.h"
 #include "MyActor.generated.h"
 
@@ -39,14 +38,6 @@ public:
 	class USphereComponent* Sphere1;
 
 	AMyActor(const FObjectInitializer& ObjectInitializer);
-
-	/** called when something enters the sphere component */
-	UFUNCTION(BlueprintNativeEvent, Category = "Switch Functions")
-	void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	/** called when something leaves the sphere component */
-	UFUNCTION(BlueprintNativeEvent, Category = "Switch Functions")
-	void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	/** Toggles the light component's visibility*/
 	UFUNCTION()

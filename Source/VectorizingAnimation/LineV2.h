@@ -21,6 +21,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Line")
 	ULineV2* Clone();
 
+	UFUNCTION(BlueprintCallable, Category = "Line")
+	static TArray<ULineV2*> CloneArray(const TArray<ULineV2*>& src);
 
 	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to LineV2)"), Category = "Line")
 	static ULineV2* GetLine_Array(TArray<FVector2D> line);
@@ -39,6 +41,11 @@ public:
 	operator TArray<FVector2D>()
 	{
 		return pts;
+	}
+
+	int32 Num()
+	{
+		return pts.Num();
 	}
 
 	FVector2D& operator[](int32 i)

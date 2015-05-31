@@ -62,7 +62,7 @@ public:
 	EcvMatEnum GetMatState();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
-	void ConvertMat(EcvMatEnum state);
+	UcvMat* ConvertMat(EcvMatEnum state);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	static TArray<UcvMat*> MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Video, 

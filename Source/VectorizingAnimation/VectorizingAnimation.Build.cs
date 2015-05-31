@@ -10,7 +10,7 @@ public class VectorizingAnimation : ModuleRules
 
         PrivateDependencyModuleNames.AddRange(new string[] { "RHI", "RenderCore", "ShaderCore", "DesktopPlatform" });
 
-        Definitions.AddRange(new string[] { "_USE_MATH_DEFINES", "USE_CGAL" });
+        Definitions.AddRange(new string[] { "_USE_MATH_DEFINES", "USE_CGAL", "_CRT_SECURE_NO_WARNINGS" });
 
         // zlib must linked first and other must after opencv linked
         AddThirdPartyPrivateStaticDependencies(Target, "zlib", "ffmpeg", "OpenCV");

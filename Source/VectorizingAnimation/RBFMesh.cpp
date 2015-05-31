@@ -104,7 +104,7 @@ FVector RBFMesh::GetColor(float x, float y)
     return res;
 }
 
-FVector RBFMesh::GetColor(float x1, float y1, float x2, float y2)
+FVector RBFMesh::GetColor2Point(float x1, float y1, float x2, float y2)
 {
     BasicMesh::Point now((x1 + x2 * 2) * 0.333, (y1 + y2 * 2) * 0.333, 0);
     BasicMesh::VHandle findvh = *(vertices_begin());

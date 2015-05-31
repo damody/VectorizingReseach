@@ -7,6 +7,7 @@
 #include "FrameInfo.generated.h"
 
 
+class PicMesh;
 /**
  * 
  */
@@ -18,4 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Line")
 	TArray<ULineV2*>	BlackLine;
 	
+
+	PicMesh* ShowMesh1;
+	PicMesh* ShowMesh2;
+
+
 };

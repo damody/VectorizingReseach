@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include "FlatVec3MeshLinear.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ImageProcess.generated.h"
+
 
 /**
  * 
@@ -32,4 +34,20 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
 	static UcvMat*	BilateralFilter(UcvMat* umat, int32 maskSize);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
+	static UcvMat* DrawWhileLine(UcvMat* umat, const TArray<ULineV2*> draw);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
+	UcvMat* FixSpaceLineX(UcvMat* umat, UcvMat* oriImg, float initdis);
+
+	
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
+	static TArray<UFlatVec3MeshLinear*> BuildColorModelV8(UcvMat* image, UcvMat* oimg, UcvMat* mask2);
 };
+
+FORCEINLINE FVector Vec3bToVector(const cv::Vec3b c)
+{
+	return FVector(c[0], c[1], c[2]);
+}

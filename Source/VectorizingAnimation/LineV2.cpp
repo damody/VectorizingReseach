@@ -57,3 +57,14 @@ TArray<FVector2D> ULineV2::GetLine_FV2Array(TArray<FVector2D> line, float mx, fl
 	return res;
 }
 
+TArray<ULineV2*> ULineV2::CloneArray(const TArray<ULineV2*>& src)
+{
+	TArray<ULineV2*> res;
+	res.Reset(src.Num());
+	for (int32 i = 0; i < src.Num(); ++i)
+	{
+		res[i] = src[i]->Clone();
+	}
+	return res;
+}
+

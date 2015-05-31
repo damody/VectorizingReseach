@@ -70,24 +70,6 @@ AMyActor::AMyActor(const FObjectInitializer& ObjectInitializer)
 	Sphere1->InitSphereRadius(250.0f);
 	Sphere1->AttachParent = RootComponent;
 
-	Sphere1->OnComponentBeginOverlap.AddDynamic(this, &AMyActor::OnOverlapBegin);       // set up a notification for when this component overlaps something
-	Sphere1->OnComponentEndOverlap.AddDynamic(this, &AMyActor::OnOverlapEnd);       // set up a notification for when this component overlaps something
-}
-
-void AMyActor::OnOverlapBegin_Implementation(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (OtherActor && (OtherActor != this) && OtherComp)
-	{
-		ToggleLight();
-	}
-}
-
-void AMyActor::OnOverlapEnd_Implementation(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (OtherActor && (OtherActor != this) && OtherComp)
-	{
-		ToggleLight();
-	}
 }
 
 void AMyActor::ToggleLight()

@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include "cvMat.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "VisualizeFunction.generated.h"
+
 
 /**
  * 
@@ -14,7 +16,15 @@ class VECTORIZINGANIMATION_API UVisualizeFunction : public UBlueprintFunctionLib
 	GENERATED_BODY()
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Visualize")
-	static void DrawLines(TArray<ULineV2*> lines);
+	static void DrawLines(FVector center, TArray<ULineV2*> lines);
 	
-	
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Visualize")
+	static void ImShow(FString name, UcvMat* img);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Visualize")
+	static void DestroyAllImShow();
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Visualize")
+	static void DestroyImShow(FString name);
+
 };

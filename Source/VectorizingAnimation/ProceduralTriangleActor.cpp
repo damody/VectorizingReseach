@@ -27,12 +27,6 @@ void AProceduralTriangleActor::GenerateTriangle(TArray<FProceduralMeshTriangle>&
 	triangle.Vertex0.Color = Blue;
 	triangle.Vertex1.Color = Blue;
 	triangle.Vertex2.Color = Blue;
-	triangle.Vertex0.U = 0.0f;
-	triangle.Vertex0.V = 0.0f;
-	triangle.Vertex1.U = 1.0f;
-	triangle.Vertex1.V = 0.0f;
-	triangle.Vertex2.U = 0.5f;
-	triangle.Vertex2.V = 0.75f;
 	OutTriangles.Add(triangle);
 	triangle.Vertex0.Position.Set(0.f, 0.f, 0.f);
 	triangle.Vertex1.Position.Set(0.f, 640.f, 480.f);
