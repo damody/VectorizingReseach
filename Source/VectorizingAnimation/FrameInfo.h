@@ -16,12 +16,7 @@ class VECTORIZINGANIMATION_API UFrameInfo : public UObject
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Line")
+	 
 	TArray<ULineV2*>	BlackLine;
 	
-
-	PicMesh* ShowMesh1;
-	PicMesh* ShowMesh2;
-
-
 };

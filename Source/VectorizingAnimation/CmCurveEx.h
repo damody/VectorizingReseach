@@ -21,13 +21,13 @@ public:
 	CmCurveEx(const cv::Mat& srcImg1f, float maxOrntDif = 0.25f * CV_PI);
 
 	// Input kernel size for calculating derivatives, kSize should be 1, 3, 5 or 7
-	const cv::Mat& CalSecDer(int kSize = 5, float linkEndBound = 0.01f,
+	const cv::Mat& CalSecDer(int32 kSize = 5, float linkEndBound = 0.01f,
 							 float linkStartBound = 0.1f);
-	const cv::Mat& CalSecDer2(int kSize = 5, float lineimg_threshold = 0.01f, 
+	const cv::Mat& CalSecDer2(int32 kSize = 5, float lineimg_threshold = 0.01f, 
 		float linkEndBound = 0.01f, float linkStartBound = 0.1f);
-	const cv::Mat& CalFirDer(int kSize = 5, float linkEndBound = 0.01f,
+	const cv::Mat& CalFirDer(int32 kSize = 5, float linkEndBound = 0.01f,
 							 float linkStartBound = 0.1f);
-	const std::vector<CEdge>& Link(int shortRemoveBound = 3);
+	const std::vector<CEdge>& Link(int32 shortRemoveBound = 3);
 
 	// Get data pointers
 	const cv::Mat& GetDer()
@@ -55,7 +55,7 @@ public:
 		return m_vEdge;
 	}
 
-	static const int IND_BG = 0xffffffff, IND_NMS = 0xfffffffe,
+	static const int32 IND_BG = 0xffffffff, IND_NMS = 0xfffffffe,
 					 IND_SR = 0xfffffffd; // Background, Non Maximal Suppress and Short Remove
 
 private:
@@ -76,15 +76,15 @@ private:
 		return e1.first > e2.first;
 	};
 
-	int m_h, m_w; // Image size
-	int m_kSize; // Smooth kernel size: 1, 3, 5, 7
+	int32 m_h, m_w; // Image size
+	int32 m_kSize; // Smooth kernel size: 1, 3, 5, 7
 	float m_maxAngDif; // maximal allowed angle difference in a curve
 
 	void NoneMaximalSuppress(float linkEndBound, float linkStartBound);
 	void findEdge(cv::Point seed, CEdge& crtEdge, bool isBackWard);
-	bool goNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int orntInd,
+	bool goNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int32 orntInd,
 				bool isBackward);
-	bool jumpNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int orntInd,
+	bool jumpNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int32 orntInd,
 				  bool isBackward);
 
 	/* Compute the eigenvalues and eigenvectors of the Hessian matrix given by
@@ -109,7 +109,7 @@ extern float const PI_HALF;
 const double EPS = 1e-8;        // Epsilon (zero value)
 #define CHK_IND(p) ((p).x >= 0 && (p).x < m_w && (p).y >= 0 && (p).y < m_h)
 
-template<typename T> inline int CmSgn(T number)
+template<typename T> inline int32 CmSgn(T number)
 {
 	if (abs(number) < EPS)
 	{

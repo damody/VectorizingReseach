@@ -39,7 +39,7 @@ public:
 	static UcvMat* DrawWhileLine(UcvMat* umat, const TArray<ULineV2*> draw);
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|ImageProcess")
-	UcvMat* FixSpaceLineX(UcvMat* umat, UcvMat* oriImg, float initdis);
+	static UcvMat* FixSpaceLineX(UcvMat* umat, UcvMat* oriImg, float initdis);
 
 	
 

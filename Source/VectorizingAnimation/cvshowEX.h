@@ -20,14 +20,14 @@ public:
 	cv::Mat m_sizeimg;
 	chars m_ischecks;
 	strings m_names;
-	int m_num_check;
+	int32 m_num_check;
 	cvshowEX(void);
 	~cvshowEX(void);
 	void Init();
 	void AddShow(std::string name, cv::Mat mat);
 	void RemoveShow(std::string name);
 	void Render();
-	int w, h;
+	int32 w, h;
 };
 
 extern cvshowEX g_cvshowEX;

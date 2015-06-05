@@ -20,13 +20,13 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 	{
 	public:
 		// for mapping id
-		int mapid;
+		int32 mapid;
 		// colorid
-		int cid;
+		int32 cid;
 		// region id
-		int rid;
+		int32 rid;
 		// region id
-		int rid2;
+		int32 rid2;
 		// hascolor
 		char mark;
 		// Color
@@ -47,9 +47,9 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 	{
 	public:
 		// for constraint line index
-		int lineidx;
+		int32 lineidx;
 		// for constraint line id
-		int lineid;
+		int32 lineid;
 		// for check is constraint point
 		char constraint;
 		// for check end point
@@ -63,7 +63,7 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 		// for compute use
 		FVector c3;
 		// for mapping id
-		int mapid;
+		int32 mapid;
 		VertexT(): end(false), constraint(0), mapid(-1), lineid(-1) { }
 	};
 };

@@ -45,6 +45,11 @@ public:
 	static void ImgFillBlack(cv::Mat& a, cv::Mat& b);
 
 	// Blueprint function
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	int32 Width();
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	int32 Height();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	UcvMat* Clone();
@@ -81,9 +86,11 @@ public:
 	FVector GetColor(int32 x, int32 y) const;
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	int32 GetIndex(int32 x, int32 y) const;
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	TArray<float> GetLineLight(float x1, float y1, float x2, float y2, int32 div);
 	
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mat")
 	UTexture2D* Texture;
 

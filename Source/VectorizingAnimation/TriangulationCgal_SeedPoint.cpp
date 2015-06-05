@@ -2,7 +2,7 @@
 #include "TriangulationCgal_SeedPoint.h"
 
 
-void UTriangulationCgal_SeedPoint::AddPointIdx(float x, float y, int id)
+void UTriangulationCgal_SeedPoint::AddPointIdx(float x, float y, int32 id)
 {
 	CgalTriangulation::Vertex_handle vh = TriangulationData.insert(Point(x, y));
 	vh->info().mapid = id;

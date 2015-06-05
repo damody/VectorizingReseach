@@ -50,7 +50,7 @@ bool AVideoReader::Open(std::string ss)
 	}
 	av_dump_format(m_pFormatCtx, -1, ss.c_str(), 0);
 	m_videoStream = -1;
-	for (int i = 0; i < (int)m_pFormatCtx->nb_streams; i++)
+	for (int32 i = 0; i < (int32)m_pFormatCtx->nb_streams; i++)
 	{
 		if (m_pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
 		{
@@ -185,15 +185,15 @@ int32 AVideoReader::CurrentFrame()
     return (int32)cvVideo.get(CV_CAP_PROP_POS_FRAMES);
 }
 
-cv::Mat AVideoReader::_GetFrame(AVFrame *pFrame, int width, int height)
+cv::Mat AVideoReader::_GetFrame(AVFrame *pFrame, int32 width, int32 height)
 {
 	cv::Mat res;
 	res.create(height, width, CV_8UC3);
 	uint8_t* t_data = new uint8_t[width * 3];
-	for (int y = 0; y < height; y++)
+	for (int32 y = 0; y < height; y++)
 	{
 		memcpy(t_data, pFrame->data[0] + y * pFrame->linesize[0], width * 3);
-		for (int i = 0; i < width * 3; i += 3)
+		for (int32 i = 0; i < width * 3; i += 3)
 		{
 			cv::Vec3b& c = res.at<cv::Vec3b>(y, i / 3);
 			c[0] = t_data[i + 2];

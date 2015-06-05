@@ -151,7 +151,7 @@ void CmCurveEx::compute_eigenvals(double dfdrr, double dfdrc, double dfdcc,
     }
 }
 
-const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
+const cv::Mat& CmCurveEx::CalSecDer2(int32 kSize, float lineimg_threshold,
                                      float linkEndBound, float linkStartBound)
 {
     cv::Mat dxMat, dyMat, blur;
@@ -171,7 +171,7 @@ const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
 //  g_cvshowEX.AddShow("dy2", dyMat);
     cv::Mat m_pDer1f = m_pDer2f.clone();
     double eigval[2], eigvec[2][2], maxeig = -999, mineig = 999;
-    for(int y = 0; y < m_h; y++)
+    for(int32 y = 0; y < m_h; y++)
     {
         float* xx = dxx.ptr<float>(y);
         float* xy = dxy.ptr<float>(y);
@@ -181,7 +181,7 @@ const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
         float* pDer1 = m_pDer1f.ptr<float>(y);
         float* dx = dxMat.ptr<float>(y);
         float* dy = dyMat.ptr<float>(y);
-        for(int x = 0; x < m_w; x++)
+        for(int32 x = 0; x < m_w; x++)
         {
             compute_eigenvals(yy[x], xy[x], xx[x], eigval, eigvec);
             pOrnt[x] = (float)atan2(-eigvec[0][1], eigvec[0][0]); //計算法線方向
@@ -206,11 +206,11 @@ const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
     GaussianBlur(m_pDer1f, m_pDer1f, cv::Size(3, 3), 0, 0);
     double sum2 = 0, avg2;
     double sum1 = 0;
-    for(int y = 0; y < m_h; y++)
+    for(int32 y = 0; y < m_h; y++)
     {
         float* pDer2 = m_pDer2f.ptr<float>(y);
         float* pDer1 = m_pDer1f.ptr<float>(y);
-        for(int x = 0; x < m_w; x++)
+        for(int32 x = 0; x < m_w; x++)
         {
             float v1 = pDer1[x] > 0 ? pDer1[x] + (pDer2[x]-0.5) : 0;
             float v2 = pDer2[x] > 0 ? pDer2[x] * (1 - abs(pDer1[x])) : 0;
@@ -224,10 +224,10 @@ const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
     g_cvshowEX.AddShow("fv1", m_pDer1f);
     g_cvshowEX.AddShow("fv2", m_pDer2f);
     avg2 = sum2 / (m_h * m_w);
-    for(int y = 0; y < m_h; y++)
+    for(int32 y = 0; y < m_h; y++)
     {
         float* pDer2 = m_pDer2f.ptr<float>(y);
-        for(int x = 0; x < m_w; x++)
+        for(int32 x = 0; x < m_w; x++)
         {
             //if (pDer2[x] <= avg2 * 1)
             {
@@ -257,13 +257,13 @@ const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
 //      Sobel(m_pDer2f, dxx, CV_32F, 2, 0, kSize);
 //      Sobel(m_pDer2f, dxy, CV_32F, 1, 1, kSize);
 //      Sobel(m_pDer2f, dyy, CV_32F, 0, 2, kSize);
-//      for (int y = 0; y < m_h; y++)
+//      for (int32 y = 0; y < m_h; y++)
 //      {
 //          float* xx = dxx.ptr<float>(y);
 //          float* xy = dxy.ptr<float>(y);
 //          float* yy = dyy.ptr<float>(y);
 //          float* pOrnt = m_pOrnt1f.ptr<float>(y);
-//          for (int x = 0; x < m_w; x++)
+//          for (int32 x = 0; x < m_w; x++)
 //          {
 //              compute_eigenvals(yy[x], xy[x], xx[x], eigval, eigvec);
 //              pOrnt[x] = (float)atan2(-eigvec[0][1], eigvec[0][0]); //計算法線方向
@@ -275,7 +275,7 @@ const cv::Mat& CmCurveEx::CalSecDer2(int kSize, float lineimg_threshold,
     return m_pDer2f;
 }
 
-const cv::Mat& CmCurveEx::CalSecDer(int kSize, float linkEndBound,
+const cv::Mat& CmCurveEx::CalSecDer(int32 kSize, float linkEndBound,
                                     float linkStartBound)
 {
 	cv::Mat dxx, dxy, dyy;
@@ -284,7 +284,7 @@ const cv::Mat& CmCurveEx::CalSecDer(int kSize, float linkEndBound,
 	Sobel(m_img1f, dyy, CV_32F, 0, 2, kSize);
 	cv::Mat m_pDer1f = m_pDer2f.clone();
 	double eigval[2], eigvec[2][2];
-	for (int y = 0; y < m_h; y++)
+	for (int32 y = 0; y < m_h; y++)
 	{
 		float* xx = dxx.ptr<float>(y);
 		float* xy = dxy.ptr<float>(y);
@@ -292,7 +292,7 @@ const cv::Mat& CmCurveEx::CalSecDer(int kSize, float linkEndBound,
 		float* pOrnt = m_pOrnt1f.ptr<float>(y);
 		float* pDer2 = m_pDer2f.ptr<float>(y);
 		float* pDer1 = m_pDer1f.ptr<float>(y);
-		for (int x = 0; x < m_w; x++)
+		for (int32 x = 0; x < m_w; x++)
 		{
 			compute_eigenvals(yy[x], xy[x], xx[x], eigval, eigvec);
 			pOrnt[x] = (float)atan2(-eigvec[0][1], eigvec[0][0]); //計算法線方向
@@ -305,19 +305,19 @@ const cv::Mat& CmCurveEx::CalSecDer(int kSize, float linkEndBound,
 	return m_pDer2f;
 }
 
-const cv::Mat& CmCurveEx::CalFirDer(int kSize, float linkEndBound,
+const cv::Mat& CmCurveEx::CalFirDer(int32 kSize, float linkEndBound,
                                     float linkStartBound)
 {
     cv::Mat dxMat, dyMat;
     Sobel(m_img1f, dxMat, CV_32F, 1, 0, kSize);
     Sobel(m_img1f, dyMat, CV_32F, 0, 1, kSize);
-    for(int y = 0; y < m_h; y++)
+    for(int32 y = 0; y < m_h; y++)
     {
         float* dx = dxMat.ptr<float>(y);
         float* dy = dyMat.ptr<float>(y);
         float* pOrnt = m_pOrnt1f.ptr<float>(y);
         float* pDer = m_pDer2f.ptr<float>(y);
-        for(int x = 0; x < m_w; x++)
+        for(int32 x = 0; x < m_w; x++)
         {
             pOrnt[x] = (float)atan2(dx[x], -dy[x]);
             if(pOrnt[x] < 0.0f)
@@ -337,15 +337,15 @@ void CmCurveEx::NoneMaximalSuppress(float linkEndBound, float linkStartBound)
 {
     CV_Assert(m_pDer2f.data != NULL && m_pLabel1i.data != NULL);
     m_StartPnt.clear();
-    m_StartPnt.reserve(int(0.08 * m_h * m_w));
+    m_StartPnt.reserve(int32(0.08 * m_h * m_w));
     PntImp linePoint;
     m_pLabel1i = IND_BG;
-    for(int r = 1; r < m_h - 1; r++)
+    for(int32 r = 1; r < m_h - 1; r++)
     {
         float* pDer = m_pDer2f.ptr<float>(r);
         float* pOrnt = m_pOrnt1f.ptr<float>(r);
-        int* pLineInd = m_pLabel1i.ptr<int>(r);
-        for(int c = 1; c < m_w - 1; c++)
+        int32* pLineInd = m_pLabel1i.ptr<int32>(r);
+        for(int32 c = 1; c < m_w - 1; c++)
         {
             if(pDer[c] < linkEndBound)
             {
@@ -353,8 +353,8 @@ void CmCurveEx::NoneMaximalSuppress(float linkEndBound, float linkStartBound)
             }
             float cosN = sin(pOrnt[c]);
             float sinN = -cos(pOrnt[c]);
-            int xSgn = CmSgn<float>(cosN);
-            int ySgn = CmSgn<float>(sinN);
+            int32 xSgn = CmSgn<float>(cosN);
+            int32 ySgn = CmSgn<float>(sinN);
             cosN *= cosN;
             sinN *= sinN;
             if(pDer[c] >= (pDer[c + xSgn] * cosN + m_pDer2f.at<float>(r + ySgn, c) * sinN)
@@ -374,19 +374,19 @@ void CmCurveEx::NoneMaximalSuppress(float linkEndBound, float linkStartBound)
     }
 }
 
-const CEdges& CmCurveEx::Link(int shortRemoveBound /* = 3 */)
+const CEdges& CmCurveEx::Link(int32 shortRemoveBound /* = 3 */)
 {
     CV_Assert(m_pDer2f.data != NULL && m_pLabel1i.data != NULL);
     sort(m_StartPnt.begin(), m_StartPnt.end(), linePointGreater);
     m_pNext1i = -1;
     m_vEdge.clear();
-    m_vEdge.reserve(int(0.01 * m_w * m_h));
+    m_vEdge.reserve(int32(0.01 * m_w * m_h));
     CEdge crtEdge(0);//當前邊
     for(std::vector<PntImp>::iterator it = m_StartPnt.begin();
             it != m_StartPnt.end(); it++)
     {
         cv::Point pnt = it->second;
-        if(m_pLabel1i.at<int>(pnt) != IND_NMS)
+        if(m_pLabel1i.at<int32>(pnt) != IND_NMS)
         {
             continue;
         }
@@ -395,14 +395,14 @@ const CEdges& CmCurveEx::Link(int shortRemoveBound /* = 3 */)
         if(crtEdge.pointNum <= shortRemoveBound)
         {
             cv::Point point = crtEdge.start;
-            int i, nextInd;
+            int32 i, nextInd;
             for(i = 1; i < crtEdge.pointNum; i++)
             {
-                m_pLabel1i.at<int>(point) = IND_SR;
-                nextInd = m_pNext1i.at<int>(point);
+                m_pLabel1i.at<int32>(point) = IND_SR;
+                nextInd = m_pNext1i.at<int32>(point);
                 point += DIRECTION8[nextInd];
             }
-            m_pLabel1i.at<int>(point) = IND_SR;
+            m_pLabel1i.at<int32>(point) = IND_SR;
         }
         else
         {
@@ -411,16 +411,16 @@ const CEdges& CmCurveEx::Link(int shortRemoveBound /* = 3 */)
         }
     }
     // Get edge information
-    int edgNum = (int)m_vEdge.size();
-    for(int i = 0; i < edgNum; i++)
+    int32 edgNum = (int32)m_vEdge.size();
+    for(int32 i = 0; i < edgNum; i++)
     {
         CEdge& edge = m_vEdge[i];
         CvLine& pnts = edge.pnts;
         pnts.resize(edge.pointNum);
         pnts[0] = edge.start;
-        for(int j = 1; j < edge.pointNum; j++)
+        for(int32 j = 1; j < edge.pointNum; j++)
         {
-            pnts[j] = pnts[j - 1] + DIRECTION8[m_pNext1i.at<int>(pnts[j - 1])];
+            pnts[j] = pnts[j - 1] + DIRECTION8[m_pNext1i.at<int32>(pnts[j - 1])];
         }
     }
     return m_vEdge;
@@ -450,26 +450,26 @@ void CmCurveEx::findEdge(cv::Point seed, CEdge& crtEdge, bool isBackWard)
     else
     {
         crtEdge.pointNum = 1;
-        m_pLabel1i.at<int>(pnt) = crtEdge.index;
+        m_pLabel1i.at<int32>(pnt) = crtEdge.index;
     }
-    int orntInd, nextInd1, nextInd2;
+    int32 orntInd, nextInd1, nextInd2;
     while(true)
     {
         /*************按照優先級尋找下一個點，方向差異較大不加入**************/
         //下一個點在DIRECTION16最佳方向上找
-        orntInd = int(ornt / PI_EIGHTH + 0.5f) % 16;
+        orntInd = int32(ornt / PI_EIGHTH + 0.5f) % 16;
         if(jumpNext(pnt, ornt, crtEdge, orntInd, isBackWard))
         {
             continue;
         }
         //下一個點在DIRECTION8最佳方向上找
-        orntInd = int(ornt / PI_QUARTER + 0.5f) % 8;
+        orntInd = int32(ornt / PI_QUARTER + 0.5f) % 8;
         if(goNext(pnt, ornt, crtEdge, orntInd, isBackWard))
         {
             continue;
         }
         //下一個點在DIRECTION16次優方向上找
-        orntInd = int(ornt / PI_EIGHTH + 0.5f) % 16;
+        orntInd = int32(ornt / PI_EIGHTH + 0.5f) % 16;
         nextInd1 = (orntInd + 1) % 16;
         nextInd2 = (orntInd + 15) % 16;
         if(angle(DRT_ANGLE[nextInd1], ornt) < angle(DRT_ANGLE[nextInd2], ornt))
@@ -495,7 +495,7 @@ void CmCurveEx::findEdge(cv::Point seed, CEdge& crtEdge, bool isBackWard)
             }
         }
         //下一個點在DIRECTION8次優方向上找
-        orntInd = int(ornt / PI_QUARTER + 0.5f) % 8;
+        orntInd = int32(ornt / PI_QUARTER + 0.5f) % 8;
         nextInd1 = (orntInd + 1) % 8;
         nextInd2 = (orntInd + 7) % 8;
         if(angle(DRT_ANGLE[nextInd1], ornt) < angle(DRT_ANGLE[nextInd2], ornt))
@@ -522,19 +522,19 @@ void CmCurveEx::findEdge(cv::Point seed, CEdge& crtEdge, bool isBackWard)
         }
         /*************按照優先級尋找下一個點，方向差異較大也加入**************/
         //下一個點在DIRECTION16最佳方向上找
-        orntInd = int(ornt / PI_EIGHTH + 0.5f) % 16;
+        orntInd = int32(ornt / PI_EIGHTH + 0.5f) % 16;
         if(jumpNext(pnt, ornt, crtEdge, orntInd, isBackWard))
         {
             continue;
         }
         //下一個點在DIRECTION8最佳方向上找
-        orntInd = int(ornt / PI_QUARTER + 0.5f) % 8;
+        orntInd = int32(ornt / PI_QUARTER + 0.5f) % 8;
         if(goNext(pnt, ornt, crtEdge, orntInd, isBackWard))
         {
             continue;
         }
         //下一個點在DIRECTION16次優方向上找
-        orntInd = int(ornt / PI_EIGHTH + 0.5f) % 16;
+        orntInd = int32(ornt / PI_EIGHTH + 0.5f) % 16;
         nextInd1 = (orntInd + 1) % 16;
         nextInd2 = (orntInd + 15) % 16;
         if(angle(DRT_ANGLE[nextInd1], ornt) < angle(DRT_ANGLE[nextInd2], ornt))
@@ -560,7 +560,7 @@ void CmCurveEx::findEdge(cv::Point seed, CEdge& crtEdge, bool isBackWard)
             }
         }
         //下一個點在DIRECTION8次優方向上找
-        orntInd = int(ornt / PI_QUARTER + 0.5f) % 8;
+        orntInd = int32(ornt / PI_QUARTER + 0.5f) % 8;
         nextInd1 = (orntInd + 1) % 8;
         nextInd2 = (orntInd + 7) % 8;
         if(angle(DRT_ANGLE[nextInd1], ornt) < angle(DRT_ANGLE[nextInd2], ornt))
@@ -666,11 +666,11 @@ void CmCurveEx::refreshOrnt(float& ornt, float& newOrnt)
     newOrnt = ornt;
 }
 
-bool CmCurveEx::goNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int orntInd,
+bool CmCurveEx::goNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int32 orntInd,
                        bool isBackward)
 {
     cv::Point pntN = pnt + DIRECTION8[orntInd];
-    int& label = m_pLabel1i.at<int>(pntN);
+    int32& label = m_pLabel1i.at<int32>(pntN);
     //如果該點方向與當前線方向差別比較大則不加入/***********一個可變域值**********************/
     if(CHK_IND(pntN) && (label == IND_NMS || label == IND_SR))
     {
@@ -681,11 +681,11 @@ bool CmCurveEx::goNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int orntInd,
         label = crtEdge.index;
         if(isBackward)
         {
-            m_pNext1i.at<int>(pntN) = (orntInd + 4) % 8;
+            m_pNext1i.at<int32>(pntN) = (orntInd + 4) % 8;
         }
         else
         {
-            m_pNext1i.at<int>(pnt) = orntInd;
+            m_pNext1i.at<int32>(pnt) = orntInd;
         }
         crtEdge.pointNum++;
         //更新切線方向
@@ -697,10 +697,10 @@ bool CmCurveEx::goNext(cv::Point& pnt, float& ornt, CEdge& crtEdge, int orntInd,
 }
 
 bool CmCurveEx::jumpNext(cv::Point& pnt, float& ornt, CEdge& crtEdge,
-                         int orntInd, bool isBackward)
+                         int32 orntInd, bool isBackward)
 {
     cv::Point pnt2 = pnt + DIRECTION16[orntInd];
-    if(CHK_IND(pnt2) && m_pLabel1i.at<int>(pnt2) <= IND_NMS)
+    if(CHK_IND(pnt2) && m_pLabel1i.at<int32>(pnt2) <= IND_NMS)
     {
         if(angle(ornt, m_pOrnt1f.at<float>(pnt2)) >
                 m_maxAngDif) //如果該點方向與當前線方向差別比較大則不加入
@@ -711,14 +711,14 @@ bool CmCurveEx::jumpNext(cv::Point& pnt, float& ornt, CEdge& crtEdge,
         // 的疊加,滿足orntInd = orntInd1 + orntInd2.此處優先選擇使得組合上的點具
         // IND_NMS標記的方向組合。(orntInd1,orntInd2在floor(orntInd/2)和
         // ceil(orntInd/2)中選擇
-        int orntInd1 = orntInd >> 1, orntInd2;
+        int32 orntInd1 = orntInd >> 1, orntInd2;
         cv::Point pnt1 = pnt + DIRECTION8[orntInd1];
-        if(m_pLabel1i.at<int>(pnt1) >= IND_BG && orntInd % 2)
+        if(m_pLabel1i.at<int32>(pnt1) >= IND_BG && orntInd % 2)
         {
             orntInd1 = ((orntInd + 1) >> 1) % 8;
             pnt1 = pnt + DIRECTION8[orntInd1];
         }
-        int& lineIdx1 = m_pLabel1i.at<int>(pnt1);
+        int32& lineIdx1 = m_pLabel1i.at<int32>(pnt1);
         if(lineIdx1 != -1)  //當前nPos1點為其它線上的點，不能歸入當前線
         {
             return false;
@@ -726,16 +726,16 @@ bool CmCurveEx::jumpNext(cv::Point& pnt, float& ornt, CEdge& crtEdge,
         orntInd2 = orntInd - orntInd1;
         orntInd2 %= 8;
         lineIdx1 = crtEdge.index;
-        m_pLabel1i.at<int>(pnt2) = crtEdge.index;
+        m_pLabel1i.at<int32>(pnt2) = crtEdge.index;
         if(isBackward)
         {
-            m_pNext1i.at<int>(pnt1) = (orntInd1 + 4) % 8;
-            m_pNext1i.at<int>(pnt2) = (orntInd2 + 4) % 8;
+            m_pNext1i.at<int32>(pnt1) = (orntInd1 + 4) % 8;
+            m_pNext1i.at<int32>(pnt2) = (orntInd2 + 4) % 8;
         }
         else
         {
-            m_pNext1i.at<int>(pnt) = orntInd1;
-            m_pNext1i.at<int>(pnt1) = orntInd2;
+            m_pNext1i.at<int32>(pnt) = orntInd1;
+            m_pNext1i.at<int32>(pnt1) = orntInd2;
         }
         crtEdge.pointNum += 2;
         refreshOrnt(ornt, m_pOrnt1f.at<float>(pnt1));

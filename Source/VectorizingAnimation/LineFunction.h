@@ -3,6 +3,7 @@
 #pragma once
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "LineV3.h"
+#include "IntsDuplex.h"
 #include "LineEnd.h"
 #include "LineWidth.h"
 #include "cvMat.h"
@@ -109,6 +110,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLineWidth (LineV2 Array)"), Category = "Line")
 	static TArray<ULineWidth*> GetLineWidth_Array(const TArray<ULineV2*>& lines, const TArray<ULineV2*>& lws);
+
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "MakeBoundaryLines (LineV2)"), Category = "Line")
+	static ULineV2 * MakeBoundaryLines_LineV2(UcvMat* img);
+
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetIndexDuplexFromCvMat (LineV2 Array)"), Category = "Line")
+	static TArray<UIntsDuplex*> GetIndexDuplexFromCvMat(TArray<ULineV2*> lines, UcvMat* img);
 
     FORCEINLINE static bool CheckAngle(float a1, float a2, float limitA)
     {

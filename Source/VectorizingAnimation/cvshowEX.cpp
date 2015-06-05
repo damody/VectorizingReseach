@@ -4,7 +4,7 @@
 #include <xutility>
 
 
-const int CHECK_1 = 1;
+const int32 CHECK_1 = 1;
 HWND g_hwnd2;
 LONG_PTR g_ori_wproc2;
 cvshowEX g_cvshowEX;
@@ -15,10 +15,10 @@ LRESULT CALLBACK WndProc2(HWND hwnd, uint32 msg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_COMMAND:
 	{
-		for (int i = 0; i < g_cvshowEX.m_hwnd_checks.size(); ++i)
+		for (int32 i = 0; i < g_cvshowEX.m_hwnd_checks.size(); ++i)
 		{
 			BOOL checked = IsDlgButtonChecked(hwnd, i + 1);
-//          int gg = GetLastError();
+//          int32 gg = GetLastError();
 //          printf("gg %d\n", gg);
 			if (checked)
 			{
@@ -70,9 +70,9 @@ void cvshowEX::AddShow(std::string name, cv::Mat mat)
 		m_mats.push_back(mat.clone());
 		if (m_mats.back().type() == CV_32FC1)
 		{
-			for (int j = 0; j < m_mats.back().rows && j < h; ++j)
+			for (int32 j = 0; j < m_mats.back().rows && j < h; ++j)
 			{
-				for (int k = 0; k < m_mats.back().cols && k < w; ++k)
+				for (int32 k = 0; k < m_mats.back().cols && k < w; ++k)
 				{
 					float& c1 = m_mats.back().at<float>(j, k);
 					if (c1 < 0)
@@ -96,8 +96,8 @@ void cvshowEX::RemoveShow(std::string name)
 
 void cvshowEX::Render()
 {
-	int needdraw = 0;
-	for (int i = 0; i < m_ischecks.size(); ++i)
+	int32 needdraw = 0;
+	for (int32 i = 0; i < m_ischecks.size(); ++i)
 	{
 		if (m_ischecks[i])
 		{
@@ -106,7 +106,7 @@ void cvshowEX::Render()
 	}
 	w = 0;
 	h = 0;
-	for (int i = 0; i < m_mats.size(); ++i)
+	for (int32 i = 0; i < m_mats.size(); ++i)
 	{
 		if (m_mats[i].rows > h)
 		{
@@ -133,16 +133,16 @@ void cvshowEX::Render()
 	double scale = 1.0 / needdraw;
 	m_sizeimg = cv::Scalar(0, 0, 0);
 	m_sizeimg.convertTo(m_sizeimg, CV_32FC3);
-	for (int i = 0; i < m_mats.size(); ++i)
+	for (int32 i = 0; i < m_mats.size(); ++i)
 	{
 		if (m_ischecks[i])
 		{
 			cv::Mat drawimg = m_mats[i];
 			if (drawimg.type() == CV_8UC3)
 			{
-				for (int j = 0; j < drawimg.rows && j < h; ++j)
+				for (int32 j = 0; j < drawimg.rows && j < h; ++j)
 				{
-					for (int k = 0; k < drawimg.cols && k < w; ++k)
+					for (int32 k = 0; k < drawimg.cols && k < w; ++k)
 					{
 						cv::Vec3b c1 = drawimg.at<cv::Vec3b>(j, k);
 						cv::Vec3f& c2 = m_sizeimg.at<cv::Vec3f>(j, k);
@@ -154,9 +154,9 @@ void cvshowEX::Render()
 			}
 			else if (drawimg.type() == CV_8UC1)
 			{
-				for (int j = 0; j < drawimg.rows && j < h; ++j)
+				for (int32 j = 0; j < drawimg.rows && j < h; ++j)
 				{
-					for (int k = 0; k < drawimg.cols && k < w; ++k)
+					for (int32 k = 0; k < drawimg.cols && k < w; ++k)
 					{
 						uchar c1 = drawimg.at<uchar>(j, k);
 						cv::Vec3f& c2 = m_sizeimg.at<cv::Vec3f>(j, k);
@@ -168,9 +168,9 @@ void cvshowEX::Render()
 			}
 			else if (drawimg.type() == CV_32FC1)
 			{
-				for (int j = 0; j < drawimg.rows && j < h; ++j)
+				for (int32 j = 0; j < drawimg.rows && j < h; ++j)
 				{
-					for (int k = 0; k < drawimg.cols && k < w; ++k)
+					for (int32 k = 0; k < drawimg.cols && k < w; ++k)
 					{
 						float c1 = drawimg.at<float>(j, k);
 						cv::Vec3f& c2 = m_sizeimg.at<cv::Vec3f>(j, k);
@@ -185,7 +185,7 @@ void cvshowEX::Render()
 	normalize(m_sizeimg, m_sizeimg, 0, 255, cv::NORM_MINMAX);
 	m_sizeimg.convertTo(m_sizeimg, CV_8UC3);
 	cv::imshow("cvshowEX", m_sizeimg);
-	for (int i = 0; i < m_hwnd_checks.size(); ++i)
+	for (int32 i = 0; i < m_hwnd_checks.size(); ++i)
 	{
 		SetWindowPos(m_hwnd_checks[i], 0, w, 20 * i, 200, 20,
 					 SWP_DRAWFRAME | SWP_SHOWWINDOW);

@@ -11,7 +11,7 @@ void UFlatVec3Average::BuildModel()
 	if (Colors.Num()>0)
 	{
 		FVector sum;
-		for (int i=0;i<Colors.Num();i++)
+		for (int32 i=0;i<Colors.Num();i++)
 		{
 			sum += Colors[i];
 		}

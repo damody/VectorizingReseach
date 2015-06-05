@@ -9,12 +9,12 @@
 class CEdge
 {
 public:
-	CEdge(int _index) {index = _index; }
+	CEdge(int32 _index) {index = _index; }
 	~CEdge(void) {}
 	TArray<FVector2D> GetLine(float mx, float my) const;
 	// Domains assigned during link();
-	int index;    // Start from 0
-	int pointNum;
+	int32 index;    // Start from 0
+	int32 pointNum;
 	cv::Point start, end;
 	CvLine pnts;
 };

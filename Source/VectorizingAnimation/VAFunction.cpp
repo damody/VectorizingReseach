@@ -36,7 +36,7 @@ FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 	gray->ConvertMat(EcvMatEnum::UC_Gray);
 	cv::Mat a = prevgray->pic;
 	cv::Mat b = gray->pic;
-	int minHessian = 400;
+	int32 minHessian = 400;
 	cv::SurfFeatureDetector detector(minHessian);
 	std::vector<cv::KeyPoint> keypoints_1, keypoints_2;
 	detector.detect(a, keypoints_1);
@@ -55,7 +55,7 @@ FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 	double max_dist = 0;
 	double min_dist = 100;
 	//-- Quick calculation of max and min distances between keypoints
-	for (int i = 0; i < descriptors_1.rows; i++)
+	for (int32 i = 0; i < descriptors_1.rows; i++)
 	{
 		double dist = matches[i].distance;
 		if (dist < min_dist)
@@ -68,7 +68,7 @@ FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 		}
 	}
 	std::vector<cv::DMatch> good_matches;
-	for (int i = 0; i < descriptors_1.rows; i++)
+	for (int32 i = 0; i < descriptors_1.rows; i++)
 	{
 		if (matches[i].distance <= std::max(min_dist * 2, 0.02))
 		{
@@ -76,7 +76,7 @@ FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 		}
 	}
 	cv::Vec2f mv(0, 0);
-	for (int i = 0; i < good_matches.size(); i++)
+	for (int32 i = 0; i < good_matches.size(); i++)
 	{
 		cv::Point2f v = keypoints_2[good_matches[i].trainIdx].pt - keypoints_1[good_matches[i].queryIdx].pt;
 		mv[0] += v.x;
@@ -84,9 +84,9 @@ FVector2D UVAFunction::GetMoveVectorBySURF(UcvMat* prevgray, UcvMat* gray)
 	}
 	mv /= (float)good_matches.size();
 	mv[0] *= 10;
-	mv[0] = ((int)mv[0]) * 0.1;
+	mv[0] = ((int32)mv[0]) * 0.1;
 	mv[1] *= 10;
-	mv[1] = ((int)mv[1]) * 0.1;
+	mv[1] = ((int32)mv[1]) * 0.1;
 	if (mv[0] > 1000 || mv[0] < -1000)
 	{
 		mv[0] = 0;

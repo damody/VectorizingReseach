@@ -218,8 +218,8 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
 	}
 	else
 	{
- 		int maxX = 0, maxY = 0, minX = 0, minY = 0;
- 		for (int i = 0; i < m_Moves.Num(); ++i)
+ 		int32 maxX = 0, maxY = 0, minX = 0, minY = 0;
+ 		for (int32 i = 0; i < m_Moves.Num(); ++i)
 		{
 			if (m_Moves[i][0] > maxX)
 			{
@@ -248,7 +248,7 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
  		bgimg.create(finalH, finalW, CV_32FC3);
  		bgcount.create(finalH, finalW, CV_32FC1);
  		bgimg = cv::Scalar(0);
- 		for (int a = 0; a < m_Video.Num(); ++a)
+ 		for (int32 a = 0; a < m_Video.Num(); ++a)
  		{
  			bgcount = cv::Scalar(0);
  			cv::Mat timg;
@@ -296,9 +296,9 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
 					tv11[2] += img.at<cv::Vec3b>(i, j)[2] * rb;
 				}
 			}
-			for (int i = 0; i < img.rows + 1; ++i)
+			for (int32 i = 0; i < img.rows + 1; ++i)
 			{
-				for (int j = 0; j < img.cols + 1; ++j)
+				for (int32 j = 0; j < img.cols + 1; ++j)
 				{
 					float& c00 = bgcount.at<float>(fy + i, fx + j);
 					if (abs(c00 - 1) > 0.01)
@@ -316,11 +316,11 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
 		ImgFillBlack(timgs[0]->pic, meanimg);
 		ImgFillBlack(timgs.Last()->pic, meanimg);
 		//cv::imwrite("meanimg.png", meanimg);
-		for (int k = 1; k < timgs.Num() - 1; ++k)
+		for (int32 k = 1; k < timgs.Num() - 1; ++k)
 		{
 			float mindis = ColorDistance(meanimg, timgs[k + 1]->pic);
-			int idx = k + 1;
-			for (int j = k + 2; j <= k + 10 && j < timgs.Num(); ++j)
+			int32 idx = k + 1;
+			for (int32 j = k + 2; j <= k + 10 && j < timgs.Num(); ++j)
 			{
 				float dis = ColorDistance(meanimg, timgs[k + 1]->pic);
 				if (dis < mindis)
@@ -336,11 +336,11 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
 		cv::Mat errimg;
 		errimg.create(finalH, finalW, CV_32FC1);
 		cv::Vec3b black(0, 0, 0);
-		for (int k = 0; k < timgs.Num() - 1; ++k)
+		for (int32 k = 0; k < timgs.Num() - 1; ++k)
 		{
-			for (int i = 0; i < errimg.rows; ++i)
+			for (int32 i = 0; i < errimg.rows; ++i)
 			{
-				for (int j = 0; j < errimg.cols; ++j)
+				for (int32 j = 0; j < errimg.cols; ++j)
 				{
 					cv::Vec3b tc1 = timgs[k]->pic.at<cv::Vec3b>(i, j);
 					cv::Vec3b tc2 = timgs[k + 1]->pic.at<cv::Vec3b>(i, j);
@@ -357,9 +357,9 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
 			}
 		}
 		normalize(errimg, errimg, 0, 1, cv::NORM_MINMAX);
-		for (int i = 0; i < errimg.rows; ++i)
+		for (int32 i = 0; i < errimg.rows; ++i)
 		{
-			for (int j = 0; j < errimg.cols; ++j)
+			for (int32 j = 0; j < errimg.cols; ++j)
 			{
 				if (errimg.at<float>(i, j) > 0.2)
 				{
@@ -386,11 +386,11 @@ float UcvMat::ColorDistance(cv::Mat& a, cv::Mat& b)
 	if (a.cols == b.cols && a.rows == b.rows)
 	{
 		cv::Vec3b black(0, 0, 0);
-		int count = 0;
+		int32 count = 0;
 		cv::Vec3d diff;
-		for (int i = 0; i < a.rows; ++i)
+		for (int32 i = 0; i < a.rows; ++i)
 		{
-			for (int j = 0; j < b.cols; ++j)
+			for (int32 j = 0; j < b.cols; ++j)
 			{
 				cv::Vec3b& ca = a.at<cv::Vec3b>(i, j);
 				cv::Vec3b& cb = b.at<cv::Vec3b>(i, j);
@@ -414,9 +414,9 @@ void UcvMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
 	if (a.cols == b.cols && a.rows == b.rows)
 	{
 		cv::Vec3b black(0, 0, 0);
-		for (int i = 0; i < a.rows; ++i)
+		for (int32 i = 0; i < a.rows; ++i)
 		{
-			for (int j = 0; j < b.cols; ++j)
+			for (int32 j = 0; j < b.cols; ++j)
 			{
 				cv::Vec3b& ca = a.at<cv::Vec3b>(i, j);
 				cv::Vec3b& cb = b.at<cv::Vec3b>(i, j);
@@ -427,6 +427,16 @@ void UcvMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
 			}
 		}
 	}
+}
+
+int32 UcvMat::Height()
+{
+	return pic.rows;
+}
+
+int32 UcvMat::Width()
+{
+	return pic.cols;
 }
 
 float UcvMat::GetBilinearLight(float x, float y) const
@@ -537,4 +547,19 @@ FVector UcvMat::GetColor(int32 x, int32 y) const
 {
 	const cv::Vec3b& v = pic.at<cv::Vec3b>(y, x);
 	return FVector(v[0], v[1], v[2]);
+}
+
+int32 UcvMat::GetIndex(int32 x, int32 y) const
+{
+	if (y < 0 || (y >= pic.rows) || x < 0 || (x >= pic.cols))
+	{
+		return -1;
+	}
+	if (pic.at<cv::Vec3b>(y, x)[2] != 255)
+	{
+		cv::Vec3b color = pic.at<cv::Vec3b>(y, x);
+		int32 v = color[0] + color[1] * 256 + color[2] * 256 * 256;
+		return v;
+	}
+	return -1;
 }

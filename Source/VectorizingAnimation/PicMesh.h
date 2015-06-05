@@ -17,7 +17,7 @@ public:
 	//-----------------------------------------------------------------------------
 	BasicMesh::VertexIter vertices_end()
 	{
-		return VertexIter(*this, VertexHandle(int(n_vertices())));
+		return VertexIter(*this, VertexHandle(int32(n_vertices())));
 	}
 
 	PicMesh(void);
@@ -50,7 +50,7 @@ public:
 
 	// ***********
 	// set w h
-	void SetSize(int w, int h);
+	void SetSize(int32 w, int32 h);
 	// draw color for color model
 
 	// ***********
@@ -76,19 +76,19 @@ public:
 	// blurfacec2
 	void blurFaceC2();
 	
-	int GetLeaveSize(int idx);
+	int32 GetLeaveSize(int32 idx);
 
 	// ***********
 	void SetRegionColor(UcvMat* img);
 
-	void MakeColorX9(int id);
+	void MakeColorX9(int32 id);
 
 
 	void ComputeRegion();
 
-	int GetRegionId(float x, float y);
+	int32 GetRegionId(float x, float y);
 	// save w h
-	int m_w, m_h;
+	int32 m_w, m_h;
 
 	floats		m_RegionAreas;
 	TArray<ULineV2*> m_Lines;

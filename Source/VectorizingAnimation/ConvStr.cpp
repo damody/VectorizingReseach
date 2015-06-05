@@ -49,7 +49,7 @@ std::wstring ConvStr::GetWstr(double number)
 	return std::wstring(data);
 }
 
-std::string ConvStr::GetStr(int number)
+std::string ConvStr::GetStr(int32 number)
 {
 	char data[32];
 	sprintf(data, "%d", number);

@@ -13,7 +13,7 @@ public:
 	//-----------------------------------------------------------------------------
 	BasicMesh::VertexIter vertices_end()
 	{
-		return VertexIter(*this, VertexHandle(int(n_vertices())));
+		return VertexIter(*this, VertexHandle(int32(n_vertices())));
 	}
 
 	RBFMesh(void);

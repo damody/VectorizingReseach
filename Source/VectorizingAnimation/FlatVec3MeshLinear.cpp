@@ -15,7 +15,7 @@ void UFlatVec3MeshLinear::BuildModel()
 	if (Colors.Num() < 10)
 	{
 		FVector sum;
-		for (int i = 0; i < Colors.Num(); i++)
+		for (int32 i = 0; i < Colors.Num(); i++)
 		{
 			sum += Colors[i];
 		}
@@ -24,9 +24,9 @@ void UFlatVec3MeshLinear::BuildModel()
 	else
 	{
 		UTriangulationCgal_SeedPoint triangulation;
-		for (int i = 0; i < Colors.Num(); ++i)
+		for (int32 i = 0; i < Colors.Num(); ++i)
 		{
-			//if(canadd[cluster.at<int>(i, 0)])
+			//if(canadd[cluster.at<int32>(i, 0)])
 			{
 				FVector2D& p = Pos[i];
 				triangulation.AddPointIdx(p[0], p[1], i);

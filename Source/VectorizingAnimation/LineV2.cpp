@@ -5,7 +5,7 @@
 
 void ULineV2::Move(FVector2D vec)
 {
-	for (int i = 0; i < pts.Num(); ++i)
+	for (int32 i = 0; i < pts.Num(); ++i)
 	{
 		pts[i] += vec;
 	}
@@ -39,7 +39,7 @@ ULineV2* ULineV2::GetLine_Array(TArray<FVector2D> line)
 TArray<ULineV2*> ULineV2::GetLines(const CvLines& lines, float mx, float my)
 {
 	TArray<ULineV2*> res;
-	for (int i = 0; i < lines.size(); ++i)
+	for (int32 i = 0; i < lines.size(); ++i)
 	{
 		res.Push(GetLine(lines[i]));
 	}

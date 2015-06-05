@@ -615,7 +615,7 @@ TArray<FVector2D> ULineFunction::SmoothingEach5(const TArray<FVector2D>& cvp, fl
                 centroids.Add((cps[j] + cps[j + 1] + cps[j - 1] + cps[j + 2] +
                                cps[j - 2]) / 5.0f);
             }
-            int32 last = (int)cps.Num() - 1;
+            int32 last = (int32)cps.Num() - 1;
             newcps.Add((cps[last] + cps[last - 1] * 2 + cps[last - 2]) * 0.25);
             centroids.Add((cps[last] + cps[last - 1] + cps[last - 2]) / 3.0f);
             newcps.Add(cps.Last());
@@ -626,7 +626,7 @@ TArray<FVector2D> ULineFunction::SmoothingEach5(const TArray<FVector2D>& cvp, fl
             FVector2D cert = (cps[0] + cps[1] + cps[2]) / 3.0f;
             cert = centroids[0] - cert;
             newcps.Add(cps[1] + cert);
-            for(int32 j = 2; j < (int)cps.Num() - 2; j++)
+            for(int32 j = 2; j < (int32)cps.Num() - 2; j++)
             {
                 FVector2D nowCentroid = (cps[j] + cps[j + 1] + cps[j - 1] + cps[j + 2] +
                                          cps[j - 2]) / 5.0f;
@@ -819,7 +819,7 @@ TArray<float> ULineFunction::ConvertToAngle(const TArray<float>& data, float zer
         ans.Push(angle);
     }
     {
-        int32 last = (int)data.Num() - 2;
+        int32 last = (int32)data.Num() - 2;
         float dy = tmp[last - 1] - tmp[last - 3];
         float angle = atan2(3, dy) * M_1_PI * 180 + zero;
         ans.Push(angle);
@@ -983,14 +983,14 @@ TArray<FVector2D> ULineFunction::FixWidthLine(const TArray<FVector2D>& cvp, int3
     FVector2Ds newcps;
     newcps.Insert(&cps[0], range, 0);
     FVector2D sum;
-    int cc = 0;
-    for(int j = range; j < cps.Num() - range; j++)
+    int32 cc = 0;
+    for(int32 j = range; j < cps.Num() - range; j++)
     {
         cc++;
         sum += cps[j];
     }
     sum /= cc;
-    for(int j = range; j < cps.Num() - range; j++)
+    for(int32 j = range; j < cps.Num() - range; j++)
     {
         newcps.Push(sum);
     }
@@ -1019,13 +1019,13 @@ TArray<FVector2D> ULineFunction::SmoothingEach5Skip0(const TArray<FVector2D>& cv
     }
 
     TArray<FVector2D> newcps;
-    for(int repeatCount = 0; repeatCount < repeat; repeatCount++)
+    for(int32 repeatCount = 0; repeatCount < repeat; repeatCount++)
     {
         newcps.Reset();
         if(cps.Num() <= 5)
         {
             newcps.Push(cps[0]);
-            for(int j = 1; j < cps.Num() - 1; j++)
+            for(int32 j = 1; j < cps.Num() - 1; j++)
             {
                 auto vec = (cps[j] * 2 + cps[j + 1] + cps[j - 1]) * 0.25;
                 newcps.Push(vec);
@@ -1037,12 +1037,12 @@ TArray<FVector2D> ULineFunction::SmoothingEach5Skip0(const TArray<FVector2D>& cv
         {
             newcps.Push(cps[0] * 0.8);
             newcps.Push((cps[0] + cps[1] * 2 + cps[2]) * 0.25);
-            for(int j = 2; j < cps.Num() - 2; j++)
+            for(int32 j = 2; j < cps.Num() - 2; j++)
             {
                 if(cps[j].X > 0)
                 {
-                    int zero = 0;
-                    for(int k = j - 2; k <= j + 2; ++k)
+                    int32 zero = 0;
+                    for(int32 k = j - 2; k <= j + 2; ++k)
                     {
                         if(cps[k].X < 0.01)
                         {
@@ -1058,7 +1058,7 @@ TArray<FVector2D> ULineFunction::SmoothingEach5Skip0(const TArray<FVector2D>& cv
                     newcps.Push(FVector2D());
                 }
             }
-            int last = cps.Num() - 1;
+            int32 last = cps.Num() - 1;
             newcps.Push((cps[last] + cps[last - 1] * 2 + cps[last - 2]) * 0.25);
             newcps.Push(cps.Last() * 0.8);
             cps = newcps;
@@ -1104,6 +1104,81 @@ TArray<ULineWidth*> ULineFunction::GetLineWidth_Array(const TArray<ULineV2*>& li
 		res.Add(tmp);
     }
     return res;
+}
+
+ULineV2 * ULineFunction::MakeBoundaryLines_LineV2(UcvMat* img)
+{
+	ULineV2* res = NewObject<ULineV2>();
+	res->pts.Add(FVector2D(0, 0));
+	res->pts.Add(FVector2D(img->Width(), 0));
+	res->pts.Add(FVector2D(img->Width(), img->Height()));
+	res->pts.Add(FVector2D(0, img->Height()));
+	res->pts.Add(FVector2D(0, 0));
+	return res;
+}
+
+TArray<UIntsDuplex*> ULineFunction::GetIndexDuplexFromCvMat(TArray<ULineV2*> lines, UcvMat* img)
+{
+	TArray<ULineV2*> normals = GetNormalsLen2_Array(lines);
+	TArray<UIntsDuplex*> ans;
+	for (int32 i = 0; i < lines.Num(); ++i)
+	{
+		UIntsDuplex* nDuplex = NewObject<UIntsDuplex>();
+		ULineV2& nowline = *lines[i];
+		nDuplex->left.Reset(nowline.Num());
+		nDuplex->right.Reset(nowline.Num());
+		for (int32 j = 0; j < nowline.Num(); ++j)
+		{
+			FVector2D pos;
+			if (j == 0)
+			{
+				pos = (nowline[0] + nowline[1]) * 0.5;
+			}
+			else
+			{
+				pos = (nowline[j - 1] + nowline[j]) * 0.5;
+			}
+			pos.X = floor(pos.X);
+			pos.Y = floor(pos.Y);
+			int32 vx = -(*normals[i])[j].X;
+			if (vx < 0)
+			{
+				pos.X -= 1;
+			}
+			int32 vy = -(*normals[i])[j].Y;
+			if (vy < 0)
+			{
+				pos.Y -= 1;
+			}
+			nDuplex->left[j] = img->GetIndex(pos.X, pos.Y);
+		}
+		for (int32 j = 0; j < nowline.Num(); ++j)
+		{
+			FVector2D pos;
+			if (j == 0)
+			{
+				pos = (nowline[0] + nowline[1]) * 0.5;
+			}
+			else
+			{
+				pos = (nowline[j - 1] + nowline[j]) * 0.5;
+			}
+			pos.X = floor(pos.X);
+			pos.Y = floor(pos.Y);
+			int32 vx = (*normals[i])[j].X;
+			if (vx < 0)
+			{
+				pos.X -= 1;
+			}
+			int32 vy = (*normals[i])[j].Y;
+			if (vy < 0)
+			{
+				pos.Y -= 1;
+			}
+			nDuplex->right[j] = img->GetIndex(pos.X, pos.Y);
+		}
+	}
+	return ans;
 }
 
 ULineWidth* ULineFunction::GetLineWidth(const ULineV2* lines, const ULineV2* lws)

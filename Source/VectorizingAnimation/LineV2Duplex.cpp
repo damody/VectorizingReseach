@@ -5,11 +5,11 @@
 
 void ULineV2Duplex::Move(FVector2D vec)
 {
-	for (int i = 0; i < left.Num(); ++i)
+	for (int32 i = 0; i < left.Num(); ++i)
 	{
 		left[i] += vec;
 	}
-	for (int i = 0; i < right.Num(); ++i)
+	for (int32 i = 0; i < right.Num(); ++i)
 	{
 		right[i] += vec;
 	}

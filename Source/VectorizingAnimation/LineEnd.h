@@ -30,7 +30,7 @@ public:
 	FVector2D end;
 	// angleBeg is p[0]-p[2]
 	// angleEnd is p[last]-p[last-2]
-	int idx, len;
+	int32 idx, len;
 	double angleBeg, angleEnd;
 	ULineEnd* beglink;
 	ULineEnd* endlink;

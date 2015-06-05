@@ -36,14 +36,14 @@ FVector2D ULineWidthFlatPolynomial::Interpolate(float dis)
 void ULineWidthFlatPolynomial::BuildModel()
 {
     NeedBuildModel = false;
-    const int LEN = Widths1.Num();
-    const int DIM = 5;
+    const int32 LEN = Widths1.Num();
+    const int32 DIM = 5;
     MatrixXd A(LEN, DIM), At, Ata;
     VectorXd b1(LEN), Atb1;
     VectorXd b2(LEN), Atb2;
-    int c = 0;
+    int32 c = 0;
 	float len = 0;
-    for(int i = 0; i < Widths1.Num(); ++i)
+    for(int32 i = 0; i < Widths1.Num(); ++i)
     {
         if(i != 0)
         {

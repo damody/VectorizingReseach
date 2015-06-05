@@ -99,7 +99,7 @@ public:
 #endif
 	{
 		// Add each triangle to the vertex/index buffer
-		for (int TriIdx = 0; TriIdx < Component->ProceduralMeshTris.Num(); TriIdx++)
+		for (int32 TriIdx = 0; TriIdx < Component->ProceduralMeshTris.Num(); TriIdx++)
 		{
 			FProceduralMeshTriangle& Tri = Component->ProceduralMeshTris[TriIdx];
 

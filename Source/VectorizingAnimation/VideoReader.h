@@ -51,19 +51,19 @@ public:
 private:
 	bool Open(std::string ss);
 	void Close();
-	cv::Mat _GetFrame(AVFrame *pFrame, int width, int height);
+	cv::Mat _GetFrame(AVFrame *pFrame, int32 width, int32 height);
 	bool	m_HasRead;
 	std::string m_Path;
 	AVFormatContext *m_pFormatCtx;
-	int             m_videoStream;
+	int32             m_videoStream;
 	AVCodecContext  *m_pCodecCtx;
 	AVCodec         *m_pCodec;
 	AVFrame         *m_pFrame;
 	AVFrame         *m_pFrameRGB;
 	AVPacket        m_packet;
-	int             m_frameFinished;
-	int             m_numBytes;
-	int				m_frameCount;
-	int				m_current;
+	int32             m_frameFinished;
+	int32             m_numBytes;
+	int32				m_frameCount;
+	int32				m_current;
 	uint8_t         *m_buffer;
 };

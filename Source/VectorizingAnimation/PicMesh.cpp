@@ -25,9 +25,9 @@ PicMesh::~PicMesh(void)
 
 void PicMesh::ReadFromSideline(UTriangulationCgal_Sideline* ts)
 {
-	m_Lines = ULineV2::CloneArray(ts->m_Lines);
-	m_i2s = UIntsDuplex::CloneArray(ts->m_i2s);
-	m_ColorConstraint = UFlatVec3MeshLinear::CloneArray(ts->m_ColorConstraint);
+	m_Lines = ULineV2::CloneArray(ts->LinesPos);
+	m_i2s = UIntsDuplex::CloneArray(ts->DuplexIndexs);
+	m_ColorConstraint = UFlatVec3MeshLinear::CloneArray(ts->ColorModels);
     UTriangulationCgal_Sideline::Finite_vertices_iterator vc;
     UTriangulationCgal_Sideline::Finite_faces_iterator fc;
     vc = ts->m_Triangulation.finite_vertices_begin();
@@ -857,10 +857,10 @@ void PicMesh::BuildColorModels(UcvMat* img)
 void PicMesh::BuildColorModels()
 {
 	// mark boundary constraint
-	for (int i = 0; i < m_LinesHH.size(); ++i)
+	for (int32 i = 0; i < m_LinesHH.size(); ++i)
 	{
 		HHandles& nowhh = m_LinesHH[i];
-		for (int j = 0; j < nowhh.size(); ++j)
+		for (int32 j = 0; j < nowhh.size(); ++j)
 		{
 			data(edge_handle(nowhh[j])).constraint = true;
 		}
@@ -874,9 +874,9 @@ void PicMesh::BuildColorModels()
 		}
 	}
 	// mark constraint point
-	for (int i = 0; i < m_LinesVH.size(); ++i)
+	for (int32 i = 0; i < m_LinesVH.size(); ++i)
 	{
-		for (int j = 0; j < m_LinesVH[i].size(); ++j)
+		for (int32 j = 0; j < m_LinesVH[i].size(); ++j)
 		{
 			data(m_LinesVH[i][j]).constraint = 1;
 			data(m_LinesVH[i][j]).lineid = i;
@@ -888,12 +888,12 @@ void PicMesh::BuildColorModels()
 		data(*vit).use = false;
 	}
 	m_ColorConstraint.Reset();
-	for (int i = 0; i < m_Regions.size(); ++i)
+	for (int32 i = 0; i < m_Regions.size(); ++i)
 	{
 		m_ColorConstraint.Add(NewObject<UFlatVec3MeshLinear>());
 		UFlatVec3MeshLinear& cc = *m_ColorConstraint.Last();
 		FHandles& region = m_Regions[i];
-		for (int j = 0; j < region.size(); ++j)
+		for (int32 j = 0; j < region.size(); ++j)
 		{
 			if (data(region[j]).c2 != FVector())
 			{
@@ -1372,7 +1372,7 @@ int32 PicMesh::GetRegionId(float x, float y)
 void PicMesh::ComputeRegion()
 {
 	m_RegionAreas.SetNumZeroed(m_Regions.size());
-	for (int i = 0; i < m_Regions.size(); ++i)
+	for (int32 i = 0; i < m_Regions.size(); ++i)
 	{
 		m_RegionAreas[i] = m_Regions[i].size();
 	}

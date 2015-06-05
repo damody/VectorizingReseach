@@ -23,7 +23,7 @@ void RBFMesh::ReadFromSeedpoint(UTriangulationCgal_SeedPoint* ts, TArray<FVector
     UTriangulationCgal_SeedPoint::Finite_vertices_iterator vc;
     UTriangulationCgal_SeedPoint::Finite_faces_iterator fc;
     vc = ts->TriangulationData.finite_vertices_begin();
-    int i = 0;
+    int32 i = 0;
     for(; vc != ts->TriangulationData.finite_vertices_end(); ++vc)
     {
         BasicMesh::Point p(vc->point()[0], vc->point()[1], 0);
@@ -48,8 +48,8 @@ FVector RBFMesh::GetColor(float x, float y)
     BasicMesh::Point now(x, y, 0);
     BasicMesh::VHandle findvh = *(vertices_begin());
     float mindis = (point(findvh) - now).sqrnorm();
-    int minidx = 0;
-    int ii = 0;
+    int32 minidx = 0;
+    int32 ii = 0;
 
     for(ii = 0; minidx >= 0; ++ii)
     {
@@ -88,7 +88,7 @@ FVector RBFMesh::GetColor(float x, float y)
         }
     }
     sum = 1 / sum;
-    for(int i = 0; i < diss.Num(); ++i)
+    for(int32 i = 0; i < diss.Num(); ++i)
     {
         diss[i] *= sum;
     }
@@ -109,8 +109,8 @@ FVector RBFMesh::GetColor2Point(float x1, float y1, float x2, float y2)
     BasicMesh::Point now((x1 + x2 * 2) * 0.333, (y1 + y2 * 2) * 0.333, 0);
     BasicMesh::VHandle findvh = *(vertices_begin());
     float mindis = (point(findvh) - now).sqrnorm();
-    int minidx = 0;
-    int ii = 0;
+    int32 minidx = 0;
+    int32 ii = 0;
 
     for(ii = 0; minidx >= 0; ++ii)
     {
@@ -138,7 +138,7 @@ void RBFMesh::lightblurC2()
     {
         if(data(*vit).constraint == 0)
         {
-            int count = 1;
+            int32 count = 1;
             FVector blur = data(*vit).c;
             for(VVIter vv_itr = vv_iter(*vit) ; vv_itr.is_valid(); ++vv_itr)
             {
@@ -187,7 +187,7 @@ void RBFMesh::blurC2()
     {
         if(data(*vit).constraint == 0)
         {
-            int count = 1;
+            int32 count = 1;
             FVector blur = data(*vit).c2;
             for(VVIter vv_itr = vv_iter(*vit) ; vv_itr.is_valid(); ++vv_itr)
             {

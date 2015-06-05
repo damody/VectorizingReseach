@@ -43,7 +43,7 @@ public:
 		return pts;
 	}
 
-	int32 Num()
+	int32 Num() const
 	{
 		return pts.Num();
 	}

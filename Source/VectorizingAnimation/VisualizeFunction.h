@@ -14,7 +14,7 @@ UCLASS()
 class VECTORIZINGANIMATION_API UVisualizeFunction : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-
+public:
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Visualize")
 	static void DrawLines(FVector center, TArray<ULineV2*> lines);
 	

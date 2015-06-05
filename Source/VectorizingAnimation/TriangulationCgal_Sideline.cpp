@@ -2,12 +2,12 @@
 #include "VectorizingAnimation.h"
 #include "TriangulationCgal_Sideline.h"
 
-void UTriangulationCgal_Sideline::AddPoint(double x, double y)
+void UTriangulationCgal_Sideline::AddPoint(float x, float y)
 {
     m_SeedPoints.push_back(Point(x, y));
 }
 
-int UTriangulationCgal_Sideline::Compute()
+int32 UTriangulationCgal_Sideline::Compute()
 {
     m_Triangulation.clear();
     Vertex_handles vhs;
@@ -34,10 +34,10 @@ int UTriangulationCgal_Sideline::Compute()
     //mesher.mark_facets();
     mesher.refine_mesh();
     mark_domains2(m_Triangulation);
-	for (int i = 0; i < m_Lines.Num(); ++i)
+	for (int32 i = 0; i < LinesPos.Num(); ++i)
     {
-        ULineV2& line = *m_Lines[i];
-        for(int j = 0; j < line.Num(); ++j)
+        ULineV2& line = *LinesPos[i];
+        for(int32 j = 0; j < line.Num(); ++j)
         {
             Point now(line[j].X, line[j].Y);
             CTriangulation::Vertex_handle vh = m_Triangulation.nearest_vertex(now);
@@ -60,13 +60,13 @@ void UTriangulationCgal_Sideline::Clear()
 void UTriangulationCgal_Sideline::Insert_lines(CTriangulation& cdt)
 {
     Point last;
-	for (int i = 0; i < m_Lines.Num(); ++i)
+	for (int32 i = 0; i < LinesPos.Num(); ++i)
     {
-        ULineV2& line = *m_Lines[i];
+        ULineV2& line = *LinesPos[i];
         last = Point(line[0].X, line[0].Y);
         Point start = last;
         CTriangulation::Vertex_handle v_prev  = cdt.insert(last);
-        for(int j = 0; j < line.Num(); ++j)
+        for(int32 j = 0; j < line.Num(); ++j)
         {
             Point now(line[j].X, line[j].Y);
             if(now != last)
@@ -81,14 +81,14 @@ void UTriangulationCgal_Sideline::Insert_lines(CTriangulation& cdt)
     }
 }
 
-void UTriangulationCgal_Sideline::SetSize(int w, int h)
+void UTriangulationCgal_Sideline::SetSize(int32 w, int32 h)
 {
     m_w = w;
     m_h = h;
 }
 
-void    UTriangulationCgal_Sideline::mark_domains2(CTriangulation& ct, CTriangulation::Face_handle start, int index,
-        std::list<CTriangulation::Edge>& border, int color_label)
+void    UTriangulationCgal_Sideline::mark_domains2(CTriangulation& ct, CTriangulation::Face_handle start, int32 index,
+        std::list<CTriangulation::Edge>& border, int32 color_label)
 {
     if(start->info().nesting_level != TRIANGLE_NOT_INIT)
     {
@@ -104,7 +104,7 @@ void    UTriangulationCgal_Sideline::mark_domains2(CTriangulation& ct, CTriangul
         {
             fh->info().nesting_level = index;
             fh->info().color_label = color_label;
-            for(int i = 0; i < 3; i++)
+            for(int32 i = 0; i < 3; i++)
             {
                 CTriangulation::Edge e(fh, i);
                 CTriangulation::Face_handle n = fh->neighbor(i);
@@ -124,14 +124,14 @@ void    UTriangulationCgal_Sideline::mark_domains2(CTriangulation& ct, CTriangul
     }
 }
 
-int UTriangulationCgal_Sideline::mark_domains2(CTriangulation& cdt)
+int32 UTriangulationCgal_Sideline::mark_domains2(CTriangulation& cdt)
 {
     for(CTriangulation::All_faces_iterator it = cdt.all_faces_begin(); it != cdt.all_faces_end(); ++it)
     {
         it->info().nesting_level = TRIANGLE_NOT_INIT;
     }
-    int cc = 0;
-    int index = 1;
+    int32 cc = 0;
+    int32 index = 1;
     std::list<CTriangulation::Edge> border;
     Finite_faces_iterator fc = m_Triangulation.finite_faces_begin();
     for(; fc != m_Triangulation.finite_faces_end(); ++fc)
@@ -160,7 +160,7 @@ int UTriangulationCgal_Sideline::mark_domains2(CTriangulation& cdt)
 
 void UTriangulationCgal_Sideline::MakeColorSequential()
 {
-    m_Triangles.Reset();
+    ColorTriangleDatas.Reset();
 	FColorTriData t;
     Finite_faces_iterator fc = m_Triangulation.finite_faces_begin();
     for(; fc != m_Triangulation.finite_faces_end(); ++fc)
@@ -171,7 +171,7 @@ void UTriangulationCgal_Sideline::MakeColorSequential()
             t.p[0] = FVector2D(fc->vertex(0)->point()[0], fc->vertex(0)->point()[1]);
             t.p[1] = FVector2D(fc->vertex(1)->point()[0], fc->vertex(1)->point()[1]);
             t.p[2] = FVector2D(fc->vertex(2)->point()[0], fc->vertex(2)->point()[1]);
-            int label = fc->info().color_label;
+            int32 label = fc->info().color_label;
             FVector vm;
             vm.X = label % 255;
             vm.Y = (label / 255) % 255;
@@ -179,25 +179,25 @@ void UTriangulationCgal_Sideline::MakeColorSequential()
 			t.c[0] = vm;
 			t.c[1] = vm;
 			t.c[2] = vm;
-            m_Triangles.Add(t);
+            ColorTriangleDatas.Add(t);
         }
     }
 }
 
 void UTriangulationCgal_Sideline::AddLines(const TArray<ULineV2*>& is)
 {
-    m_Lines.Append(is);
+    LinesPos.Append(is);
 }
 
 void UTriangulationCgal_Sideline::SetColor(const TArray<UFlatVec3MeshLinear*>& colors)
 {
-	m_ColorConstraint = UFlatVec3MeshLinear::CloneArray(colors);
+	ColorModels = UFlatVec3MeshLinear::CloneArray(colors);
 }
 
 void UTriangulationCgal_Sideline::MakeColorByModel()
 {
 	FColorTriData t;
-	m_Triangles.Reset();
+	ColorTriangleDatas.Reset();
 	Finite_faces_iterator fc;
 	fc = m_Triangulation.finite_faces_begin();
 	for(; fc != m_Triangulation.finite_faces_end(); ++fc)
@@ -207,14 +207,14 @@ void UTriangulationCgal_Sideline::MakeColorByModel()
 			t.p[0] = FVector2D(fc->vertex(0)->point()[0], fc->vertex(0)->point()[1]);
 			t.p[1] = FVector2D(fc->vertex(1)->point()[0], fc->vertex(1)->point()[1]);
 			t.p[2] = FVector2D(fc->vertex(2)->point()[0], fc->vertex(2)->point()[1]);
-			int idx = fc->info().color_label;
-			if(idx >= 0 && idx < m_ColorConstraint.Num())
+			int32 idx = fc->info().color_label;
+			if(idx >= 0 && idx < ColorModels.Num())
 			{
-				t.c[0] = m_ColorConstraint[idx]->GetColor(t.p[0].X, t.p[0].Y);
-				t.c[1] = m_ColorConstraint[idx]->GetColor(t.p[1].X, t.p[1].Y);
-				t.c[2] = m_ColorConstraint[idx]->GetColor(t.p[2].X, t.p[2].Y);
+				t.c[0] = ColorModels[idx]->GetColor(t.p[0].X, t.p[0].Y);
+				t.c[1] = ColorModels[idx]->GetColor(t.p[1].X, t.p[1].Y);
+				t.c[2] = ColorModels[idx]->GetColor(t.p[2].X, t.p[2].Y);
 			}
-			m_Triangles.Add(t);
+			ColorTriangleDatas.Add(t);
 		}
 	}
 }
