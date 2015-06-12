@@ -72,12 +72,12 @@ bool AVideoReader::Open(std::string ss)
 	{
 		return false;
 	}
-	m_pFrame = avcodec_alloc_frame();
+	m_pFrame = av_frame_alloc();
 	if (m_pFrame == NULL)
 	{
 		return false;
 	}
-	m_pFrameRGB = avcodec_alloc_frame();
+	m_pFrameRGB = av_frame_alloc();
 	if (m_pFrameRGB == NULL)
 	{
 		return false;

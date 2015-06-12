@@ -570,7 +570,8 @@ TArray<ULineEnd*> ULineFunction::GetLineEnds(const TArray<ULineV2*>& cvp)
         }
         float angle1 = fmod(360 + atan2(p1.X, p1.Y) * M_1_PI * 180, 360);
         float angle2 = fmod(360 + atan2(p2.X, p2.Y) * M_1_PI * 180, 360);
-        ans.Add(NewObject<ULineEnd>(new ULineEnd(nowLine[0], nowLine.Last(), i, last, angle1, angle2)));
+		ans.Add(NewObject<ULineEnd>());
+		ans.Last()->Set(nowLine[0], nowLine.Last(), i, last, angle1, angle2);
     }
     return ans;
 }

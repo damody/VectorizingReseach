@@ -15,7 +15,7 @@ UcvMatFactory::UcvMatFactory(const FObjectInitializer& ObjectInitializer)
 
 UObject* UcvMatFactory::FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn)
 {
-	UcvMat* NewObjectAsset = ConstructObject<UcvMat>(Class, InParent, Name, Flags | RF_Transactional);
+	UcvMat* NewObjectAsset = NewObject<UcvMat>(InParent, Class, Name, Flags | RF_Transactional);
 	return NewObjectAsset;
 }
 

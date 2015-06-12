@@ -38,8 +38,20 @@ public:
 	TArray<int32> endlinks;
 	bool haslink1, haslink2;
 	ULineEnd(){}
-	ULineEnd(const FVector2D& p1, const FVector2D& p2, int32 i1, int32 i2, float a1, float a2)
-		: beg(p1), end(p2), idx(i1), len(i2), angleBeg(a1), angleEnd(a2),
-		linkIdx1(0), linkIdx2(0), beglink(0), endlink(0), haslink1(0), haslink2(0) {}
+	FORCEINLINE void Set(const FVector2D& p1, const FVector2D& p2, int32 i1, int32 i2, float a1, float a2)
+	{
+		beg = (p1);
+		end = (p2);
+		idx = (i1);
+		len = (i2);
+		angleBeg = (a1);
+		angleEnd = (a2);
+		linkIdx1 = (0);
+		linkIdx2 = (0);
+		beglink = (0);
+		endlink = (0);
+		haslink1 = (0);
+		haslink2 = (0);
+	}
 		
 };

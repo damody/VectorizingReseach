@@ -308,7 +308,9 @@ TArray<UcvMat*> UcvMat::MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Vide
 					}
 				}
 			}
-			timgs.Add(NewObject<UcvMat>(new UcvMat(timg)));
+			UcvMat* filler = NewObject<UcvMat>();
+			filler->pic = timg;
+			timgs.Add(filler);
  		}
 		cv::Mat meanimg;
 		meanimg = timgs[0]->pic.clone();

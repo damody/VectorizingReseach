@@ -15,7 +15,7 @@ UVectorizingDataFactory::UVectorizingDataFactory(const FObjectInitializer& Objec
 
 UObject* UVectorizingDataFactory::FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn)
 {
-	UVectorizingData* NewObjectAsset = ConstructObject<UVectorizingData>(Class, InParent, Name, Flags | RF_Transactional);
+	UVectorizingData* NewObjectAsset = NewObject<UVectorizingData>(InParent, Class, Name, Flags | RF_Transactional);
 	return NewObjectAsset;
 }
 

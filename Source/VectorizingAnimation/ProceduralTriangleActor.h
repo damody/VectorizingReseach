@@ -22,6 +22,12 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Materials)
 	FString MeshPath;
 
+	UPROPERTY( Category=Location, EditAnywhere )
+	uint32 bUseOffset : 1;
+
+	UPROPERTY(Category = Location, EditAnywhere, meta = (EditCondition = "bUseOffset"))
+	FVector Offset;
+
 	UFUNCTION(BlueprintCallable, Category = "Procedural")
 	void SetMaterial(UMaterialInterface* umi);
 

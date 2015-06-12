@@ -49,7 +49,7 @@ TArray<UcvMat*> AAssetHandlerActor::GetWorkCVMat(FString path, FString outpath)
                 PackageName += name;
                 UPackage* Package = CreatePackage(NULL, *PackageName);
 
-                UcvMat* NewAsset = NewNamedObject<UcvMat>(Package, FName("CvMat"), RF_Public);
+				UcvMat* NewAsset = NewObject<UcvMat>(Package, FName("CvMat"), RF_Public);
                 if(NewAsset != NULL)
                 {
                     // Fill in the assets data here
