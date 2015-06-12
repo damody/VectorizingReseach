@@ -59,7 +59,7 @@ TArray<UFlatVec3MeshLinear*> UFlatVec3MeshLinear::CloneArray(const TArray<UFlatV
 	return res;
 }
 
-FVector UFlatVec3MeshLinear::GetColor2Point(float x1, float y1, double x2, double y2)
+FVector UFlatVec3MeshLinear::GetColor2Point(float x1, float y1, float x2, float y2)
 {
 	if (NeedBuildModel)
 	{

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/MeshComponent.h"
-#include "ProceduralMeshComponent.generated.h"
+#include "ProceduralMeshComponentX.generated.h"
 
 USTRUCT(BlueprintType)
 struct FProceduralMeshVertex
@@ -35,7 +35,7 @@ struct FProceduralMeshTriangle
 
 /** Component that allows you to specify custom triangle mesh geometry */
 UCLASS(editinlinenew, meta = (BlueprintSpawnableComponent), ClassGroup = Rendering)
-class UProceduralMeshComponent : public UMeshComponent, public IInterface_CollisionDataProvider
+class UProceduralMeshComponentX : public UMeshComponent, public IInterface_CollisionDataProvider
 {
     GENERATED_UCLASS_BODY()
 

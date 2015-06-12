@@ -5,7 +5,7 @@
 AProceduralTriangleActor::AProceduralTriangleActor(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	mesh = PCIP.CreateDefaultSubobject<UProceduralMeshComponent>(this, TEXT("ProceduralTriangle"));
+	mesh = PCIP.CreateDefaultSubobject<UProceduralMeshComponentX>(this, TEXT("ProceduralTriangle"));
 	// Apply a simple material directly using the VertexColor as its BaseColor input
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> Material(TEXT("Material'/Game/BaseColor'"));
 	//mesh->SetMaterial(0, Material.Object);

@@ -1010,7 +1010,7 @@ TArray<ULineV2*> ULineFunction::FixWidthLine_Array(const TArray<ULineV2*>& cvp, 
     return res;
 }
 
-TArray<FVector2D> ULineFunction::SmoothingEach5Skip0(const TArray<FVector2D>& cvp, double centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
+TArray<FVector2D> ULineFunction::SmoothingEach5Skip0(const TArray<FVector2D>& cvp, float centroidRadio /*= 1.0*/, int32 repeat /*= 1*/)
 {
     TArray<FVector2D> cps = cvp;
     if(cvp.Num() <= 2)

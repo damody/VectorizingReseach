@@ -26,7 +26,7 @@ public:
 	FVector GetColor(float x, float y);
 
 	UFUNCTION(BlueprintCallable, Category = "MathModel")
-	FVector GetColor2Point(float x1, float y1, double x2, double y2);
+	FVector GetColor2Point(float x1, float y1, float x2, float y2);
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MathModel")
 	FVector ColorAverage;

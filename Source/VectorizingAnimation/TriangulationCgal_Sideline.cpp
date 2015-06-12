@@ -184,6 +184,11 @@ void UTriangulationCgal_Sideline::MakeColorSequential()
     }
 }
 
+UTriangulationCgal_Sideline* UTriangulationCgal_Sideline::CreateTriangulationCgal_SidelineInstance()
+{
+	return NewObject<UTriangulationCgal_Sideline>();
+}
+
 void UTriangulationCgal_Sideline::AddLines(const TArray<ULineV2*>& is)
 {
     LinesPos.Append(is);

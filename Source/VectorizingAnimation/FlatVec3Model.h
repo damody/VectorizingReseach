@@ -13,10 +13,10 @@ class VECTORIZINGANIMATION_API UFlatVec3Model : public UObject
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "AddPoint (float)"), Category = "MathModel")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddPoint (float)"), Category = "MathModel")
 	virtual void AddPoint(float x, float y, FVector c);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "AddPoint (Vector2D)"), Category = "MathModel")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "AddPoint (Vector2D)"), Category = "MathModel")
 	virtual void AddPoint_V2D(FVector2D pos, FVector c);
 	
 	virtual void BuildModel() PURE_VIRTUAL(UFlatVec3Model::BuildModel, return;);

@@ -42,34 +42,34 @@ public:
 
     // smoothing part
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5 (Vector2D array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach5 (Vector2D array)"), Category = "Line")
     static TArray<FVector2D>   SmoothingEach5(const TArray<FVector2D>& data, float centroidRadio = 1.0f, int32 repeat = 1);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach3 (Vector2D array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach3 (Vector2D array)"), Category = "Line")
     static TArray<FVector2D>   SmoothingEach3(const TArray<FVector2D>& data, float centroidRadio = 1.0f, int32 repeat = 1);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5 (LineV2)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach5 (LineV2)"), Category = "Line")
     static ULineV2 *    SmoothingEach5_LineV2(const ULineV2* ul, float centroidRadio = 1.0f, int32 repeat = 1);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach3 (LineV2)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach3 (LineV2)"), Category = "Line")
     static ULineV2 *    SmoothingEach3_LineV2(const ULineV2* ul, float centroidRadio = 1.0f, int32 repeat = 1);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5 (LineV2 array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach5 (LineV2 array)"), Category = "Line")
     static TArray<ULineV2*>   SmoothingEach5_Array(const TArray<ULineV2*>& data, float centroidRadio = 1.0, int32 repeat = 1);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach3 (LineV2 array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach3 (LineV2 array)"), Category = "Line")
     static TArray<ULineV2*>   SmoothingEach3_Array(const TArray<ULineV2*>& data, float centroidRadio = 1.0, int32 repeat = 1);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "SmoothingEach5Skip0 (Vector2D array)"), Category = "Line")
-	static TArray<FVector2D>   SmoothingEach5Skip0(const TArray<FVector2D>& data, double centroidRadio = 1.0, int32 repeat = 1);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "SmoothingEach5Skip0 (Vector2D array)"), Category = "Line")
+	static TArray<FVector2D>   SmoothingEach5Skip0(const TArray<FVector2D>& data, float centroidRadio = 1.0, int32 repeat = 1);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetNormalsLen2 (Vector2D array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetNormalsLen2 (Vector2D array)"), Category = "Line")
     static TArray<FVector2D> GetNormalsLen2(TArray<FVector2D> data);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetNormalsLen2 (LineV2)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetNormalsLen2 (LineV2)"), Category = "Line")
     static ULineV2 * GetNormalsLen2_LineV2(const ULineV2* ul);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetNormalsLen2 (LineV2 array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetNormalsLen2 (LineV2 array)"), Category = "Line")
     static TArray<ULineV2*> GetNormalsLen2_Array(TArray<ULineV2*> data);
 
     UFUNCTION(BlueprintCallable, Category = "Line")
@@ -90,31 +90,31 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Line")
     static float  GetLineWidthPercent(const TArray<FVector2D>& data);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "FixWidthLine (Vector2D array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "FixWidthLine (Vector2D array)"), Category = "Line")
     static TArray<FVector2D> FixWidthLine(const TArray<FVector2D>& aLine, int32 range);
 
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "FixWidthLine (LineV2)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "FixWidthLine (LineV2)"), Category = "Line")
     static ULineV2 * FixWidthLine_LineV2(const ULineV2* uline, int32 range);
 	
-    UFUNCTION(BlueprintCallable, meta = (FriendlyName = "FixWidthLine (LineV2 Array)"), Category = "Line")
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "FixWidthLine (LineV2 Array)"), Category = "Line")
     static TArray<ULineV2*> FixWidthLine_Array(const TArray<ULineV2*>& data, int32 range);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLinesColor (LineV2)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetLinesColor (LineV2)"), Category = "Line")
 	static ULineV3* GetLinesColor_LineV2(UcvMat* img, const ULineV2* lines);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLinesColor (LineV2 Array)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetLinesColor (LineV2 Array)"), Category = "Line")
 	static TArray<ULineV3*> GetLinesColor_Array(UcvMat* img, const TArray<ULineV2*>& lines);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLineWidth (LineV2)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetLineWidth (LineV2)"), Category = "Line")
 	static ULineWidth* GetLineWidth(const ULineV2* lines, const ULineV2* lws);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLineWidth (LineV2 Array)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetLineWidth (LineV2 Array)"), Category = "Line")
 	static TArray<ULineWidth*> GetLineWidth_Array(const TArray<ULineV2*>& lines, const TArray<ULineV2*>& lws);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "MakeBoundaryLines (LineV2)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "MakeBoundaryLines (LineV2)"), Category = "Line")
 	static ULineV2 * MakeBoundaryLines_LineV2(UcvMat* img);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetIndexDuplexFromCvMat (LineV2 Array)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetIndexDuplexFromCvMat (LineV2 Array)"), Category = "Line")
 	static TArray<UIntsDuplex*> GetIndexDuplexFromCvMat(TArray<ULineV2*> lines, UcvMat* img);
 
     FORCEINLINE static bool CheckAngle(float a1, float a2, float limitA)

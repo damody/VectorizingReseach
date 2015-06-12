@@ -4,7 +4,7 @@
 
 #include "Object.h"
 #include "TriangulationBase.h"
-#include "ProceduralMeshComponent.h"
+#include "ProceduralMeshComponentX.h"
 #include "VectorizingData.generated.h"
 
 

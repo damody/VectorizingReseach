@@ -26,6 +26,10 @@ class UTriangulationCgal_Sideline : public UTriangulationBase
 {
 	GENERATED_BODY()
 public:
+
+	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
+	static UTriangulationCgal_Sideline* CreateTriangulationCgal_SidelineInstance();
+
     struct FaceInfo2
     {
         FaceInfo2(): nesting_level(-1), color_label(0) {}

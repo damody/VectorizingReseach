@@ -285,24 +285,26 @@ UcvMat* UImageProcess::DrawWhileLine(UcvMat* umat, const TArray<ULineV2*> draw)
 	return ures;
 }
 
-struct WeightData
-{
-	WeightData(FVector2D p, int32 w) : pos(p), weight(w)    {}
-	FVector2D pos;
-	int32  weight;
-	bool operator<(const WeightData& wd)
-	{
-		return weight < wd.weight;
-	}
-};
-typedef std::vector<WeightData> Weights;
+
 
 UcvMat* UImageProcess::FixSpaceLineX(UcvMat* umat, UcvMat* oriImg, float initdis)
 {
 	UcvMat* ures = NewObject<UcvMat>();
 	cv::Mat res = umat->pic.clone();
 	ures->pic = res;
-	ures->ConvertMat(EcvMatEnum::UC_Gray);
+	ures->ConvertMat(EcvMatEnum::UC_BGR);
+
+	struct WeightData
+	{
+		WeightData(FVector2D p, int32 w) : pos(p), weight(w)    {}
+		FVector2D pos;
+		int32  weight;
+		bool operator<(const WeightData& wd)
+		{
+			return weight < wd.weight;
+		}
+	};
+	typedef std::vector<WeightData> Weights;
 
 	Weights wm_init_cross;
 	wm_init_cross.push_back(WeightData(FVector2D(0, -1), 1));

@@ -24,10 +24,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Line")
 	static TArray<ULineV2*> CloneArray(const TArray<ULineV2*>& src);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to LineV2)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetLine (FVector2D array to LineV2)"), Category = "Line")
 	static ULineV2* GetLine_Array(TArray<FVector2D> line);
 
-	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "GetLine (FVector2D array to FVector2D array)"), Category = "Line")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "GetLine (FVector2D array to FVector2D array)"), Category = "Line")
 	static TArray<FVector2D> GetLine_FV2Array(TArray<FVector2D> line, float mx = 0.0f, float my = 0.0f);
 
 

@@ -101,7 +101,7 @@ public:
 	TArray<int32>		m_MapingRegionIDs;
 	TArray<int32>		m_MapingCount;
 	TArray<FVector>		m_RegionColor;
-	TArray<UIntsDuplex*>		m_i2s;
+	TArray<UIntsDuplex*>	m_i2s;
 	TArray<FColorTriData>	m_Trangles;
 	TArray<UFlatVec3MeshLinear*> m_ColorConstraint;
 };

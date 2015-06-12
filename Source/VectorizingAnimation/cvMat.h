@@ -45,10 +45,10 @@ public:
 	static void ImgFillBlack(cv::Mat& a, cv::Mat& b);
 
 	// Blueprint function
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	int32 Width();
 
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	int32 Height();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
@@ -73,19 +73,19 @@ public:
 	static TArray<UcvMat*> MakeStaticBackGroundByMove(const TArray<UcvMat*>& m_Video, 
 			TArray<FVector2D>& m_Moves, UcvMat* background, UcvMat* foreground);
 
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	FVector GetBilinearColor(float x, float y) const;
 
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	float GetBilinearLight(float x, float y) const;
 
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	float GetLight(int32 x, int32 y) const;
 
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	FVector GetColor(int32 x, int32 y) const;
 
-	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UFUNCTION(BlueprintPure, Category = "OpenCV|Mat")
 	int32 GetIndex(int32 x, int32 y) const;
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")

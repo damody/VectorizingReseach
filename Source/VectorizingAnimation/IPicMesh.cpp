@@ -22,3 +22,18 @@ void UIPicMesh::MakeColor1()
 {
 	mesh.MakeColor1();
 }
+
+void UIPicMesh::SetRegionColor(UcvMat* img)
+{
+	mesh.SetRegionColor(img);
+}
+
+void UIPicMesh::ComputeRegion()
+{
+	mesh.ComputeRegion();
+}
+
+TArray<ULineV2*> UIPicMesh::GetConstructLines()
+{
+	return mesh.m_Lines;
+}

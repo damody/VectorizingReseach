@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "ProceduralMeshComponent.h"
+#include "ProceduralMeshComponentX.h"
 #include "ProceduralTriangleActor.generated.h"
 
 /**
@@ -17,7 +17,7 @@ class VECTORIZINGANIMATION_API AProceduralTriangleActor : public AActor
 public:
 	// Allow viewing/changing the Material ot the procedural Mesh in editor (if placed in a level at construction)
 	UPROPERTY(VisibleAnywhere, Category = Materials)
-	UProceduralMeshComponent* mesh;
+	UProceduralMeshComponentX* mesh;
 
 	UPROPERTY(VisibleAnywhere, Category = Materials)
 	FString MeshPath;

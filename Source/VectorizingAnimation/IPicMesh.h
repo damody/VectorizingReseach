@@ -10,7 +10,7 @@
  *  IPicMesh I is mean interface
  *	interface of picmesh
  */
-UCLASS()
+UCLASS(BlueprintType)
 class VECTORIZINGANIMATION_API UIPicMesh : public UObject
 {
 	GENERATED_BODY()
@@ -26,6 +26,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
 	void MakeColor1();
+
+	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
+	void SetRegionColor(UcvMat* img);
+
+	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
+	void ComputeRegion();
+
+	UFUNCTION(BlueprintPure, Category = "Vectorizing")
+	TArray<ULineV2*> GetConstructLines();
 
 	PicMesh mesh;
 };

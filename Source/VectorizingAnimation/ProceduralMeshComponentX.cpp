@@ -1,9 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "VectorizingAnimation.h"
-#include "ProceduralMeshComponent.h"
+#include "ProceduralMeshComponentX.h"
 #include "DynamicMeshBuilder.h"
-#include "ProceduralMeshComponent.h"
 #include "Runtime/Launch/Resources/Version.h"
 
 /** Vertex Buffer */
@@ -88,7 +87,7 @@ class FProceduralMeshSceneProxy : public FPrimitiveSceneProxy
 {
 public:
 
-	FProceduralMeshSceneProxy(UProceduralMeshComponent* Component)
+	FProceduralMeshSceneProxy(UProceduralMeshComponentX* Component)
 		: FPrimitiveSceneProxy(Component)
 #if ENGINE_MAJOR_VERSION >= 4 && ENGINE_MINOR_VERSION >= 6
 		, MaterialRelevance(Component->GetMaterialRelevance(GetScene().GetFeatureLevel()))
@@ -287,7 +286,7 @@ private:
 
 //////////////////////////////////////////////////////////////////////////
 
-UProceduralMeshComponent::UProceduralMeshComponent(const FObjectInitializer& PCIP)
+UProceduralMeshComponentX::UProceduralMeshComponentX(const FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -295,7 +294,7 @@ UProceduralMeshComponent::UProceduralMeshComponent(const FObjectInitializer& PCI
 	SetCollisionProfileName(UCollisionProfile::BlockAllDynamic_ProfileName);
 }
 
-bool UProceduralMeshComponent::SetProceduralMeshTriangles(const TArray<FProceduralMeshTriangle>& Triangles)
+bool UProceduralMeshComponentX::SetProceduralMeshTriangles(const TArray<FProceduralMeshTriangle>& Triangles)
 {
 	ProceduralMeshTris = Triangles;
 
@@ -308,7 +307,7 @@ bool UProceduralMeshComponent::SetProceduralMeshTriangles(const TArray<FProcedur
 }
 
 
-FPrimitiveSceneProxy* UProceduralMeshComponent::CreateSceneProxy()
+FPrimitiveSceneProxy* UProceduralMeshComponentX::CreateSceneProxy()
 {
 	FPrimitiveSceneProxy* Proxy = NULL;
 	// Only if have enough triangles
@@ -319,12 +318,12 @@ FPrimitiveSceneProxy* UProceduralMeshComponent::CreateSceneProxy()
 	return Proxy;
 }
 
-int32 UProceduralMeshComponent::GetNumMaterials() const
+int32 UProceduralMeshComponentX::GetNumMaterials() const
 {
 	return 1;
 }
 
-FBoxSphereBounds UProceduralMeshComponent::CalcBounds(const FTransform & LocalToWorld) const
+FBoxSphereBounds UProceduralMeshComponentX::CalcBounds(const FTransform & LocalToWorld) const
 {
 	// Only if have enough triangles
 	if (ProceduralMeshTris.Num() > 0)
@@ -374,7 +373,7 @@ FBoxSphereBounds UProceduralMeshComponent::CalcBounds(const FTransform & LocalTo
 }
 
 
-bool UProceduralMeshComponent::GetPhysicsTriMeshData(struct FTriMeshCollisionData* CollisionData, bool InUseAllTriData)
+bool UProceduralMeshComponentX::GetPhysicsTriMeshData(struct FTriMeshCollisionData* CollisionData, bool InUseAllTriData)
 {
 	FTriIndices Triangle;
 
@@ -395,12 +394,12 @@ bool UProceduralMeshComponent::GetPhysicsTriMeshData(struct FTriMeshCollisionDat
 	return true;
 }
 
-bool UProceduralMeshComponent::ContainsPhysicsTriMeshData(bool InUseAllTriData) const
+bool UProceduralMeshComponentX::ContainsPhysicsTriMeshData(bool InUseAllTriData) const
 {
 	return (ProceduralMeshTris.Num() > 0);
 }
 
-void UProceduralMeshComponent::UpdateBodySetup()
+void UProceduralMeshComponentX::UpdateBodySetup()
 {
 	if (ModelBodySetup == NULL)
 	{
@@ -410,7 +409,7 @@ void UProceduralMeshComponent::UpdateBodySetup()
 	}
 }
 
-void UProceduralMeshComponent::UpdateCollision()
+void UProceduralMeshComponentX::UpdateCollision()
 {
 	if (bPhysicsStateCreated)
 	{
@@ -424,7 +423,7 @@ void UProceduralMeshComponent::UpdateCollision()
 	}
 }
 
-UBodySetup* UProceduralMeshComponent::GetBodySetup()
+UBodySetup* UProceduralMeshComponentX::GetBodySetup()
 {
 	UpdateBodySetup();
 	return ModelBodySetup;
