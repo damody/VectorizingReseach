@@ -4,6 +4,8 @@
 
 #include "Object.h"
 #include "PicMesh.h"
+#include "TriangulationBase.h"
+#include "VectorizingData.h"
 #include "IPicMesh.generated.h"
 
 /**
@@ -28,6 +30,12 @@ public:
 	void MakeColor1();
 
 	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
+	void MakeColor6(UcvMat* img);
+
+	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
+	void MakeRegionLine(UcvMat* img, float lmax);
+
+	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
 	void SetRegionColor(UcvMat* img);
 
 	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
@@ -35,6 +43,15 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Vectorizing")
 	TArray<ULineV2*> GetConstructLines();
+
+	UFUNCTION(BlueprintCallable, Category = "Vectorizing")
+	UVectorizingData* MakeVectorizingData();
+
+	UFUNCTION(BlueprintPure, Category = "Vectorizing")
+	TArray<FColorTriData>& GetTrangleData()
+	{
+		return mesh.m_Trangles;
+	}
 
 	PicMesh mesh;
 };

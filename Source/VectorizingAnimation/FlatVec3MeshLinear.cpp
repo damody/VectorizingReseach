@@ -23,17 +23,17 @@ void UFlatVec3MeshLinear::BuildModel()
 	}
 	else
 	{
-		UTriangulationCgal_SeedPoint triangulation;
+		UTriangulationCgal_SeedPoint* triangulation = NewObject<UTriangulationCgal_SeedPoint>();
 		for (int32 i = 0; i < Colors.Num(); ++i)
 		{
 			//if(canadd[cluster.at<int32>(i, 0)])
 			{
 				FVector2D& p = Pos[i];
-				triangulation.AddPointIdx(p[0], p[1], i);
+				triangulation->AddPointIdx(p[0], p[1], i);
 			}
 		}
 		mesh.clear();
-		mesh.ReadFromSeedpoint(&triangulation, Colors);
+		mesh.ReadFromSeedpoint(triangulation, Colors);
 	}
 }
 
@@ -51,7 +51,7 @@ UFlatVec3MeshLinear* UFlatVec3MeshLinear::Clone()
 TArray<UFlatVec3MeshLinear*> UFlatVec3MeshLinear::CloneArray(const TArray<UFlatVec3MeshLinear*>& src)
 {
 	TArray<UFlatVec3MeshLinear*> res;
-	res.Reset(src.Num());
+	res.SetNum(src.Num());
 	for (int32 i = 0; i < src.Num(); ++i)
 	{
 		res[i] = src[i]->Clone();

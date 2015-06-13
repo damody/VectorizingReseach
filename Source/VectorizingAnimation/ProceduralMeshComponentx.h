@@ -16,6 +16,11 @@ struct FProceduralMeshVertex
     UPROPERTY(EditAnywhere, Category = Triangle)
     FColor Color;
 
+	UPROPERTY(EditAnywhere, Category = Triangle)
+		float U;
+
+	UPROPERTY(EditAnywhere, Category = Triangle)
+		float V;
 };
 
 USTRUCT(BlueprintType)

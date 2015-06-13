@@ -9,6 +9,10 @@ void UTriangulationCgal_Sideline::AddPoint(float x, float y)
 
 int32 UTriangulationCgal_Sideline::Compute()
 {
+	if (LinesPos.Num() == 0)
+	{
+		return -1;
+	}
     m_Triangulation.clear();
     Vertex_handles vhs;
     // add 4 conner point

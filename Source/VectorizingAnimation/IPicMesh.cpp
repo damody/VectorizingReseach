@@ -23,6 +23,16 @@ void UIPicMesh::MakeColor1()
 	mesh.MakeColor1();
 }
 
+void UIPicMesh::MakeColor6(UcvMat* img)
+{
+	mesh.MakeColor6(img);
+}
+
+void UIPicMesh::MakeRegionLine(UcvMat* img, float lmax)
+{
+	mesh.MakeRegionLine(img, lmax);
+}
+
 void UIPicMesh::SetRegionColor(UcvMat* img)
 {
 	mesh.SetRegionColor(img);
@@ -36,4 +46,11 @@ void UIPicMesh::ComputeRegion()
 TArray<ULineV2*> UIPicMesh::GetConstructLines()
 {
 	return mesh.m_Lines;
+}
+
+UVectorizingData* UIPicMesh::MakeVectorizingData()
+{
+	UVectorizingData* tmp = NewObject<UVectorizingData>();
+	tmp->DrawTris = mesh.m_Trangles;
+	return tmp;
 }

@@ -14,7 +14,7 @@ UIntsDuplex* UIntsDuplex::Clone()
 TArray<UIntsDuplex*> UIntsDuplex::CloneArray(const TArray<UIntsDuplex*>& src)
 {
 	TArray<UIntsDuplex*> res;
-	res.Reset(src.Num());
+	res.SetNum(src.Num());
 	for (int32 i = 0; i < src.Num(); ++i)
 	{
 		res[i] = src[i]->Clone();

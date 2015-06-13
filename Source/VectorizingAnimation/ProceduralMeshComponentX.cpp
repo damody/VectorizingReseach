@@ -113,6 +113,7 @@ public:
 			Vert0.Position = Tri.Vertex0.Position;
 			Vert0.Color = Tri.Vertex0.Color;
 			Vert0.SetTangents(TangentX, TangentY, TangentZ);
+			Vert0.TextureCoordinate.Set(Tri.Vertex0.U, Tri.Vertex0.V);
 			int32 VIndex = VertexBuffer.Vertices.Add(Vert0);
 			IndexBuffer.Indices.Add(VIndex);
 
@@ -120,6 +121,7 @@ public:
 			Vert1.Position = Tri.Vertex1.Position;
 			Vert1.Color = Tri.Vertex1.Color;
 			Vert1.SetTangents(TangentX, TangentY, TangentZ);
+			Vert1.TextureCoordinate.Set(Tri.Vertex1.U, Tri.Vertex1.V);
 			VIndex = VertexBuffer.Vertices.Add(Vert1);
 			IndexBuffer.Indices.Add(VIndex);
 
@@ -127,6 +129,7 @@ public:
 			Vert2.Position = Tri.Vertex2.Position;
 			Vert2.Color = Tri.Vertex2.Color;
 			Vert2.SetTangents(TangentX, TangentY, TangentZ);
+			Vert2.TextureCoordinate.Set(Tri.Vertex2.U, Tri.Vertex2.V);
 			VIndex = VertexBuffer.Vertices.Add(Vert2);
 			IndexBuffer.Indices.Add(VIndex);
 		}
@@ -298,7 +301,7 @@ bool UProceduralMeshComponentX::SetProceduralMeshTriangles(const TArray<FProcedu
 {
 	ProceduralMeshTris = Triangles;
 
-	UpdateCollision();
+	//UpdateCollision();
 
 	// Need to recreate scene proxy to send it over
 	MarkRenderStateDirty();

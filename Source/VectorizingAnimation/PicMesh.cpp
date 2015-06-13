@@ -25,6 +25,10 @@ PicMesh::~PicMesh(void)
 
 void PicMesh::ReadFromSideline(UTriangulationCgal_Sideline* ts)
 {
+	if (ts->DuplexIndexs.Num() == 0)
+	{
+		return;
+	}
 	m_Lines = ULineV2::CloneArray(ts->LinesPos);
 	m_i2s = UIntsDuplex::CloneArray(ts->DuplexIndexs);
 	m_ColorConstraint = UFlatVec3MeshLinear::CloneArray(ts->ColorModels);
@@ -176,8 +180,7 @@ void PicMesh::ReadFromSideline(UTriangulationCgal_Sideline* ts)
         }
         if(count.Num() > 0)
         {
-			
-			int32 maxid = count.Max();
+			int32 maxid = std::max_element(count.GetData(), count.GetData() + count.Num()) - count.GetData();
             for(int32 j = 0; j < m_Regions[i].size(); ++j)
             {
                 data(m_Regions[i][j]).cid = rnum[maxid];
@@ -205,7 +208,7 @@ void PicMesh::MakeColor1()
         {
             Point p = point(*fvit);
             t.p[c][0] = p[0];
-            t.p[c][1] = p[1];
+			t.p[c][1] = m_h - p[1];
 //             if(tid > 0 && m_ColorConstraint.Num() >= tid)
 //             {
 //                 t.c[c] = m_ColorConstraint[tid - 1].GetColorVector3(p[0], p[1]);
@@ -377,7 +380,7 @@ void PicMesh::MappingMesh(PicMesh& pm, float x, float y)
         }
         FVector dst;
         m_MapingRegionIDs[i] = -1;
-		int32 maxe = cuts.Max();
+		int32 maxe = std::max_element(cuts.GetData(), cuts.GetData() + cuts.Num()) - cuts.GetData();
         if(m_RegionAreas[i] > 20 && abs(m_RegionAreas[i] - idxs[maxe]) > m_RegionAreas[i])
         {
             float dis = 0;
@@ -1011,7 +1014,7 @@ void PicMesh::MakeColor6(UcvMat* img)
         {
             Point p = point(*fvit);
             t.p[c][0] = p[0];
-            t.p[c][1] = p[1];
+            t.p[c][1] = m_h - p[1];
 
             if(data(*fit).mark > 0 && rid >= 0 && m_ColorConstraint.Num() > rid)
             {

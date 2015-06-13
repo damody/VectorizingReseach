@@ -233,7 +233,6 @@ static void S6FloodFill(cv::Mat& image, cv::Mat& mask01, int32& cc, int32 x, int
 
 TArray<UFlatVec3MeshLinear*> UImageProcess::BuildColorModelV8(UcvMat* image, UcvMat* oimg, UcvMat* mask2)
 {
-	image->UpdateTextureToCvMat();
 	TArray<UFlatVec3MeshLinear*> ccms;
 	cv::Mat mask;
 	//cv::resize(oimg.clone(), oimg, oimg.size() * 2, 0, 0, cv::INTER_CUBIC);

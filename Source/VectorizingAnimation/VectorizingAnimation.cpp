@@ -18,3 +18,5 @@ public:
 };
 
 IMPLEMENT_PRIMARY_GAME_MODULE(FMyCodeProjectModule, VectorizingAnimation, "VectorizingAnimation");
+
+DEFINE_LOG_CATEGORY(Vectorizing);

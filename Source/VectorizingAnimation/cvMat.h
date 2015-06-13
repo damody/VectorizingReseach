@@ -52,6 +52,9 @@ public:
 	int32 Height();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
+	UcvMat* SetZero();
+
+	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")
 	UcvMat* Clone();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenCV|Mat")

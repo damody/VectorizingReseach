@@ -6,6 +6,7 @@
 #include "cvMat.h"
 #include "RHI.h"
 #include "Engine/Texture2D.h"
+#include "AssertionMacros.h"
 
 
 void UcvMat::Copy(cv::Mat input)
@@ -72,25 +73,32 @@ UcvMat* UcvMat::UpdateCvMatToTexture()
 
 void UcvMat::UpdateTextureToCvMat()
 {
-    Texture->CompressionSettings = TC_EditorIcon;
-    Texture->UpdateResourceW();
-    FColor* FormatedImageData = static_cast<FColor*>(Texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
+	if (Texture)
+	{
+		Texture->CompressionSettings = TC_EditorIcon;
+		Texture->UpdateResourceW();
+		FColor* FormatedImageData = static_cast<FColor*>(Texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
 
-    pic.create(Texture->PlatformData->Mips[0].SizeY, Texture->PlatformData->Mips[0].SizeX, CV_8UC3);
-    pic = cv::Scalar(0);
-    for(int32 y = 0; y < Texture->PlatformData->Mips[0].SizeY; y++)
-    {
-        for(int32 x = 0; x < Texture->PlatformData->Mips[0].SizeX; x++)
-        {
-            int32 curPixelIndex = (y * Texture->PlatformData->Mips[0].SizeX) + x;
-            FColor c = FormatedImageData[curPixelIndex];
-            cv::Vec3b& t = pic.at<cv::Vec3b>(y, x);
-            t[0] = c.B;
-            t[1] = c.G;
-            t[2] = c.R;
-        }
-    }
-    Texture->PlatformData->Mips[0].BulkData.Unlock();
+		pic.create(Texture->PlatformData->Mips[0].SizeY, Texture->PlatformData->Mips[0].SizeX, CV_8UC3);
+		pic = cv::Scalar(0);
+		for (int32 y = 0; y < Texture->PlatformData->Mips[0].SizeY; y++)
+		{
+			for (int32 x = 0; x < Texture->PlatformData->Mips[0].SizeX; x++)
+			{
+				int32 curPixelIndex = (y * Texture->PlatformData->Mips[0].SizeX) + x;
+				FColor c = FormatedImageData[curPixelIndex];
+				cv::Vec3b& t = pic.at<cv::Vec3b>(y, x);
+				t[0] = c.B;
+				t[1] = c.G;
+				t[2] = c.R;
+			}
+		}
+		Texture->PlatformData->Mips[0].BulkData.Unlock();
+	}
+	else
+	{
+		UE_LOG(Vectorizing, Error, TEXT("Failed to UpdateTextureToCvMat: Texture is null"));
+	}
 }
 
 UMaterialInterface* UcvMat::MakeMaterial()
@@ -434,6 +442,12 @@ void UcvMat::ImgFillBlack(cv::Mat& a, cv::Mat& b)
 int32 UcvMat::Height()
 {
 	return pic.rows;
+}
+
+UcvMat* UcvMat::SetZero()
+{
+	pic = cv::Scalar(0);
+	return this;
 }
 
 int32 UcvMat::Width()

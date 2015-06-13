@@ -34,8 +34,8 @@ void ULineWidth::ImportLine(const ULineV2* pos, const ULineV2* width)
 		return;
 	}
 	Pos = pos->pts;
-	Widths1.Reset(width->pts.Num());
-	Widths2.Reset(width->pts.Num());
+	Widths1.SetNum(width->pts.Num());
+	Widths2.SetNum(width->pts.Num());
 	for (int32 i = 0; i < width->pts.Num(); ++i)
 	{
 		Widths1[i] = width->pts[i][0];

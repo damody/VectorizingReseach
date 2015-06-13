@@ -1126,8 +1126,8 @@ TArray<UIntsDuplex*> ULineFunction::GetIndexDuplexFromCvMat(TArray<ULineV2*> lin
 	{
 		UIntsDuplex* nDuplex = NewObject<UIntsDuplex>();
 		ULineV2& nowline = *lines[i];
-		nDuplex->left.Reset(nowline.Num());
-		nDuplex->right.Reset(nowline.Num());
+		nDuplex->left.SetNum(nowline.Num());
+		nDuplex->right.SetNum(nowline.Num());
 		for (int32 j = 0; j < nowline.Num(); ++j)
 		{
 			FVector2D pos;
@@ -1178,6 +1178,7 @@ TArray<UIntsDuplex*> ULineFunction::GetIndexDuplexFromCvMat(TArray<ULineV2*> lin
 			}
 			nDuplex->right[j] = img->GetIndex(pos.X, pos.Y);
 		}
+		ans.Add(nDuplex);
 	}
 	return ans;
 }
