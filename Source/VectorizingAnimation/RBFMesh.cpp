@@ -79,7 +79,7 @@ FVector RBFMesh::GetColor(float x, float y)
     float sum = 0;
     for(VVIter vvit = vv_iter(findvh); vvit.is_valid(); ++vvit)
     {
-        if(data(*vvit).c != FVector())
+        if(data(*vvit).c != FVector::ZeroVector)
         {
             float dis = (point(*vvit) - now).norm();
             dis = 1 / dis;
@@ -96,7 +96,7 @@ FVector RBFMesh::GetColor(float x, float y)
     ii = 0;
     for(VVIter vvit = vv_iter(findvh); vvit.is_valid(); ++vvit)
     {
-        if(data(*vvit).c != FVector())
+        if(data(*vvit).c != FVector::ZeroVector)
         {
             res += diss[ii++] * data(*vvit).c;
         }

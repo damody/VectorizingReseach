@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "ProceduralMeshComponentX.h"
+#include "LineV2.h"
 #include "ProceduralTriangleActor.generated.h"
 
 /**
@@ -21,13 +22,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = Materials)
 	FString MeshPath;
-
-	UPROPERTY( Category=Location, EditAnywhere )
-	uint32 bUseOffset : 1;
-
-	UPROPERTY(Category = Location, EditAnywhere, meta = (EditCondition = "bUseOffset"))
-	FVector Offset;
-
+	
 	UFUNCTION(BlueprintCallable, Category = "Procedural")
 	void SetMaterial(UMaterialInterface* umi);
 
@@ -35,4 +30,7 @@ public:
 	void SetTrangles(TArray<FProceduralMeshTriangle> triangles);
 
 	void GenerateTriangle(TArray<FProceduralMeshTriangle>& OutTriangles);
+
+	UFUNCTION(BlueprintCallable, Category = "Procedural")
+	void DrawLines(FVector center, TArray<ULineV2*> lines);
 };

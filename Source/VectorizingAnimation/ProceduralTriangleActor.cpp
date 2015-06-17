@@ -39,6 +39,29 @@ void AProceduralTriangleActor::GenerateTriangle(TArray<FProceduralMeshTriangle>&
 	OutTriangles.Add(triangle);
 }
 
+void AProceduralTriangleActor::DrawLines(FVector center, TArray<ULineV2*> lines)
+{
+	for (int32 i = 0; i < lines.Num(); ++i)
+	{
+		ULineV2& nowline = *lines[i];
+		for (int32 j = 0; j < nowline.Num() - 1; ++j)
+		{
+			FVector LinkStart = center, LinkEnd = center;
+			LinkStart.X += nowline[j].X;
+			LinkStart.Y += nowline[j].Y;
+			LinkEnd.X += nowline[j + 1].X;
+			LinkEnd.Y += nowline[j + 1].Y;
+			DrawDebugLine(
+				GetWorld(),
+				LinkStart,
+				LinkEnd,
+				FColor(255, 0, 0),
+				false, -1, 0,
+				3.f
+				);
+		}
+	}
+}
 
 void AProceduralTriangleActor::SetMaterial(UMaterialInterface* umi)
 {

@@ -521,19 +521,19 @@ FVector UcvMat::GetBilinearColor(float x, float y) const
 {
 	if (y < 0)
 	{
-		return FVector();
+		return FVector::ZeroVector;
 	}
 	if (y + 1 >= pic.rows)
 	{
-		return FVector();
+		return FVector::ZeroVector;
 	}
 	if (x < 0)
 	{
-		return FVector();
+		return FVector::ZeroVector;
 	}
 	if (x + 1 >= pic.cols)
 	{
-		return FVector();
+		return FVector::ZeroVector;
 	}
 	FVector2D left_up, left_down;
 	FVector2D right_up, right_down;

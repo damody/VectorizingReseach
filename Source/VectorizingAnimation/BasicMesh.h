@@ -34,7 +34,8 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 		// for compute use
 		FVector c3;
 
-		FaceT() : cid(-1), rid(-1), mark(0) { }
+		FaceT() : cid(-1), rid(-1), mark(0), 
+			c2(FVector::ZeroVector), c3(FVector::ZeroVector){}
 	};
 	EdgeTraits
 	{
@@ -64,7 +65,8 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 		FVector c3;
 		// for mapping id
 		int32 mapid;
-		VertexT(): end(false), constraint(0), mapid(-1), lineid(-1) { }
+		VertexT() : end(false), constraint(0), mapid(-1), lineid(-1),
+			c(FVector::ZeroVector), c2(FVector::ZeroVector), c3(FVector::ZeroVector) { }
 	};
 };
 

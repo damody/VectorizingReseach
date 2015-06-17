@@ -15,6 +15,8 @@ TArray<FProceduralMeshTriangle> UVectorizingData::GenerateRenderData()
 		FColorTriData& fctd = DrawTris[i];
 		FProceduralMeshTriangle filler;
 		filler.Vertex0.Position = FVector(0, fctd.p[0].X, fctd.p[0].Y);
+// 		UE_LOG(Vectorizing, Display, TEXT("Color R: %.1f %3d G: %.1f %3d B: %.1f %3d"), fctd.c[0].X, (uint8)fctd.c[0].X, fctd.c[0].Y, 
+// 			(uint8)fctd.c[0].Y, fctd.c[0].Z, (uint8)fctd.c[0].Z);
 		filler.Vertex0.Color = FColor((uint8)fctd.c[0].X, (uint8)fctd.c[0].Y, (uint8)fctd.c[0].Z);
 		filler.Vertex1.Position = FVector(0, fctd.p[1].X, fctd.p[1].Y);
 		filler.Vertex1.Color = FColor((uint8)fctd.c[1].X, (uint8)fctd.c[1].Y, (uint8)fctd.c[1].Z);

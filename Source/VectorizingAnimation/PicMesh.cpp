@@ -898,17 +898,19 @@ void PicMesh::BuildColorModels()
 		FHandles& region = m_Regions[i];
 		for (int32 j = 0; j < region.size(); ++j)
 		{
-			if (data(region[j]).c2 != FVector())
+			if (data(region[j]).c2 != FVector::ZeroVector)
 			{
 				Point p = MidPoint(region[j]);
 				cc.AddPoint(p[0], p[1], data(region[j]).c2);
+				FVector c2 = data(region[j]).c2;
 			}
 			for (FVIter fvit = fv_iter(region[j]); fvit.is_valid(); ++fvit)
 			{
-				if (data(*fvit).c2 != FVector())
+				if (data(*fvit).c2 != FVector::ZeroVector)
 				{
 					Point p2 = point(*fvit);
 					cc.AddPoint(p2[0], p2[1], data(*fvit).c2);
+					FVector c2 = data(*fvit).c2;
 				}
 			}
 		}
@@ -924,7 +926,6 @@ bool PicMesh::GetLighterColor(UcvMat* img, VHandle vh1, VHandle vh2, FVector& c)
 		BasicMesh::Point p2 = point(vh2);
         FVector2D v1(p1[0] + 1, p1[1]);
         FVector2D v2(p2[0], p2[1]);
-        TArray<FVector> colors;
         FVector2D step = (v2 - v1) / 10;
         float maxlight = 0;
         for(int32 i = 1; i < 9; ++i)
@@ -932,7 +933,6 @@ bool PicMesh::GetLighterColor(UcvMat* img, VHandle vh1, VHandle vh2, FVector& c)
             FVector2D dst = v1 + step * i;
             FVector tmp = img->GetBilinearColor(dst[0] - 0.5, dst[1] - 0.5);
             std::swap(tmp[0], tmp[2]);
-            colors.Add(tmp);
             float light = GetLight(tmp);
             if(maxlight < light)
             {
@@ -949,6 +949,7 @@ bool PicMesh::GetLighterColor(UcvMat* img, VHandle vh1, VHandle vh2, FVector& c)
 
 void PicMesh::MakeColor6(UcvMat* img)
 {
+	img->ConvertMat(EcvMatEnum::UC_BGR);
 	m_DifferentRegionIDs.SetNumZeroed(m_Regions.size());
     // mark boundary constraint
     for(VIter vit = vertices_begin(); vit != vertices_end(); ++vit)
@@ -976,8 +977,9 @@ void PicMesh::MakeColor6(UcvMat* img)
         {
             Point p = point(*vit);
             FVector c2 = img->GetBilinearColor(p[0] - 0.5, p[1] - 0.5);
+			UE_LOG(Vectorizing, Display, TEXT("Pos (%.1f, %.1f) Color R: %.1f G: %.1f B: %.1f"), p[0], p[1], c2.X, c2.Y, c2.Z);
             std::swap(c2[0], c2[2]);
-            if(c2 == FVector())
+            if(c2 == FVector::ZeroVector)
             {
                 c2.X = 1;
             }
@@ -996,10 +998,9 @@ void PicMesh::MakeColor6(UcvMat* img)
     BuildColorModels();
     MarkColoredFace();
     FillConstraintRegion();
-	GetConstraintFaceColor(img);
+ 	GetConstraintFaceColor(img);
 	blurFaceC2();
-	blurFaceC2();
-	blurFaceC2();
+	
     for(FIter fit = faces_begin(); fit != faces_end(); ++fit)
     {
         int32 rid = data(*fit).rid;
@@ -1008,14 +1009,12 @@ void PicMesh::MakeColor6(UcvMat* img)
             continue;
         }
         int32 c = 0;
-        int32 c0 = 0;
         BasicMesh::Point mid = MidPoint(*fit);
         for(FVIter fvit = fv_iter(*fit); fvit.is_valid(); ++fvit)
         {
             Point p = point(*fvit);
             t.p[c][0] = p[0];
             t.p[c][1] = m_h - p[1];
-
             if(data(*fit).mark > 0 && rid >= 0 && m_ColorConstraint.Num() > rid)
             {
                 t.c[c] = m_ColorConstraint[rid]->GetColor2Point(p[0], p[1], mid[0], mid[1]);
@@ -1025,7 +1024,6 @@ void PicMesh::MakeColor6(UcvMat* img)
                 t.c[c] = data(*fit).c2;
             }
             ++c;
-
         }
         if(data(*fit).mark != 0)
         {
@@ -1122,7 +1120,7 @@ void PicMesh::GetConstraintFaceColor(UcvMat* img)
             for(FEIter fe_itr = fe_iter(*fit) ; fe_itr.is_valid(); ++fe_itr)
             {
                 BasicMesh::HalfedgeHandle _hedge = halfedge_handle(*fe_itr, 1);
-                FVector cx;
+                FVector cx = FVector::ZeroVector;
                 Point p1 = point(from_vertex_handle(_hedge));
                 Point p2 = point(to_vertex_handle(_hedge));
                 p1 = (p1 + p2) * 0.5;
@@ -1131,7 +1129,7 @@ void PicMesh::GetConstraintFaceColor(UcvMat* img)
                                            to_vertex_handle(_hedge), cx);
                 if(res)
                 {
-                    if(cx == FVector())
+                    if(cx == FVector::ZeroVector)
                     {
                         cx.X = 1;
                     }
@@ -1146,15 +1144,17 @@ void PicMesh::GetConstraintFaceColor(UcvMat* img)
 
 void PicMesh::blurFaceC2()
 {
+	FVector allavg = FVector::ZeroVector;
+	int32 allcount = 0;
     for(BasicMesh::FIter fit = faces_begin(); fit != faces_end(); ++fit)
     {
-        if(data(*fit).c2 != FVector())
+        if(data(*fit).c2 != FVector::ZeroVector)
         {
             int32 count = 1;
             FVector blur = data(*fit).c2;
             for(FFIter ff_itr = ff_iter(*fit) ; ff_itr.is_valid(); ++ff_itr)
             {
-                if(data(*ff_itr).c2 != FVector())
+                if(data(*ff_itr).c2 != FVector::ZeroVector)
                 {
                     count++;
                     blur += data(*ff_itr).c2;
@@ -1162,13 +1162,16 @@ void PicMesh::blurFaceC2()
             }
             blur /= count;
             data(*fit).c3 = blur;
+			allavg += blur;
+			allcount++;
         }
     }
+	allavg /= allcount;
     for(BasicMesh::FIter fit = faces_begin(); fit != faces_end(); ++fit)
     {
-        if(data(*fit).c2 != FVector() && m_DifferentRegionIDs[data(*fit).rid] == 0)
+        if(data(*fit).c2 != FVector::ZeroVector && m_DifferentRegionIDs[data(*fit).rid] == 0)
         {
-            data(*fit).c2 = data(*fit).c3;
+			data(*fit).c2 = allavg;
         }
     }
 }
@@ -1193,7 +1196,7 @@ void PicMesh::MarkColoredFace()
             data(*fit).mark = c0;
             if(c0 < 3)
             {
-                FVector sumc;
+				FVector sumc = FVector::ZeroVector;
                 for(FVIter fvit = fv_iter(*fit); fvit.is_valid(); ++fvit)
                 {
                     if(data(*fvit).constraint == 0)
