@@ -4,6 +4,8 @@
 #include "ProceduralMeshComponentX.h"
 #include "DynamicMeshBuilder.h"
 #include "Runtime/Launch/Resources/Version.h"
+#include "PhysicsEngine/BodySetup.h"
+#include "PhysicsEngine/BodySetupEnums.h"
 
 /** Vertex Buffer */
 class FProceduralMeshVertexBuffer : public FVertexBuffer

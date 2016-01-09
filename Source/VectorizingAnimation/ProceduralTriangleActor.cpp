@@ -22,7 +22,7 @@ void AProceduralTriangleActor::GenerateTriangle(TArray<FProceduralMeshTriangle>&
 	triangle.Vertex0.Position.Set(0.f, 0.f, 0.f);
 	triangle.Vertex1.Position.Set(0.f, 640.f, 0.f);
 	triangle.Vertex2.Position.Set(0.f, 640.f, 480.f);
-	static const FColor Blue(51, 51, 255);
+	static const FColor Blue(145, 145, 209);
 	triangle.Vertex0.Color = Blue;
 	triangle.Vertex1.Color = Blue;
 	triangle.Vertex2.Color = Blue;

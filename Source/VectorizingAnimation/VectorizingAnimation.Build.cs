@@ -6,22 +6,21 @@ public class VectorizingAnimation : ModuleRules
 {
 	public VectorizingAnimation(TargetInfo Target)
 	{
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UnrealEd" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+        if (UEBuildConfiguration.bBuildEditor)
+        {
+            PublicDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+        }
 
         PrivateDependencyModuleNames.AddRange(new string[] { "RHI", "RenderCore", "ShaderCore", "DesktopPlatform" });
 
         Definitions.AddRange(new string[] { "_USE_MATH_DEFINES", "USE_CGAL", "_CRT_SECURE_NO_WARNINGS" });
 
         // zlib must linked first and other must after opencv linked
-        AddThirdPartyPrivateStaticDependencies(Target, "zlib", "ffmpeg", "OpenCV");
+        AddThirdPartyPrivateStaticDependencies(Target, "zlib", "ffmpeg", "OpenCV2");
         // for opencv need
         AddThirdPartyPrivateStaticDependencies(Target,
-                "libJasper",
-                "libJPG",
-                "UElibPNG",
-                "libTiff",
-                "UEOpenEXR",
-                "cuda",
+                "cuda65",
                 "libiconv"
                 );
         // for openmesh

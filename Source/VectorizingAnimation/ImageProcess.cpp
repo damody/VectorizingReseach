@@ -117,22 +117,26 @@ UcvMat* UImageProcess::ImgSharpen(UcvMat* umat)
 
 UcvMat* UImageProcess::PowerEnhance(UcvMat* umat, float power)
 {
-	UcvMat* ures = NewObject<UcvMat>();
-	umat->ConvertMat(EcvMatEnum::FC_BGR);
-	cv::Mat res = umat->pic.clone();
-	for (int32 j = 0; j < res.cols; ++j)
+	if (umat != nullptr)
 	{
-		for (int32 i = 0; i < res.rows; ++i)
+		UcvMat* ures = NewObject<UcvMat>();
+		umat->ConvertMat(EcvMatEnum::FC_BGR);
+		cv::Mat res = umat->pic.clone();
+		for (int32 j = 0; j < res.cols; ++j)
 		{
-			cv::Vec3f& intensity = res.at<cv::Vec3f>(i, j);
-			intensity[0] = -pow((1 - intensity[0]), power);
-			intensity[1] = -pow((1 - intensity[1]), power);
-			intensity[2] = -pow((1 - intensity[2]), power);
+			for (int32 i = 0; i < res.rows; ++i)
+			{
+				cv::Vec3f& intensity = res.at<cv::Vec3f>(i, j);
+				intensity[0] = -pow((1 - intensity[0]), power);
+				intensity[1] = -pow((1 - intensity[1]), power);
+				intensity[2] = -pow((1 - intensity[2]), power);
+			}
 		}
+		normalize(res, res, 0, 1, cv::NORM_MINMAX);
+		ures->pic = res; 
+		return ures;
 	}
-	normalize(res, res, 0, 1, cv::NORM_MINMAX);
-	ures->pic = res;
-	return ures;
+	return nullptr;
 }
 
 UcvMat* UImageProcess::NormalizeUC(UcvMat* umat, float vmin, float vmax)

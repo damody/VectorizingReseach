@@ -3,7 +3,6 @@
 #include "VectorizingAnimation.h"
 #include "cvMatFactory.h"
 
-#define LOCTEXT_NAMESPACE "Role"
 
 UcvMatFactory::UcvMatFactory(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -18,5 +17,3 @@ UObject* UcvMatFactory::FactoryCreateNew(UClass* Class, UObject* InParent, FName
 	UcvMat* NewObjectAsset = NewObject<UcvMat>(InParent, Class, Name, Flags | RF_Transactional);
 	return NewObjectAsset;
 }
-
-#undef LOCTEXT_NAMESPACE
